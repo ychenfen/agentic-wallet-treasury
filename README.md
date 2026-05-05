@@ -136,6 +136,10 @@ ERC-8004 contracts GitHub:     github.com/erc-8004/erc-8004-contracts
 ## Development Docs
 
 - `SUBMISSION.md` — DoraHacks BUIDL fields, demo script, and award strategy.
+- `DORAHACKS_FORM.md` — exact form fields to paste into DoraHacks.
+- `VIDEO_SCRIPT.md` — 2–3 minute demo video script.
+- `PITCH_DECK.md` — slide outline for judge-facing narrative.
+- `FINAL_SUBMISSION_CHECKLIST.md` — final pre-submit checklist.
 - `PROGRESS.md` — current completed work, verification status, and next steps.
 - `DEVELOPMENT.md` — commands and next engineering steps.
 - `strategy/05-winning-plan.md` — track choice and winning strategy.
