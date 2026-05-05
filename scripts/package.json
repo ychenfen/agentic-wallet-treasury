@@ -1,0 +1,31 @@
+{
+  "name": "@clawdao/scripts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "compile-treasury": "tsx compile-treasury.ts",
+    "register": "tsx register-agents.ts",
+    "feedback": "tsx write-feedback.ts",
+    "validate": "tsx write-validation.ts",
+    "live-demo": "tsx live-demo.ts",
+    "verify": "tsx verify-agents.ts",
+    "poll-chain": "tsx poll-chain.ts",
+    "wallets": "tsx wallets.ts",
+    "preflight": "tsx preflight.ts",
+    "watch-events": "tsx watch-events.ts",
+    "deploy-treasury": "tsx deploy-treasury.ts",
+    "balance": "tsx balance-check.ts",
+    "report": "tsx post-run-report.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@clawdao/core": "0.1.0",
+    "tsx": "^4.19.4",
+    "viem": "^2.29.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "typescript": "^5.8.3"
+  }
+}

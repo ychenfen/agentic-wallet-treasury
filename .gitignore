@@ -1,0 +1,12 @@
+node_modules
+dist
+.env
+.env.local
+.env.generated
+*.log
+apps/web/public/balance-check.json
+cache
+out
+broadcast
+.DS_Store
+contracts/lib/forge-std

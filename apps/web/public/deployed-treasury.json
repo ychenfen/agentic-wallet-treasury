@@ -1,0 +1,12 @@
+{
+  "contract": "AgenticTreasury",
+  "network": "mantle-sepolia",
+  "chainId": 5003,
+  "address": "0x739862c3cf9b5f9fe6a8ecd95e75714a20116fe9",
+  "owner": "0xeedBcc283BB7964D64274986eEF22b2abb1a1FdE",
+  "riskOfficer": "0x0067F734596b61DC4565FbC6242D5E1B3cc74977",
+  "maxActionValueWei": "1000000000000000000",
+  "deployedAt": "2026-05-05T03:48:13.061Z",
+  "txHash": "0x649656b3c701d809bfeac8e2ec70bd459d2fee1af52de1b6bb95bd1b20d2f190",
+  "explorerUrl": "https://sepolia.mantlescan.xyz/address/0x739862c3cf9b5f9fe6a8ecd95e75714a20116fe9"
+}

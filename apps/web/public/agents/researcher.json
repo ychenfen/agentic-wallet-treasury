@@ -1,0 +1,30 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "name": "Scout",
+  "description": "Finds yield and market context before capital moves. Role: researcher. Part of Agentic Wallet Treasury on Mantle.",
+  "image": "http://localhost:5175/agents/researcher.png",
+  "services": [
+    {
+      "name": "web",
+      "endpoint": "http://localhost:5175/"
+    },
+    {
+      "name": "MCP",
+      "endpoint": "https://agentic-wallet-treasury.local/mcp/researcher",
+      "version": "2025-06-18"
+    }
+  ],
+  "x402Support": false,
+  "active": true,
+  "registrations": [
+    {
+      "agentId": 26,
+      "agentRegistry": "eip155:5003:0x8004A818BFB912233c491871b3d84c89A494BD9e"
+    }
+  ],
+  "supportedTrust": [
+    "reputation",
+    "policy-validation",
+    "execution-proof"
+  ]
+}

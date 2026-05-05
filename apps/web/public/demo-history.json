@@ -1,0 +1,144 @@
+{
+  "cycles": [
+    {
+      "cycle": 11,
+      "runId": "run-1777953680661",
+      "scenarioId": "small-stable-rotation",
+      "generatedAt": "2026-05-05T04:01:13.216Z",
+      "proposalTitle": "Move a small treasury slice into a lower-risk Mantle yield action",
+      "amountUsd": 125,
+      "approved": true,
+      "executionStatus": "submitted",
+      "validationPassed": true,
+      "validationResponse": 92
+    },
+    {
+      "cycle": 10,
+      "runId": "run-1777953355234",
+      "scenarioId": "small-stable-rotation",
+      "generatedAt": "2026-05-05T03:55:55.213Z",
+      "proposalTitle": "Move a small treasury slice into a lower-risk Mantle yield action",
+      "amountUsd": 125,
+      "approved": true,
+      "executionStatus": "simulated",
+      "validationPassed": true,
+      "validationResponse": 92
+    },
+    {
+      "cycle": 9,
+      "runId": "run-1777953026294",
+      "scenarioId": "hold-cycle",
+      "generatedAt": "2026-05-05T03:50:26.275Z",
+      "proposalTitle": "Hold position; macro signal mixed",
+      "amountUsd": 0,
+      "approved": true,
+      "executionStatus": "skipped",
+      "validationPassed": true,
+      "validationResponse": 100
+    },
+    {
+      "cycle": 8,
+      "runId": "run-1777952356043",
+      "scenarioId": "validator-rejects",
+      "generatedAt": "2026-05-05T03:39:15.972Z",
+      "proposalTitle": "Test-swap into a thin Merchant Moe pool",
+      "amountUsd": 200,
+      "approved": true,
+      "executionStatus": "simulated",
+      "validationPassed": false,
+      "validationResponse": 41
+    },
+    {
+      "cycle": 7,
+      "runId": "run-1777952175761",
+      "scenarioId": "oversized-action",
+      "generatedAt": "2026-05-05T03:36:15.692Z",
+      "proposalTitle": "Aggressive single-tick MNT to mETH rotation",
+      "amountUsd": 750,
+      "approved": false,
+      "executionStatus": "skipped",
+      "validationPassed": false,
+      "validationResponse": 0
+    },
+    {
+      "cycle": 6,
+      "runId": "run-1777940855903",
+      "scenarioId": "validator-rejects",
+      "generatedAt": "2026-05-05T00:27:35.879Z",
+      "proposalTitle": "Test-swap into a thin Merchant Moe pool",
+      "amountUsd": 200,
+      "approved": true,
+      "executionStatus": "simulated",
+      "validationPassed": false,
+      "validationResponse": 41
+    },
+    {
+      "cycle": 5,
+      "runId": "run-1777940832435",
+      "scenarioId": "hold-cycle",
+      "generatedAt": "2026-05-05T00:27:12.411Z",
+      "proposalTitle": "Hold position; macro signal mixed",
+      "amountUsd": 0,
+      "approved": true,
+      "executionStatus": "skipped",
+      "validationPassed": true,
+      "validationResponse": 100
+    },
+    {
+      "cycle": 4,
+      "runId": "run-1777940830653",
+      "scenarioId": "validator-rejects",
+      "generatedAt": "2026-05-05T00:27:10.628Z",
+      "proposalTitle": "Test-swap into a thin Merchant Moe pool",
+      "amountUsd": 200,
+      "approved": true,
+      "executionStatus": "simulated",
+      "validationPassed": false,
+      "validationResponse": 41
+    },
+    {
+      "cycle": 3,
+      "runId": "run-1777940828897",
+      "scenarioId": "oversized-action",
+      "generatedAt": "2026-05-05T00:27:08.872Z",
+      "proposalTitle": "Aggressive single-tick MNT to mETH rotation",
+      "amountUsd": 750,
+      "approved": false,
+      "executionStatus": "skipped",
+      "validationPassed": false,
+      "validationResponse": 0
+    },
+    {
+      "cycle": 2,
+      "runId": "run-1777940827108",
+      "scenarioId": "rwa-yield-curve",
+      "generatedAt": "2026-05-05T00:27:07.084Z",
+      "proposalTitle": "Rebalance into Ondo USDY for higher RWA yield",
+      "amountUsd": 380,
+      "approved": true,
+      "executionStatus": "simulated",
+      "validationPassed": true,
+      "validationResponse": 91
+    },
+    {
+      "cycle": 1,
+      "runId": "run-1777940825308",
+      "scenarioId": "small-stable-rotation",
+      "generatedAt": "2026-05-05T00:27:05.282Z",
+      "proposalTitle": "Move a small treasury slice into a lower-risk Mantle yield action",
+      "amountUsd": 125,
+      "approved": true,
+      "executionStatus": "simulated",
+      "validationPassed": true,
+      "validationResponse": 92
+    }
+  ],
+  "cumulativeReputation": {
+    "Scout": 884,
+    "Guard": 904,
+    "Claw": 713,
+    "Ledger": 990,
+    "Sentinel": 874
+  },
+  "lastCycle": 11
+}

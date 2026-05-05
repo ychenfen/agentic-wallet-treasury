@@ -1,0 +1,39 @@
+{
+  "name": "agentic-wallet-treasury",
+  "private": true,
+  "version": "0.1.0",
+  "description": "ERC-8004 multi-agent treasury demo for the Mantle Turing Test Hackathon 2026.",
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "scripts"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @clawdao/web",
+    "demo": "npm run demo -w @clawdao/agents",
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test -w @clawdao/core",
+    "check": "npm run typecheck && npm run test && npm run build",
+    "register": "npm run register -w @clawdao/scripts",
+    "feedback": "npm run feedback -w @clawdao/scripts",
+    "validate": "npm run validate -w @clawdao/scripts",
+    "verify": "npm run verify -w @clawdao/scripts",
+    "poll-chain": "npm run poll-chain -w @clawdao/scripts",
+    "wallets": "npm run wallets -w @clawdao/scripts",
+    "preflight": "PREFLIGHT_JSON=1 npm run preflight -w @clawdao/scripts",
+    "watch-events": "npm run watch-events -w @clawdao/scripts",
+    "compile-treasury": "npm run compile-treasury -w @clawdao/scripts",
+    "deploy-treasury": "npm run deploy-treasury -w @clawdao/scripts",
+    "balance": "npm run balance -w @clawdao/scripts",
+    "report": "npm run report -w @clawdao/scripts",
+    "live-demo": "npm run live-demo -w @clawdao/scripts --"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "solc": "^0.8.35"
+  }
+}
