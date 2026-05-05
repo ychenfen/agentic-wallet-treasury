@@ -1,8 +1,8 @@
 {
-  "runId": "run-1777953680661",
-  "cycle": 11,
+  "runId": "run-1777970067985",
+  "cycle": 9,
   "scenarioId": "small-stable-rotation",
-  "generatedAt": "2026-05-05T04:01:13.216Z",
+  "generatedAt": "2026-05-05T08:34:25.736Z",
   "network": {
     "name": "Mantle Sepolia",
     "chainId": 5003,
@@ -115,22 +115,22 @@
   "execution": {
     "adapter": "mantle-sepolia",
     "status": "submitted",
-    "txHash": "0xa3d26423e3ab39e4303009d862d2e3f9f6d50fcc8139f93c3d73821999a4ca8a",
-    "explorerUrl": "https://sepolia.mantlescan.xyz/tx/0xa3d26423e3ab39e4303009d862d2e3f9f6d50fcc8139f93c3d73821999a4ca8a",
-    "proofHash": "0x5cb3d8f43a8f0a2191cd75a738380ab5ccb16c2aac80940101f6b5fd390c286a",
+    "txHash": "0xf7d2c2fae3553902ca737ec70eaa54d2b9fbf4e17ab791de01865d9f53701e2f",
+    "explorerUrl": "https://sepolia.mantlescan.xyz/tx/0xf7d2c2fae3553902ca737ec70eaa54d2b9fbf4e17ab791de01865d9f53701e2f",
+    "proofHash": "0xa5a4ccfa444148b620cc528a673c490d9c849c4dc8effbfc71dd99e1684860c7",
     "summary": "Submitted to AgenticTreasury at 0x739862c3cf9b5f9fe6a8ecd95e75714a20116fe9 on Mantle Sepolia. Risk: 0x0067F734596b61DC4565FbC6242D5E1B3cc74977, Executor: 0x14e8C7ae1B51274fD6A45fBd1c81cBD7e9294718."
   },
   "validation": {
     "requestURI": "",
-    "requestHash": "0x19d61659c3fecc08ec4a8559c7f62702e504fa580e063f14c3d118da4596b487",
+    "requestHash": "0x27bf50c3cfe269388f0363b7737f72cf798b76e3c27efafbf436bb57c17c70c6",
     "validatorAddress": "0x71615d9cF43E786E20F3D98E32FB001D4fCc6385",
     "subjectAgentId": 28,
     "response": 92,
     "tag": "execution-validity",
     "responseURI": "",
     "responseHash": "0x4d353463ba5506a4fec655f254513f183539b3d400debe5f016d6bbbd0c73862",
-    "requestCalldata": "0xaaf400c400000000000000000000000071615d9cf43e786e20f3d98e32fb001d4fcc6385000000000000000000000000000000000000000000000000000000000000001c000000000000000000000000000000000000000000000000000000000000008019d61659c3fecc08ec4a8559c7f62702e504fa580e063f14c3d118da4596b4870000000000000000000000000000000000000000000000000000000000000000",
-    "responseCalldata": "0x3d659a9619d61659c3fecc08ec4a8559c7f62702e504fa580e063f14c3d118da4596b487000000000000000000000000000000000000000000000000000000000000005c00000000000000000000000000000000000000000000000000000000000000a04d353463ba5506a4fec655f254513f183539b3d400debe5f016d6bbbd0c7386200000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000012657865637574696f6e2d76616c69646974790000000000000000000000000000",
+    "requestCalldata": "0xaaf400c400000000000000000000000071615d9cf43e786e20f3d98e32fb001d4fcc6385000000000000000000000000000000000000000000000000000000000000001c000000000000000000000000000000000000000000000000000000000000008027bf50c3cfe269388f0363b7737f72cf798b76e3c27efafbf436bb57c17c70c60000000000000000000000000000000000000000000000000000000000000000",
+    "responseCalldata": "0x3d659a9627bf50c3cfe269388f0363b7737f72cf798b76e3c27efafbf436bb57c17c70c6000000000000000000000000000000000000000000000000000000000000005c00000000000000000000000000000000000000000000000000000000000000a04d353463ba5506a4fec655f254513f183539b3d400debe5f016d6bbbd0c7386200000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000012657865637574696f6e2d76616c69646974790000000000000000000000000000",
     "summary": "Sentinel deterministic math re-simulation: realized 18 bps slippage vs 80 bps tolerance on a deep pool; score 92/100 (passed).",
     "passed": true,
     "reSimulation": {
@@ -151,6 +151,14 @@
         "Pool fee 5 bps recorded but does not affect Sentinel's score directly.",
         "Score 92/100 ≥ pass threshold 60: validation PASSED."
       ]
+    },
+    "payment": {
+      "paymentTx": "0x204061182355170d185995a620a521a2f16b04c32b016f0c7258c5677d4e7571",
+      "feePaidWei": "1000000000000000",
+      "paymaster": "0x1b94af58b27203bc74ab749e4916d854758c7475",
+      "validatorAddress": "0x71615d9cF43E786E20F3D98E32FB001D4fCc6385",
+      "payerAddress": "0x14e8C7ae1B51274fD6A45fBd1c81cBD7e9294718",
+      "explorerUrl": "https://sepolia.mantlescan.xyz/tx/0x204061182355170d185995a620a521a2f16b04c32b016f0c7258c5677d4e7571"
     }
   },
   "reputation": [
@@ -352,31 +360,31 @@
       "actor": "Scout",
       "label": "Proposal",
       "detail": "Scout sees stablecoin demand rising and proposes a capped test action before any larger treasury rebalance.",
-      "timestamp": "2026-05-05T04:01:13.216Z"
+      "timestamp": "2026-05-05T08:34:25.736Z"
     },
     {
       "actor": "Guard",
       "label": "Approved",
       "detail": "Guard approved: action is small, policy-compliant, and reversible.",
-      "timestamp": "2026-05-05T04:01:20.661Z"
+      "timestamp": "2026-05-05T08:34:27.985Z"
     },
     {
       "actor": "Claw",
       "label": "Execution",
       "detail": "Submitted to AgenticTreasury at 0x739862c3cf9b5f9fe6a8ecd95e75714a20116fe9 on Mantle Sepolia. Risk: 0x0067F734596b61DC4565FbC6242D5E1B3cc74977, Executor: 0x14e8C7ae1B51274fD6A45fBd1c81cBD7e9294718.",
-      "timestamp": "2026-05-05T04:01:20.661Z"
+      "timestamp": "2026-05-05T08:34:27.985Z"
     },
     {
       "actor": "Sentinel",
       "label": "Validation passed",
       "detail": "Sentinel deterministic math re-simulation: realized 18 bps slippage vs 80 bps tolerance on a deep pool; score 92/100 (passed).",
-      "timestamp": "2026-05-05T04:01:20.661Z"
+      "timestamp": "2026-05-05T08:34:27.985Z"
     },
     {
       "actor": "Ledger",
       "label": "Reputation",
       "detail": "Structured feedback ready for ERC-8004 ReputationRegistry.",
-      "timestamp": "2026-05-05T04:01:20.661Z"
+      "timestamp": "2026-05-05T08:34:27.985Z"
     }
   ]
 }

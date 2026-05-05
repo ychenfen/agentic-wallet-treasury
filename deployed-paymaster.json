@@ -1,0 +1,10 @@
+{
+  "contract": "ValidatorPaymaster",
+  "network": "mantle-sepolia",
+  "chainId": 5003,
+  "address": "0x1b94af58b27203bc74ab749e4916d854758c7475",
+  "owner": "0xeedBcc283BB7964D64274986eEF22b2abb1a1FdE",
+  "deployedAt": "2026-05-05T08:33:25.230Z",
+  "txHash": "0x329614a24ba2b6ab2869a3552bc7e7baa0fc6223e3ab5a7f0097a5d7d766688b",
+  "explorerUrl": "https://sepolia.mantlescan.xyz/address/0x1b94af58b27203bc74ab749e4916d854758c7475"
+}

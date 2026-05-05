@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-05T04:03:21.524Z",
+  "generatedAt": "2026-05-05T08:41:54.248Z",
   "summary": {
-    "pass": 11,
+    "pass": 12,
     "warn": 0,
     "fail": 0
   },
@@ -14,7 +14,7 @@
     {
       "level": "pass",
       "label": "demo-history.json",
-      "detail": "11 cycles recorded. Five or more gives a stronger dashboard history."
+      "detail": "9 cycles recorded. Five or more gives a stronger dashboard history."
     },
     {
       "level": "pass",
@@ -54,12 +54,17 @@
     {
       "level": "pass",
       "label": "events.json",
-      "detail": "16 chain events backfilled."
+      "detail": "25 chain events backfilled."
     },
     {
       "level": "pass",
       "label": "deployed-treasury.json",
       "detail": "Treasury record present: 0x739862c3cf9b5f9fe6a8ecd95e75714a20116fe9."
+    },
+    {
+      "level": "pass",
+      "label": "deployed-paymaster.json",
+      "detail": "ValidatorPaymaster record present: 0x1b94af58b27203bc74ab749e4916d854758c7475."
     }
   ]
 }
