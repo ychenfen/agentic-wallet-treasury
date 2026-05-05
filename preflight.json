@@ -1,0 +1,65 @@
+{
+  "generatedAt": "2026-05-05T04:03:21.524Z",
+  "summary": {
+    "pass": 11,
+    "warn": 0,
+    "fail": 0
+  },
+  "checks": [
+    {
+      "level": "pass",
+      "label": "demo-run.json",
+      "detail": "5 identities, scenario=small-stable-rotation, execution=submitted, validation=92/100"
+    },
+    {
+      "level": "pass",
+      "label": "demo-history.json",
+      "detail": "11 cycles recorded. Five or more gives a stronger dashboard history."
+    },
+    {
+      "level": "pass",
+      "label": "BUIDL logo",
+      "detail": "assets/buidl-logo-480.png exists."
+    },
+    {
+      "level": "pass",
+      "label": "ERC-8004 agent IDs",
+      "detail": "5 real agent IDs found in agent-ids.json."
+    },
+    {
+      "level": "pass",
+      "label": "live-chain.json",
+      "detail": "5 on-chain agent snapshots available."
+    },
+    {
+      "level": "pass",
+      "label": "agent wallets",
+      "detail": "5 wallets resolved from env."
+    },
+    {
+      "level": "pass",
+      "label": "TREASURY_ADDRESS",
+      "detail": "Treasury address configured."
+    },
+    {
+      "level": "pass",
+      "label": ".env",
+      "detail": "Loaded /Users/yuchenxu/Desktop/mantle-hackathon/.env."
+    },
+    {
+      "level": "pass",
+      "label": "MANTLE_SEPOLIA_RPC_URL",
+      "detail": "RPC URL configured."
+    },
+    {
+      "level": "pass",
+      "label": "events.json",
+      "detail": "16 chain events backfilled."
+    },
+    {
+      "level": "pass",
+      "label": "deployed-treasury.json",
+      "detail": "Treasury record present: 0x739862c3cf9b5f9fe6a8ecd95e75714a20116fe9."
+    }
+  ]
+}

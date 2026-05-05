@@ -1,0 +1,336 @@
+{
+  "generatedAt": "2026-05-05T04:02:03.488Z",
+  "network": {
+    "name": "Mantle Sepolia",
+    "chainId": 5003,
+    "explorer": "https://sepolia.mantlescan.xyz"
+  },
+  "events": [
+    {
+      "source": "validation",
+      "name": "ValidationResponse",
+      "blockNumber": 38204513,
+      "txHash": "0xe4897d7e5fcc38369eb02b374078416612e6b60c4c77226808962421692cca8d",
+      "logIndex": 0,
+      "observedAt": "2026-05-05T04:02:03.487Z",
+      "agentId": 28,
+      "agentName": "Claw",
+      "args": {
+        "validatorAddress": "0x71615d9cF43E786E20F3D98E32FB001D4fCc6385",
+        "agentId": "28",
+        "requestHash": "0x19d61659c3fecc08ec4a8559c7f62702e504fa580e063f14c3d118da4596b487",
+        "response": 92,
+        "responseURI": "",
+        "responseHash": "0x4d353463ba5506a4fec655f254513f183539b3d400debe5f016d6bbbd0c73862",
+        "tag": "execution-validity"
+      },
+      "explorerUrl": "https://sepolia.mantlescan.xyz/tx/0xe4897d7e5fcc38369eb02b374078416612e6b60c4c77226808962421692cca8d"
+    },
+    {
+      "source": "validation",
+      "name": "ValidationRequest",
+      "blockNumber": 38204509,
+      "txHash": "0x652b71548464cdd81913c18ab2cf3a8a691320fa324a3d35416715c90dc448b6",
+      "logIndex": 0,
+      "observedAt": "2026-05-05T04:02:03.487Z",
+      "agentId": 28,
+      "agentName": "Claw",
+      "args": {
+        "validatorAddress": "0x71615d9cF43E786E20F3D98E32FB001D4fCc6385",
+        "agentId": "28",
+        "requestHash": "0x19d61659c3fecc08ec4a8559c7f62702e504fa580e063f14c3d118da4596b487",
+        "requestURI": ""
+      },
+      "explorerUrl": "https://sepolia.mantlescan.xyz/tx/0x652b71548464cdd81913c18ab2cf3a8a691320fa324a3d35416715c90dc448b6"
+    },
+    {
+      "source": "treasury",
+      "name": "TreasuryActionExecuted",
+      "blockNumber": 38204505,
+      "txHash": "0xa3d26423e3ab39e4303009d862d2e3f9f6d50fcc8139f93c3d73821999a4ca8a",
+      "logIndex": 0,
+      "observedAt": "2026-05-05T04:02:03.487Z",
+      "args": {
+        "actionId": "0x952c81b05fa02433ced46e61c1d2fa88478ea3a049e7823c02ccafe40634f027",
+        "executor": "0x14e8C7ae1B51274fD6A45fBd1c81cBD7e9294718",
+        "target": "0x739862C3Cf9b5f9Fe6A8ecd95E75714A20116fE9",
+        "value": "0",
+        "policyHash": "0xfd7fb37e42bf702f1031d98540ffd1afad7ed6a9ff2e3f9f56e9721c28bfa16b",
+        "nonceUsed": "0"
+      },
+      "explorerUrl": "https://sepolia.mantlescan.xyz/tx/0xa3d26423e3ab39e4303009d862d2e3f9f6d50fcc8139f93c3d73821999a4ca8a"
+    },
+    {
+      "source": "reputation",
+      "name": "NewFeedback",
+      "blockNumber": 38204364,
+      "txHash": "0xbfb7858fd60d08803e6ee2a198a687354be04239fcb4705e099fe41dcb60c1e0",
+      "logIndex": 0,
+      "observedAt": "2026-05-05T04:02:03.487Z",
+      "agentId": 30,
+      "agentName": "Sentinel",
+      "args": {
+        "agentId": "30",
+        "clientAddress": "0xeedBcc283BB7964D64274986eEF22b2abb1a1FdE",
+        "indexedTag1": "0xe61253a80200be73a374046b2222e24f014d608a7a59ad771277fccba824bc3a",
+        "feedbackIndex": "1",
+        "value": "90",
+        "valueDecimals": 0,
+        "tag1": "validationIntegrity",
+        "tag2": "demo-cycle",
+        "endpoint": "https://sepolia.mantlescan.xyz/",
+        "feedbackURI": "",
+        "feedbackHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "explorerUrl": "https://sepolia.mantlescan.xyz/tx/0xbfb7858fd60d08803e6ee2a198a687354be04239fcb4705e099fe41dcb60c1e0"
+    },
+    {
+      "source": "reputation",
+      "name": "NewFeedback",
+      "blockNumber": 38204360,
+      "txHash": "0x107bea5e4e8909adb63b445796af299bca72077dd0ddae526d17f5fc50291cc5",
+      "logIndex": 0,
+      "observedAt": "2026-05-05T04:02:03.487Z",
+      "agentId": 29,
+      "agentName": "Ledger",
+      "args": {
+        "agentId": "29",
+        "clientAddress": "0x71615d9cF43E786E20F3D98E32FB001D4fCc6385",
+        "indexedTag1": "0x35239c16f2139e64ba2d4cd11210cc0f836dd960aeb59c91c16b1d7d4e951b43",
+        "feedbackIndex": "1",
+        "value": "90",
+        "valueDecimals": 0,
+        "tag1": "auditCompleteness",
+        "tag2": "demo-cycle",
+        "endpoint": "https://sepolia.mantlescan.xyz/",
+        "feedbackURI": "",
+        "feedbackHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "explorerUrl": "https://sepolia.mantlescan.xyz/tx/0x107bea5e4e8909adb63b445796af299bca72077dd0ddae526d17f5fc50291cc5"
+    },
+    {
+      "source": "reputation",
+      "name": "NewFeedback",
+      "blockNumber": 38204356,
+      "txHash": "0x8fe7caa7349824576ced19c8f523799ef954b8fbd7e8afd694b92f7b3fa7e215",
+      "logIndex": 0,
+      "observedAt": "2026-05-05T04:02:03.487Z",
+      "agentId": 28,
+      "agentName": "Claw",
+      "args": {
+        "agentId": "28",
+        "clientAddress": "0xeedBcc283BB7964D64274986eEF22b2abb1a1FdE",
+        "indexedTag1": "0x9048874af6bf2819f8c804f98493ed92441608820f73459f3d530c4d0d1cb717",
+        "feedbackIndex": "2",
+        "value": "86",
+        "valueDecimals": 0,
+        "tag1": "executionReliability",
+        "tag2": "demo-cycle",
+        "endpoint": "https://sepolia.mantlescan.xyz/",
+        "feedbackURI": "",
+        "feedbackHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "explorerUrl": "https://sepolia.mantlescan.xyz/tx/0x8fe7caa7349824576ced19c8f523799ef954b8fbd7e8afd694b92f7b3fa7e215"
+    },
+    {
+      "source": "reputation",
+      "name": "NewFeedback",
+      "blockNumber": 38204352,
+      "txHash": "0xf22fe746364b579f377b1656010f2cde3f6f5bf8515a20d8405cd84b05e265f1",
+      "logIndex": 0,
+      "observedAt": "2026-05-05T04:02:03.487Z",
+      "agentId": 27,
+      "agentName": "Guard",
+      "args": {
+        "agentId": "27",
+        "clientAddress": "0xeedBcc283BB7964D64274986eEF22b2abb1a1FdE",
+        "indexedTag1": "0x0c8418e1881dcbdebac0ddaebf92f3ae1b263413cf869a833f32b8f8554fa47c",
+        "feedbackIndex": "2",
+        "value": "92",
+        "valueDecimals": 0,
+        "tag1": "riskDiscipline",
+        "tag2": "demo-cycle",
+        "endpoint": "https://sepolia.mantlescan.xyz/",
+        "feedbackURI": "",
+        "feedbackHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "explorerUrl": "https://sepolia.mantlescan.xyz/tx/0xf22fe746364b579f377b1656010f2cde3f6f5bf8515a20d8405cd84b05e265f1"
+    },
+    {
+      "source": "reputation",
+      "name": "NewFeedback",
+      "blockNumber": 38204347,
+      "txHash": "0x9c54f0c603b87cbf87a3e8046cf40ad1ab6c185d6e4503c4c020f7f9eb9409e6",
+      "logIndex": 0,
+      "observedAt": "2026-05-05T04:02:03.487Z",
+      "agentId": 26,
+      "agentName": "Scout",
+      "args": {
+        "agentId": "26",
+        "clientAddress": "0xeedBcc283BB7964D64274986eEF22b2abb1a1FdE",
+        "indexedTag1": "0x9353df30a95f3f40b6d52596632953ab75e21cf6ac51b9132665c6204ce63dce",
+        "feedbackIndex": "2",
+        "value": "86",
+        "valueDecimals": 0,
+        "tag1": "proposalQuality",
+        "tag2": "demo-cycle",
+        "endpoint": "https://sepolia.mantlescan.xyz/",
+        "feedbackURI": "",
+        "feedbackHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "explorerUrl": "https://sepolia.mantlescan.xyz/tx/0x9c54f0c603b87cbf87a3e8046cf40ad1ab6c185d6e4503c4c020f7f9eb9409e6"
+    },
+    {
+      "source": "reputation",
+      "name": "NewFeedback",
+      "blockNumber": 38204189,
+      "txHash": "0x3fc35a887be4189cfae13bda361992b6ad62c4ea54ba98b522bc74721e8016df",
+      "logIndex": 0,
+      "observedAt": "2026-05-05T04:02:03.486Z",
+      "agentId": 28,
+      "agentName": "Claw",
+      "args": {
+        "agentId": "28",
+        "clientAddress": "0xeedBcc283BB7964D64274986eEF22b2abb1a1FdE",
+        "indexedTag1": "0x9048874af6bf2819f8c804f98493ed92441608820f73459f3d530c4d0d1cb717",
+        "feedbackIndex": "1",
+        "value": "45",
+        "valueDecimals": 0,
+        "tag1": "executionReliability",
+        "tag2": "demo-cycle",
+        "endpoint": "https://sepolia.mantlescan.xyz/",
+        "feedbackURI": "",
+        "feedbackHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "explorerUrl": "https://sepolia.mantlescan.xyz/tx/0x3fc35a887be4189cfae13bda361992b6ad62c4ea54ba98b522bc74721e8016df"
+    },
+    {
+      "source": "reputation",
+      "name": "NewFeedback",
+      "blockNumber": 38204185,
+      "txHash": "0xcd37c5ad343f123aed029e8613194eb0dcb5eed9c5a07038a8585cbe91ba04b3",
+      "logIndex": 0,
+      "observedAt": "2026-05-05T04:02:03.486Z",
+      "agentId": 27,
+      "agentName": "Guard",
+      "args": {
+        "agentId": "27",
+        "clientAddress": "0xeedBcc283BB7964D64274986eEF22b2abb1a1FdE",
+        "indexedTag1": "0x0c8418e1881dcbdebac0ddaebf92f3ae1b263413cf869a833f32b8f8554fa47c",
+        "feedbackIndex": "1",
+        "value": "92",
+        "valueDecimals": 0,
+        "tag1": "riskDiscipline",
+        "tag2": "demo-cycle",
+        "endpoint": "https://sepolia.mantlescan.xyz/",
+        "feedbackURI": "",
+        "feedbackHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "explorerUrl": "https://sepolia.mantlescan.xyz/tx/0xcd37c5ad343f123aed029e8613194eb0dcb5eed9c5a07038a8585cbe91ba04b3"
+    },
+    {
+      "source": "reputation",
+      "name": "NewFeedback",
+      "blockNumber": 38204181,
+      "txHash": "0x602795fdf7edb2183f146bb477b7cf94b12263c844198b68d64cdf923fd1d98c",
+      "logIndex": 0,
+      "observedAt": "2026-05-05T04:02:03.486Z",
+      "agentId": 26,
+      "agentName": "Scout",
+      "args": {
+        "agentId": "26",
+        "clientAddress": "0xeedBcc283BB7964D64274986eEF22b2abb1a1FdE",
+        "indexedTag1": "0x9353df30a95f3f40b6d52596632953ab75e21cf6ac51b9132665c6204ce63dce",
+        "feedbackIndex": "1",
+        "value": "86",
+        "valueDecimals": 0,
+        "tag1": "proposalQuality",
+        "tag2": "demo-cycle",
+        "endpoint": "https://sepolia.mantlescan.xyz/",
+        "feedbackURI": "",
+        "feedbackHash": "0x0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "explorerUrl": "https://sepolia.mantlescan.xyz/tx/0x602795fdf7edb2183f146bb477b7cf94b12263c844198b68d64cdf923fd1d98c"
+    },
+    {
+      "source": "identity",
+      "name": "Registered",
+      "blockNumber": 38204175,
+      "txHash": "0xdb8f92d47cf3ab309b3d4f15544a7585156b1b6d318ebcb0edd2e56c155e9594",
+      "logIndex": 2,
+      "observedAt": "2026-05-05T04:02:03.486Z",
+      "agentId": 30,
+      "agentName": "Sentinel",
+      "args": {
+        "agentId": "30",
+        "owner": "0x71615d9cF43E786E20F3D98E32FB001D4fCc6385",
+        "agentURI": "data:application/json;base64,eyJ0eXBlIjoiaHR0cHM6Ly9laX…"
+      },
+      "explorerUrl": "https://sepolia.mantlescan.xyz/tx/0xdb8f92d47cf3ab309b3d4f15544a7585156b1b6d318ebcb0edd2e56c155e9594"
+    },
+    {
+      "source": "identity",
+      "name": "Registered",
+      "blockNumber": 38204171,
+      "txHash": "0x9c5954290cd07294be6f6bb01525f5bf38a495f1f39d9e9a238f7cdd8dd2e4a2",
+      "logIndex": 2,
+      "observedAt": "2026-05-05T04:02:03.486Z",
+      "agentId": 29,
+      "agentName": "Ledger",
+      "args": {
+        "agentId": "29",
+        "owner": "0xeedBcc283BB7964D64274986eEF22b2abb1a1FdE",
+        "agentURI": "data:application/json;base64,eyJ0eXBlIjoiaHR0cHM6Ly9laX…"
+      },
+      "explorerUrl": "https://sepolia.mantlescan.xyz/tx/0x9c5954290cd07294be6f6bb01525f5bf38a495f1f39d9e9a238f7cdd8dd2e4a2"
+    },
+    {
+      "source": "identity",
+      "name": "Registered",
+      "blockNumber": 38204167,
+      "txHash": "0xa715a9833a69975e420b3af81daf0ddb309f32a1a6d06c47c070ed13339edb07",
+      "logIndex": 2,
+      "observedAt": "2026-05-05T04:02:03.485Z",
+      "agentId": 28,
+      "agentName": "Claw",
+      "args": {
+        "agentId": "28",
+        "owner": "0x14e8C7ae1B51274fD6A45fBd1c81cBD7e9294718",
+        "agentURI": "data:application/json;base64,eyJ0eXBlIjoiaHR0cHM6Ly9laX…"
+      },
+      "explorerUrl": "https://sepolia.mantlescan.xyz/tx/0xa715a9833a69975e420b3af81daf0ddb309f32a1a6d06c47c070ed13339edb07"
+    },
+    {
+      "source": "identity",
+      "name": "Registered",
+      "blockNumber": 38204163,
+      "txHash": "0x830efbc9db19b8a77ac1419c4e3abb96e04842cf7fe661f4606a65b4edaefbe8",
+      "logIndex": 2,
+      "observedAt": "2026-05-05T04:02:03.485Z",
+      "agentId": 27,
+      "agentName": "Guard",
+      "args": {
+        "agentId": "27",
+        "owner": "0x0067F734596b61DC4565FbC6242D5E1B3cc74977",
+        "agentURI": "data:application/json;base64,eyJ0eXBlIjoiaHR0cHM6Ly9laX…"
+      },
+      "explorerUrl": "https://sepolia.mantlescan.xyz/tx/0x830efbc9db19b8a77ac1419c4e3abb96e04842cf7fe661f4606a65b4edaefbe8"
+    },
+    {
+      "source": "identity",
+      "name": "Registered",
+      "blockNumber": 38204159,
+      "txHash": "0x999a3c96fa65943c0f9a525ee5cbf7188c4c745b5873676d7d44afb8d4f22a15",
+      "logIndex": 2,
+      "observedAt": "2026-05-05T04:02:03.483Z",
+      "agentId": 26,
+      "agentName": "Scout",
+      "args": {
+        "agentId": "26",
+        "owner": "0x9430B096b2B54C49B6C7D495Dd54f78aF8FC45a4",
+        "agentURI": "data:application/json;base64,eyJ0eXBlIjoiaHR0cHM6Ly9laX…"
+      },
+      "explorerUrl": "https://sepolia.mantlescan.xyz/tx/0x999a3c96fa65943c0f9a525ee5cbf7188c4c745b5873676d7d44afb8d4f22a15"
+    }
+  ]
+}

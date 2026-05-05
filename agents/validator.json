@@ -1,0 +1,30 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "name": "Sentinel",
+  "description": "Independent validator. Re-checks Claw's execution and posts a ValidationRegistry response. Role: validator. Part of Agentic Wallet Treasury on Mantle.",
+  "image": "http://localhost:5175/agents/validator.png",
+  "services": [
+    {
+      "name": "web",
+      "endpoint": "http://localhost:5175/"
+    },
+    {
+      "name": "MCP",
+      "endpoint": "https://agentic-wallet-treasury.local/mcp/validator",
+      "version": "2025-06-18"
+    }
+  ],
+  "x402Support": false,
+  "active": true,
+  "registrations": [
+    {
+      "agentId": 30,
+      "agentRegistry": "eip155:5003:0x8004A818BFB912233c491871b3d84c89A494BD9e"
+    }
+  ],
+  "supportedTrust": [
+    "reputation",
+    "policy-validation",
+    "execution-proof"
+  ]
+}

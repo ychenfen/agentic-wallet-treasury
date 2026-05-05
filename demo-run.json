@@ -1,0 +1,382 @@
+{
+  "runId": "run-1777953680661",
+  "cycle": 11,
+  "scenarioId": "small-stable-rotation",
+  "generatedAt": "2026-05-05T04:01:13.216Z",
+  "network": {
+    "name": "Mantle Sepolia",
+    "chainId": 5003,
+    "explorer": "https://sepolia.mantlescan.xyz"
+  },
+  "identities": [
+    {
+      "id": "researcher",
+      "role": "researcher",
+      "name": "Scout",
+      "tagline": "Finds yield and market context before capital moves.",
+      "wallet": "0x9430B096b2B54C49B6C7D495Dd54f78aF8FC45a4",
+      "agentId": 26,
+      "registry": "eip155:5003:0x8004A818BFB912233c491871b3d84c89A494BD9e",
+      "reputation": 82,
+      "status": "thinking"
+    },
+    {
+      "id": "risk",
+      "role": "risk",
+      "name": "Guard",
+      "tagline": "Blocks trades that violate treasury policy.",
+      "wallet": "0x0067F734596b61DC4565FbC6242D5E1B3cc74977",
+      "agentId": 27,
+      "registry": "eip155:5003:0x8004A818BFB912233c491871b3d84c89A494BD9e",
+      "reputation": 91,
+      "status": "approved"
+    },
+    {
+      "id": "executor",
+      "role": "executor",
+      "name": "Claw",
+      "tagline": "Executes approved wallet actions on Mantle.",
+      "wallet": "0x14e8C7ae1B51274fD6A45fBd1c81cBD7e9294718",
+      "agentId": 28,
+      "registry": "eip155:5003:0x8004A818BFB912233c491871b3d84c89A494BD9e",
+      "reputation": 78,
+      "status": "executed"
+    },
+    {
+      "id": "auditor",
+      "role": "auditor",
+      "name": "Ledger",
+      "tagline": "Scores outcomes and writes reputation feedback.",
+      "wallet": "0xeedBcc283BB7964D64274986eEF22b2abb1a1FdE",
+      "agentId": 29,
+      "registry": "eip155:5003:0x8004A818BFB912233c491871b3d84c89A494BD9e",
+      "reputation": 88,
+      "status": "scored"
+    },
+    {
+      "id": "validator",
+      "role": "validator",
+      "name": "Sentinel",
+      "tagline": "Independent validator. Re-checks Claw's execution and posts a ValidationRegistry response.",
+      "wallet": "0x71615d9cF43E786E20F3D98E32FB001D4fCc6385",
+      "agentId": 30,
+      "registry": "eip155:5003:0x8004A818BFB912233c491871b3d84c89A494BD9e",
+      "reputation": 84,
+      "status": "validated"
+    }
+  ],
+  "policy": {
+    "maxTradeUsd": 500,
+    "maxDrawdownBps": 250,
+    "allowedActions": [
+      "rebalance",
+      "test-swap",
+      "hold"
+    ],
+    "requiresRiskApproval": true
+  },
+  "proposal": {
+    "id": "small-stable-rotation",
+    "title": "Move a small treasury slice into a lower-risk Mantle yield action",
+    "action": "test-swap",
+    "assetIn": "MNT",
+    "assetOut": "USDe",
+    "amountUsd": 125,
+    "rationale": "Scout sees stablecoin demand rising and proposes a capped test action before any larger treasury rebalance.",
+    "confidence": 0.74
+  },
+  "verdict": {
+    "approved": true,
+    "score": 92,
+    "reason": "Guard approved: action is small, policy-compliant, and reversible.",
+    "checks": [
+      {
+        "label": "Policy action",
+        "passed": true,
+        "detail": "test-swap is in the approved action list."
+      },
+      {
+        "label": "Trade cap",
+        "passed": true,
+        "detail": "$125 is below the $500 cap."
+      },
+      {
+        "label": "Drawdown guard",
+        "passed": true,
+        "detail": "250 bps policy cap is within demo limits."
+      },
+      {
+        "label": "Risk approval required",
+        "passed": true,
+        "detail": "Treasury policy mandates a Guard signature before execution."
+      }
+    ]
+  },
+  "execution": {
+    "adapter": "mantle-sepolia",
+    "status": "submitted",
+    "txHash": "0xa3d26423e3ab39e4303009d862d2e3f9f6d50fcc8139f93c3d73821999a4ca8a",
+    "explorerUrl": "https://sepolia.mantlescan.xyz/tx/0xa3d26423e3ab39e4303009d862d2e3f9f6d50fcc8139f93c3d73821999a4ca8a",
+    "proofHash": "0x5cb3d8f43a8f0a2191cd75a738380ab5ccb16c2aac80940101f6b5fd390c286a",
+    "summary": "Submitted to AgenticTreasury at 0x739862c3cf9b5f9fe6a8ecd95e75714a20116fe9 on Mantle Sepolia. Risk: 0x0067F734596b61DC4565FbC6242D5E1B3cc74977, Executor: 0x14e8C7ae1B51274fD6A45fBd1c81cBD7e9294718."
+  },
+  "validation": {
+    "requestURI": "",
+    "requestHash": "0x19d61659c3fecc08ec4a8559c7f62702e504fa580e063f14c3d118da4596b487",
+    "validatorAddress": "0x71615d9cF43E786E20F3D98E32FB001D4fCc6385",
+    "subjectAgentId": 28,
+    "response": 92,
+    "tag": "execution-validity",
+    "responseURI": "",
+    "responseHash": "0x4d353463ba5506a4fec655f254513f183539b3d400debe5f016d6bbbd0c73862",
+    "requestCalldata": "0xaaf400c400000000000000000000000071615d9cf43e786e20f3d98e32fb001d4fcc6385000000000000000000000000000000000000000000000000000000000000001c000000000000000000000000000000000000000000000000000000000000008019d61659c3fecc08ec4a8559c7f62702e504fa580e063f14c3d118da4596b4870000000000000000000000000000000000000000000000000000000000000000",
+    "responseCalldata": "0x3d659a9619d61659c3fecc08ec4a8559c7f62702e504fa580e063f14c3d118da4596b487000000000000000000000000000000000000000000000000000000000000005c00000000000000000000000000000000000000000000000000000000000000a04d353463ba5506a4fec655f254513f183539b3d400debe5f016d6bbbd0c7386200000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000012657865637574696f6e2d76616c69646974790000000000000000000000000000",
+    "summary": "Sentinel deterministic math re-simulation: realized 18 bps slippage vs 80 bps tolerance on a deep pool; score 92/100 (passed).",
+    "passed": true,
+    "reSimulation": {
+      "score": 92,
+      "passed": true,
+      "passThreshold": 60,
+      "adapter": "mock",
+      "hints": {
+        "feeBps": 5,
+        "realizedSlippageBps": 18,
+        "toleranceBps": 80,
+        "poolDepth": "deep"
+      },
+      "notes": [
+        "Sentinel ran in mock mode (no byreal-cli call).",
+        "Realized slippage 18 bps is within Sentinel's 80 bps tolerance (ratio 0.23).",
+        "Pool depth deep adjusts the score by +3.",
+        "Pool fee 5 bps recorded but does not affect Sentinel's score directly.",
+        "Score 92/100 ≥ pass threshold 60: validation PASSED."
+      ]
+    }
+  },
+  "reputation": [
+    {
+      "agent": "Scout",
+      "agentId": 26,
+      "tag": "proposalQuality",
+      "value": 86,
+      "reason": "Proposal included bounded size, target asset, and clear rationale.",
+      "calldata": "0x3c036a7e000000000000000000000000000000000000000000000000000000000000001a0000000000000000000000000000000000000000000000000000000000000056000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000140000000000000000000000000000000000000000000000000000000000000018000000000000000000000000000000000000000000000000000000000000001c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f70726f706f73616c5175616c6974790000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a64656d6f2d6379636c65000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016687474703a2f2f6c6f63616c686f73743a353137352f000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "agent": "Guard",
+      "agentId": 27,
+      "tag": "riskDiscipline",
+      "value": 92,
+      "reason": "Risk review checked action allowlist, notional cap, and drawdown policy.",
+      "calldata": "0x3c036a7e000000000000000000000000000000000000000000000000000000000000001b000000000000000000000000000000000000000000000000000000000000005c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000140000000000000000000000000000000000000000000000000000000000000018000000000000000000000000000000000000000000000000000000000000001c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e7269736b4469736369706c696e65000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a64656d6f2d6379636c65000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016687474703a2f2f6c6f63616c686f73743a353137352f000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "agent": "Claw",
+      "agentId": 28,
+      "tag": "executionReliability",
+      "value": 95,
+      "reason": "Execution validated by Sentinel and produced a verifiable on-chain artifact.",
+      "calldata": "0x3c036a7e000000000000000000000000000000000000000000000000000000000000001c000000000000000000000000000000000000000000000000000000000000005f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000140000000000000000000000000000000000000000000000000000000000000018000000000000000000000000000000000000000000000000000000000000001c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000014657865637574696f6e52656c696162696c697479000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a64656d6f2d6379636c65000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016687474703a2f2f6c6f63616c686f73743a353137352f000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "agent": "Ledger",
+      "agentId": 29,
+      "tag": "auditCompleteness",
+      "value": 90,
+      "reason": "Auditor produced ReputationRegistry feedback and a ValidationRegistry request.",
+      "calldata": "0x3c036a7e000000000000000000000000000000000000000000000000000000000000001d000000000000000000000000000000000000000000000000000000000000005a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000140000000000000000000000000000000000000000000000000000000000000018000000000000000000000000000000000000000000000000000000000000001c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000116175646974436f6d706c6574656e657373000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a64656d6f2d6379636c65000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016687474703a2f2f6c6f63616c686f73743a353137352f000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    },
+    {
+      "agent": "Sentinel",
+      "agentId": 30,
+      "tag": "validationIntegrity",
+      "value": 90,
+      "reason": "Sentinel ran an independent re-simulation and confirmed Claw's output.",
+      "calldata": "0x3c036a7e000000000000000000000000000000000000000000000000000000000000001e000000000000000000000000000000000000000000000000000000000000005a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000140000000000000000000000000000000000000000000000000000000000000018000000000000000000000000000000000000000000000000000000000000001c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001376616c69646174696f6e496e7465677269747900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a64656d6f2d6379636c65000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016687474703a2f2f6c6f63616c686f73743a353137352f000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ],
+  "registrationFiles": [
+    {
+      "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+      "name": "Scout",
+      "description": "Finds yield and market context before capital moves. Role: researcher. Part of Agentic Wallet Treasury on Mantle.",
+      "image": "http://localhost:5175/agents/researcher.png",
+      "services": [
+        {
+          "name": "web",
+          "endpoint": "http://localhost:5175/"
+        },
+        {
+          "name": "MCP",
+          "endpoint": "https://agentic-wallet-treasury.local/mcp/researcher",
+          "version": "2025-06-18"
+        }
+      ],
+      "x402Support": false,
+      "active": true,
+      "registrations": [
+        {
+          "agentId": 26,
+          "agentRegistry": "eip155:5003:0x8004A818BFB912233c491871b3d84c89A494BD9e"
+        }
+      ],
+      "supportedTrust": [
+        "reputation",
+        "policy-validation",
+        "execution-proof"
+      ]
+    },
+    {
+      "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+      "name": "Guard",
+      "description": "Blocks trades that violate treasury policy. Role: risk. Part of Agentic Wallet Treasury on Mantle.",
+      "image": "http://localhost:5175/agents/risk.png",
+      "services": [
+        {
+          "name": "web",
+          "endpoint": "http://localhost:5175/"
+        },
+        {
+          "name": "MCP",
+          "endpoint": "https://agentic-wallet-treasury.local/mcp/risk",
+          "version": "2025-06-18"
+        }
+      ],
+      "x402Support": false,
+      "active": true,
+      "registrations": [
+        {
+          "agentId": 27,
+          "agentRegistry": "eip155:5003:0x8004A818BFB912233c491871b3d84c89A494BD9e"
+        }
+      ],
+      "supportedTrust": [
+        "reputation",
+        "policy-validation",
+        "execution-proof"
+      ]
+    },
+    {
+      "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+      "name": "Claw",
+      "description": "Executes approved wallet actions on Mantle. Role: executor. Part of Agentic Wallet Treasury on Mantle.",
+      "image": "http://localhost:5175/agents/executor.png",
+      "services": [
+        {
+          "name": "web",
+          "endpoint": "http://localhost:5175/"
+        },
+        {
+          "name": "MCP",
+          "endpoint": "https://agentic-wallet-treasury.local/mcp/executor",
+          "version": "2025-06-18"
+        }
+      ],
+      "x402Support": false,
+      "active": true,
+      "registrations": [
+        {
+          "agentId": 28,
+          "agentRegistry": "eip155:5003:0x8004A818BFB912233c491871b3d84c89A494BD9e"
+        }
+      ],
+      "supportedTrust": [
+        "reputation",
+        "policy-validation",
+        "execution-proof"
+      ]
+    },
+    {
+      "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+      "name": "Ledger",
+      "description": "Scores outcomes and writes reputation feedback. Role: auditor. Part of Agentic Wallet Treasury on Mantle.",
+      "image": "http://localhost:5175/agents/auditor.png",
+      "services": [
+        {
+          "name": "web",
+          "endpoint": "http://localhost:5175/"
+        },
+        {
+          "name": "MCP",
+          "endpoint": "https://agentic-wallet-treasury.local/mcp/auditor",
+          "version": "2025-06-18"
+        }
+      ],
+      "x402Support": false,
+      "active": true,
+      "registrations": [
+        {
+          "agentId": 29,
+          "agentRegistry": "eip155:5003:0x8004A818BFB912233c491871b3d84c89A494BD9e"
+        }
+      ],
+      "supportedTrust": [
+        "reputation",
+        "policy-validation",
+        "execution-proof"
+      ]
+    },
+    {
+      "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+      "name": "Sentinel",
+      "description": "Independent validator. Re-checks Claw's execution and posts a ValidationRegistry response. Role: validator. Part of Agentic Wallet Treasury on Mantle.",
+      "image": "http://localhost:5175/agents/validator.png",
+      "services": [
+        {
+          "name": "web",
+          "endpoint": "http://localhost:5175/"
+        },
+        {
+          "name": "MCP",
+          "endpoint": "https://agentic-wallet-treasury.local/mcp/validator",
+          "version": "2025-06-18"
+        }
+      ],
+      "x402Support": false,
+      "active": true,
+      "registrations": [
+        {
+          "agentId": 30,
+          "agentRegistry": "eip155:5003:0x8004A818BFB912233c491871b3d84c89A494BD9e"
+        }
+      ],
+      "supportedTrust": [
+        "reputation",
+        "policy-validation",
+        "execution-proof"
+      ]
+    }
+  ],
+  "timeline": [
+    {
+      "actor": "Scout",
+      "label": "Proposal",
+      "detail": "Scout sees stablecoin demand rising and proposes a capped test action before any larger treasury rebalance.",
+      "timestamp": "2026-05-05T04:01:13.216Z"
+    },
+    {
+      "actor": "Guard",
+      "label": "Approved",
+      "detail": "Guard approved: action is small, policy-compliant, and reversible.",
+      "timestamp": "2026-05-05T04:01:20.661Z"
+    },
+    {
+      "actor": "Claw",
+      "label": "Execution",
+      "detail": "Submitted to AgenticTreasury at 0x739862c3cf9b5f9fe6a8ecd95e75714a20116fe9 on Mantle Sepolia. Risk: 0x0067F734596b61DC4565FbC6242D5E1B3cc74977, Executor: 0x14e8C7ae1B51274fD6A45fBd1c81cBD7e9294718.",
+      "timestamp": "2026-05-05T04:01:20.661Z"
+    },
+    {
+      "actor": "Sentinel",
+      "label": "Validation passed",
+      "detail": "Sentinel deterministic math re-simulation: realized 18 bps slippage vs 80 bps tolerance on a deep pool; score 92/100 (passed).",
+      "timestamp": "2026-05-05T04:01:20.661Z"
+    },
+    {
+      "actor": "Ledger",
+      "label": "Reputation",
+      "detail": "Structured feedback ready for ERC-8004 ReputationRegistry.",
+      "timestamp": "2026-05-05T04:01:20.661Z"
+    }
+  ]
+}
