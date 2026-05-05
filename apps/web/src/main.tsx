@@ -126,7 +126,7 @@ interface LiveChainSnapshot {
 }
 
 interface ChainEvent {
-  source: "identity" | "reputation" | "validation" | "treasury";
+  source: "identity" | "reputation" | "validation" | "treasury" | "paymaster";
   name: string;
   blockNumber: number;
   txHash: `0x${string}`;
@@ -234,6 +234,8 @@ function summarizeEventArgs(event: ChainEvent): string {
   if (event.name === "ValidationRequest") return `validator=${shortHash(a.validatorAddress as string)} req=${shortHash(a.requestHash as string)}`;
   if (event.name === "ValidationResponse") return `${a.tag} response=${a.response}/100`;
   if (event.name === "TreasuryActionExecuted") return `target=${shortHash(a.target as string)} value=${a.value}`;
+  if (event.name === "Deposited") return `fee=${formatMnt(a.amountWei as string)} MNT req=${shortHash(a.requestHash as string)}`;
+  if (event.name === "Withdrawn") return `validator=${shortHash(a.validator as string)} amount=${formatMnt(a.amountWei as string)} MNT`;
   return Object.entries(a).slice(0, 2).map(([k, v]) => `${k}=${typeof v === "string" && v.length > 20 ? shortHash(v) : v}`).join(" · ");
 }
 
@@ -241,6 +243,7 @@ function eventTone(event: ChainEvent): string {
   if (event.source === "identity") return "ev-identity";
   if (event.source === "reputation") return "ev-reputation";
   if (event.source === "validation") return "ev-validation";
+  if (event.source === "paymaster") return "ev-paymaster";
   return "ev-treasury";
 }
 
@@ -346,6 +349,33 @@ function ChainPanel({ snapshot }: { snapshot?: LiveChainSnapshot }) {
   );
 }
 
+function formatMnt(weiStr?: string): string {
+  if (!weiStr) return "0.000000";
+  try {
+    const wei = BigInt(weiStr);
+    // 18 decimals → keep 6 visible.
+    const whole = wei / 1_000_000_000_000_000_000n;
+    const frac = wei % 1_000_000_000_000_000_000n;
+    const fracStr = (frac + 1_000_000_000_000_000_000n).toString().slice(1, 7);
+    return `${whole.toString()}.${fracStr}`;
+  } catch {
+    return "0.000000";
+  }
+}
+
+function totalEarningsWei(history: DemoHistory): bigint {
+  const map = history.cumulativeEarningsWei ?? {};
+  let sum = 0n;
+  for (const v of Object.values(map)) {
+    try {
+      sum += BigInt(v);
+    } catch {
+      /* skip malformed */
+    }
+  }
+  return sum;
+}
+
 function StatHero({
   history,
   run
@@ -360,6 +390,7 @@ function StatHero({
     (a, b) => a + b,
     0
   );
+  const totalEarned = totalEarningsWei(history);
   const tone = run.validation.passed ? "ok" : "rejected";
   return (
     <div className="stat-hero">
@@ -383,10 +414,61 @@ function StatHero({
         <strong>{cumulativeRep}</strong>
         <em>{Object.keys(history.cumulativeReputation).length} agents</em>
       </div>
+      <div className="stat-tile pass">
+        <span>Validator earnings</span>
+        <strong>{formatMnt(totalEarned.toString())}</strong>
+        <em>MNT paid via x402 escrow</em>
+      </div>
       <div className={`stat-tile ${tone}`}>
         <span>Latest validation</span>
         <strong>{run.validation.response}/100</strong>
         <em>{run.scenarioId}</em>
+      </div>
+    </div>
+  );
+}
+
+function AgentEarningsPanel({ history }: { history: DemoHistory }) {
+  const map = history.cumulativeEarningsWei ?? {};
+  const entries = Object.entries(map).sort((a, b) => {
+    try {
+      return BigInt(b[1]) > BigInt(a[1]) ? 1 : -1;
+    } catch {
+      return 0;
+    }
+  });
+  if (entries.length === 0) {
+    return (
+      <div className="earnings-panel idle">
+        <div className="section-heading">
+          <CircleDollarSign size={18} />
+          <h2>Agent Earnings (x402)</h2>
+        </div>
+        <p>
+          Each Sentinel validation requires a fee from Claw, escrowed via the
+          on-chain <code>ValidatorPaymaster</code>. Once a few cycles run,
+          earnings accumulate here.
+        </p>
+      </div>
+    );
+  }
+  return (
+    <div className="earnings-panel">
+      <div className="section-heading">
+        <CircleDollarSign size={18} />
+        <h2>Agent Earnings (x402)</h2>
+        <span className="cycle-tip">
+          Sentinel earns MNT for every validation it performs.
+        </span>
+      </div>
+      <div className="earnings-rows">
+        {entries.map(([name, wei]) => (
+          <div className="earnings-row" key={name}>
+            <strong>{name}</strong>
+            <span className="earnings-amount">{formatMnt(wei)} MNT</span>
+            <span className="earnings-wei">{wei} wei</span>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -475,7 +557,8 @@ function App() {
       <header className="topbar">
         <div>
           <div className="eyebrow">Mantle Turing Test Hackathon 2026 · cycle #{run.cycle || 1}</div>
-          <h1>Agentic Wallet Treasury</h1>
+          <h1>The first wallet that grades its own employees.</h1>
+          <div className="subhead">Agentic Wallet Treasury · five ERC-8004 agents · three on-chain registries · one Mantle treasury</div>
         </div>
         <a className="network-pill" href={run.network.explorer} target="_blank" rel="noreferrer">
           {run.network.name}
@@ -488,7 +571,7 @@ function App() {
       <section className="hero">
         <div className="hero-copy">
           <p className="lead">
-            Five ERC-8004 agents coordinate a treasury action: research, risk approval, execution, validation, and reputation.
+            Scout proposes. Guard signs. Claw executes. Sentinel re-simulates and gets paid in MNT for every validation. Ledger writes the verdicts back to ERC-8004 reputation. The agents earn — or lose — their right to keep working.
           </p>
           <div className="hero-actions">
             <div className="metric"><Fingerprint size={19} /><span>{run.identities.length} agent identities</span></div>
@@ -613,6 +696,21 @@ function App() {
             <span>Request hash</span>
             <strong>{shortHash(run.validation.requestHash)}</strong>
           </div>
+          {run.validation.payment && run.validation.payment.feePaidWei !== "0" && (
+            <div className="proof-row">
+              <span>x402 fee</span>
+              {run.validation.payment.explorerUrl ? (
+                <a href={run.validation.payment.explorerUrl} target="_blank" rel="noreferrer">
+                  {formatMnt(run.validation.payment.feePaidWei)} MNT → Sentinel
+                </a>
+              ) : (
+                <strong>
+                  {formatMnt(run.validation.payment.feePaidWei)} MNT → Sentinel{" "}
+                  {run.validation.payment.paymentTx ? "(on-chain)" : "(synthetic)"}
+                </strong>
+              )}
+            </div>
+          )}
         </div>
       </section>
 
@@ -666,6 +764,10 @@ function App() {
 
       <section className="cycle-history-section" aria-label="Event log">
         <EventLogPanel events={events} />
+      </section>
+
+      <section className="cycle-history-section" aria-label="Agent earnings">
+        <AgentEarningsPanel history={history} />
       </section>
 
       <section className="cycle-history-section" aria-label="Submission readiness">

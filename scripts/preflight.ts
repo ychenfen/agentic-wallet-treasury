@@ -30,6 +30,7 @@ const AGENT_IDS = resolve(WEB_PUBLIC, "agent-ids.json");
 const LIVE_CHAIN = resolve(WEB_PUBLIC, "live-chain.json");
 const EVENTS = resolve(WEB_PUBLIC, "events.json");
 const TREASURY_RECORD = resolve(WEB_PUBLIC, "deployed-treasury.json");
+const PAYMASTER_RECORD = resolve(WEB_PUBLIC, "deployed-paymaster.json");
 const LOGO = resolve(ROOT, "assets/buidl-logo-480.png");
 const PREFLIGHT_JSON = resolve(WEB_PUBLIC, "preflight.json");
 
@@ -192,6 +193,21 @@ function main(): void {
           level: "warn",
           label: "deployed-treasury.json",
           detail: "Missing. Run npm run deploy-treasury after funding the deployer wallet."
+        }
+  );
+
+  const paymaster = readJson<{ address?: string }>(PAYMASTER_RECORD);
+  checks.push(
+    paymaster?.address
+      ? {
+          level: "pass",
+          label: "deployed-paymaster.json",
+          detail: `ValidatorPaymaster record present: ${paymaster.address}.`
+        }
+      : {
+          level: "warn",
+          label: "deployed-paymaster.json",
+          detail: "Missing. Run npm run deploy-paymaster to turn x402 validation fees into real txs."
         }
   );
 

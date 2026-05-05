@@ -34,7 +34,51 @@ Core demo loop:
 5. Sentinel re-simulates / re-checks Claw's output and posts a
    `validationResponse` (0–100) to the ERC-8004 ValidationRegistry.
 
-## Latest round
+## Latest round — x402 paid validation (the agent economy)
+
+- **`ValidatorPaymaster.sol`** — minimal 90-line escrow contract.
+  - `depositForRequest(validator, requestHash)` — Claw escrows MNT keyed by
+    the same `requestHash` ERC-8004 ValidationRegistry uses.
+  - `withdraw(amountWei)` / `withdrawAll()` — Sentinel pulls accumulated MNT.
+  - `totalEarned(validator)` — gross-earned tracker, distinct from
+    unwithdrawn balance. Useful as on-chain reputation proxy.
+  - `receive()` redirects accidental sends back to the sender to make the
+    contract foot-gun proof.
+- **9 Foundry tests** at `contracts/test/ValidatorPaymaster.t.sol` covering
+  happy path, replay protection on requestHash, zero-fee revert, zero-validator
+  revert, withdraw, withdrawAll, insufficient balance, deposit event emission,
+  receive credit safety, multi-request accumulation.
+- **Type system updated**:
+  - `ValidationOutcome.payment?: ValidationPayment` carries `paymentTx`,
+    `feePaidWei`, `paymaster`, `validatorAddress`, `payerAddress`,
+    `explorerUrl`.
+  - `DemoHistory.cumulativeEarningsWei?: Record<string, string>` — per-agent
+    cumulative MNT earned across cycles (string for JSON safety).
+  - `validatorPaymasterAbi` exported from `@clawdao/core` for scripts.
+  - `DEFAULT_VALIDATOR_FEE_WEI = 1e15` (0.001 MNT per validation).
+- **Demo runner** now records a synthetic x402 payment for every cycle that
+  produces a real validation. The fee is not yet broadcast; once the paymaster
+  is deployed and `FEE_PAYMENT_MODE=real`, write-validation.ts will replace
+  the synthetic record with the actual deposit tx hash.
+- **Demo runner aligned with ERC-8004 spec**: validation request is now
+  attributed to Claw (the executor / subject agent owner), not Ledger,
+  matching what the on-chain script already does and what the registry
+  enforces.
+- **Dashboard upgrades**:
+  - Hero hook → **"The first wallet that grades its own employees."**
+    Subhead lists the registries + treasury count.
+  - Hero copy reframed around the agent-economy verbs (proposes, signs,
+    executes, gets paid, writes verdicts).
+  - StatHero gains a 6th tile: **Validator earnings** in MNT, with
+    "x402 escrow" footnote (green tone).
+  - New **Agent Earnings (x402)** panel: per-agent cumulative MNT received,
+    sorted high-to-low, with idle-state coaching.
+  - Validation panel adds an **x402 fee** row showing
+    `0.001000 MNT → Sentinel (synthetic)` or with explorer link when real.
+- 8 demo cycles produce: Sentinel earned 0.006000 MNT (6 successful cycles
+  × 0.001 MNT; oversized-action and hold-cycle correctly do not pay).
+
+## Earlier rounds
 
 - **On-chain rehearsal toolkit**: three new scripts + the operator runbook
   let you go from `npm run wallets` to a fully signed `SUBMISSION_HASHES.md`

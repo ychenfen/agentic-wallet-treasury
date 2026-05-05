@@ -23,6 +23,7 @@ import {
   defaultAgents,
   defaultPolicy,
   erc8004ReputationAbi,
+  DEFAULT_VALIDATOR_FEE_WEI,
   type AgentIdentity,
   type DemoRun,
   type ExecutionResult,
@@ -39,6 +40,7 @@ import {
   buildValidationOutcome,
   noOpValidation,
   skippedValidation,
+  syntheticPayment,
   runSentinelReSimulation,
   type AgentSlug,
   type AgentWallet,
@@ -257,6 +259,19 @@ async function buildValidation(
     summary = `Sentinel ${adapterTag} re-simulation: realized ${reSimulation.hints.realizedSlippageBps} bps slippage vs ${reSimulation.hints.toleranceBps} bps tolerance on a ${reSimulation.hints.poolDepth} pool; score ${reSimulation.score}/100 (${verdictWord}).`;
   }
 
+  // x402-style payment: Claw paid Sentinel a fee for the validation. In
+  // mock/offline mode this is synthetic (paymentTx undefined). Once the
+  // ValidatorPaymaster is deployed and FEE_PAYMENT_MODE=real, write-validation.ts
+  // will replace this with a real on-chain deposit tx hash.
+  const feeWei = process.env.VALIDATOR_FEE_WEI
+    ? BigInt(process.env.VALIDATOR_FEE_WEI)
+    : DEFAULT_VALIDATOR_FEE_WEI;
+  const payment = syntheticPayment(
+    feeWei,
+    validatorWallet.address,
+    requesterWallet.address
+  );
+
   return buildValidationOutcome({
     subjectAgentId,
     validatorWallet,
@@ -265,14 +280,16 @@ async function buildValidation(
       scenarioId: scenario.id,
       proposalId: scenario.proposal.id,
       execution,
-      reSimulation
+      reSimulation,
+      payment
     },
     tag: "execution-validity",
     requestURI: "",
     responseURI: "",
     response: score,
     summary,
-    reSimulation
+    reSimulation,
+    payment
   });
 }
 
@@ -317,13 +334,20 @@ async function main(): Promise<void> {
     proofSeed: process.env.DEMO_SEED ?? `cycle-${cycle}`
   });
 
+  // The subject of validation is Claw's execution, so per ERC-8004 spec the
+  // request must come from Claw (the subject agent's owner). Claw also pays
+  // the x402 fee. Auditor remains in the loop as the agent that writes
+  // ReputationRegistry feedback (separate flow from validation).
   const validation = await buildValidation(
     scenario,
     validatorWallet,
-    auditorWallet,
+    executorWallet,
     execution,
     ids.ids.executor
   );
+  // Suppress unused-var warning; auditorWallet is reserved for future
+  // ReputationRegistry direct-broadcast hooks.
+  void auditorWallet;
 
   const identities = buildIdentities(ids.ids, addresses, verdict, execution, validation);
 

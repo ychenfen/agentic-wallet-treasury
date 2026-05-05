@@ -28,7 +28,8 @@ import {
   ERC8004,
   erc8004IdentityAbi,
   erc8004ReputationAbi,
-  erc8004ValidationAbi
+  erc8004ValidationAbi,
+  validatorPaymasterAbi
 } from "@clawdao/core";
 import { loadProjectEnv, type AgentIdsFile } from "@clawdao/core/node";
 
@@ -36,9 +37,10 @@ const ROOT = resolve(process.cwd(), "..");
 const EVENTS_PATH = resolve(ROOT, "apps/web/public/events.json");
 const AGENT_IDS_PATH = resolve(ROOT, "apps/web/public/agent-ids.json");
 const TREASURY_RECORD_PATH = resolve(ROOT, "apps/web/public/deployed-treasury.json");
+const PAYMASTER_RECORD_PATH = resolve(ROOT, "apps/web/public/deployed-paymaster.json");
 
 interface EventRecord {
-  source: "identity" | "reputation" | "validation" | "treasury";
+  source: "identity" | "reputation" | "validation" | "treasury" | "paymaster";
   name: string;
   blockNumber: number;
   txHash: `0x${string}`;
@@ -100,6 +102,17 @@ function loadTreasuryAddress(): `0x${string}` | undefined {
   if (!existsSync(TREASURY_RECORD_PATH)) return undefined;
   try {
     const r = JSON.parse(readFileSync(TREASURY_RECORD_PATH, "utf8")) as { address?: `0x${string}` };
+    return r.address;
+  } catch {
+    return undefined;
+  }
+}
+
+function loadPaymasterAddress(): `0x${string}` | undefined {
+  if (process.env.PAYMASTER_ADDRESS) return process.env.PAYMASTER_ADDRESS as `0x${string}`;
+  if (!existsSync(PAYMASTER_RECORD_PATH)) return undefined;
+  try {
+    const r = JSON.parse(readFileSync(PAYMASTER_RECORD_PATH, "utf8")) as { address?: `0x${string}` };
     return r.address;
   } catch {
     return undefined;
@@ -248,6 +261,16 @@ function buildFixture(): EventRecord[] {
       explorerUrl: `${explorer}/tx/0xfeed11111111111111111111111111111111111111111111111111111111cc01`
     },
     {
+      source: "paymaster",
+      name: "Deposited",
+      blockNumber: baseBlock + 4,
+      txHash: "0xfeed11111111111111111111111111111111111111111111111111111111dd01",
+      logIndex: 0,
+      observedAt: new Date(Date.now() - 45_000).toISOString(),
+      args: { validator: "0x0b22…a657e0", payer: "0x7aca…b36b10", requestHash: "0x1d7e…313dc480", amountWei: "1000000000000000" },
+      explorerUrl: `${explorer}/tx/0xfeed11111111111111111111111111111111111111111111111111111111dd01`
+    },
+    {
       source: "validation",
       name: "ValidationResponse",
       blockNumber: baseBlock + 3,
@@ -291,12 +314,14 @@ async function backfill(
   const head = await client.getBlockNumber();
   const from = head > lookback ? head - lookback : 0n;
   const treasury = loadTreasuryAddress();
+  const paymaster = loadPaymasterAddress();
 
   const logsNested = await Promise.all([
     client.getLogs({ address: ERC8004.mantleSepolia.identityRegistry, fromBlock: from }),
     client.getLogs({ address: ERC8004.mantleSepolia.reputationRegistry, fromBlock: from }),
     client.getLogs({ address: ERC8004.mantleSepolia.validationRegistry, fromBlock: from }),
-    treasury ? client.getLogs({ address: treasury, fromBlock: from }) : Promise.resolve([])
+    treasury ? client.getLogs({ address: treasury, fromBlock: from }) : Promise.resolve([]),
+    paymaster ? client.getLogs({ address: paymaster, fromBlock: from }) : Promise.resolve([])
   ]);
 
   const records: EventRecord[] = [];
@@ -304,7 +329,8 @@ async function backfill(
     { source: "identity", abi: erc8004IdentityAbi as unknown as readonly unknown[] },
     { source: "reputation", abi: erc8004ReputationAbi as unknown as readonly unknown[] },
     { source: "validation", abi: erc8004ValidationAbi as unknown as readonly unknown[] },
-    { source: "treasury", abi: treasuryActionAbi as unknown as readonly unknown[] }
+    { source: "treasury", abi: treasuryActionAbi as unknown as readonly unknown[] },
+    { source: "paymaster", abi: validatorPaymasterAbi as unknown as readonly unknown[] }
   ];
   for (let i = 0; i < sources.length; i += 1) {
     const { source, abi } = sources[i];
@@ -353,6 +379,7 @@ async function main(): Promise<void> {
   if (once) return;
 
   const treasury = loadTreasuryAddress();
+  const paymaster = loadPaymasterAddress();
   const stops: Array<() => void> = [];
 
   const subscribe = (
@@ -383,6 +410,9 @@ async function main(): Promise<void> {
   subscribe(ERC8004.mantleSepolia.validationRegistry, erc8004ValidationAbi as never, "validation");
   if (treasury) {
     subscribe(treasury, treasuryActionAbi as never, "treasury");
+  }
+  if (paymaster) {
+    subscribe(paymaster, validatorPaymasterAbi as never, "paymaster");
   }
 
   // eslint-disable-next-line no-console

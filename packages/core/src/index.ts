@@ -102,6 +102,26 @@ export interface ReSimResult {
 }
 
 /**
+ * Receipt of an x402-style payment Claw made to Sentinel before requesting
+ * validation. The pair (paymentTx, requestHash) is what links the
+ * ValidatorPaymaster deposit to the ERC-8004 ValidationRegistry request.
+ */
+export interface ValidationPayment {
+  /** Hex tx hash of the deposit on ValidatorPaymaster. */
+  paymentTx?: `0x${string}`;
+  /** Wei the payer escrowed. Stored as decimal string for JSON safety. */
+  feePaidWei: string;
+  /** The paymaster contract address used. */
+  paymaster?: `0x${string}`;
+  /** Address of the validator that earned the fee. */
+  validatorAddress?: `0x${string}`;
+  /** Address of the payer (subject agent owner). */
+  payerAddress?: `0x${string}`;
+  /** Explorer link for the deposit tx, when known. */
+  explorerUrl?: string;
+}
+
+/**
  * ValidationRegistry response in [0, 100]. 100 = fully approved by validator.
  * Validator can also withhold a response by leaving it as 0.
  */
@@ -130,6 +150,8 @@ export interface ValidationOutcome {
   passed: boolean;
   /** Optional structured re-simulation breakdown when Sentinel ran one. */
   reSimulation?: ReSimResult;
+  /** x402-style payment that paid the validator for this validation. */
+  payment?: ValidationPayment;
 }
 
 export interface ReputationEvent {
@@ -212,6 +234,11 @@ export interface DemoHistory {
   cycles: CycleSummary[];
   /** Per-agent cumulative reputation, keyed by agent name. */
   cumulativeReputation: Record<string, number>;
+  /**
+   * Per-agent cumulative wei earned from x402-style validation payments.
+   * Stored as decimal strings (JSON-safe). Keyed by agent name (e.g. "Sentinel").
+   */
+  cumulativeEarningsWei?: Record<string, string>;
   /** Last cycle number persisted. */
   lastCycle: number;
 }
@@ -380,6 +407,97 @@ export const erc8004IdentityAbi = [
     ]
   }
 ] as const;
+
+/**
+ * ABI for ValidatorPaymaster, our minimal x402-style escrow
+ * (contracts/src/ValidatorPaymaster.sol). Address gets injected at
+ * deploy time and persisted to apps/web/public/deployed-paymaster.json.
+ */
+export const validatorPaymasterAbi = [
+  {
+    type: "function",
+    name: "depositForRequest",
+    stateMutability: "payable",
+    inputs: [
+      { name: "validator", type: "address" },
+      { name: "requestHash", type: "bytes32" }
+    ],
+    outputs: []
+  },
+  {
+    type: "function",
+    name: "withdraw",
+    stateMutability: "nonpayable",
+    inputs: [{ name: "amountWei", type: "uint256" }],
+    outputs: []
+  },
+  {
+    type: "function",
+    name: "withdrawAll",
+    stateMutability: "nonpayable",
+    inputs: [],
+    outputs: [{ name: "amount", type: "uint256" }]
+  },
+  {
+    type: "function",
+    name: "balances",
+    stateMutability: "view",
+    inputs: [{ name: "validator", type: "address" }],
+    outputs: [{ name: "", type: "uint256" }]
+  },
+  {
+    type: "function",
+    name: "totalEarned",
+    stateMutability: "view",
+    inputs: [{ name: "validator", type: "address" }],
+    outputs: [{ name: "", type: "uint256" }]
+  },
+  {
+    type: "function",
+    name: "escrowed",
+    stateMutability: "view",
+    inputs: [{ name: "requestHash", type: "bytes32" }],
+    outputs: [{ name: "", type: "uint256" }]
+  },
+  {
+    type: "function",
+    name: "validatorOf",
+    stateMutability: "view",
+    inputs: [{ name: "requestHash", type: "bytes32" }],
+    outputs: [{ name: "", type: "address" }]
+  },
+  {
+    type: "function",
+    name: "escrowedFor",
+    stateMutability: "view",
+    inputs: [{ name: "requestHash", type: "bytes32" }],
+    outputs: [
+      { name: "validator", type: "address" },
+      { name: "amountWei", type: "uint256" }
+    ]
+  },
+  {
+    type: "event",
+    name: "Deposited",
+    inputs: [
+      { name: "validator", type: "address", indexed: true },
+      { name: "payer", type: "address", indexed: true },
+      { name: "requestHash", type: "bytes32", indexed: true },
+      { name: "amountWei", type: "uint256", indexed: false }
+    ]
+  },
+  {
+    type: "event",
+    name: "Withdrawn",
+    inputs: [
+      { name: "validator", type: "address", indexed: true },
+      { name: "amountWei", type: "uint256", indexed: false }
+    ]
+  }
+] as const;
+
+/** Default validator fee = 0.001 MNT per request, expressed in wei. */
+export const DEFAULT_VALIDATOR_FEE_WEI: bigint = 1_000_000_000_000_000n; // 1e15
 
 // ABI verified against
 //   github.com/erc-8004/erc-8004-contracts/blob/main/abis/ValidationRegistry.json

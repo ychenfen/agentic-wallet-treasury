@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-05T04:01:58.183Z",
+  "generatedAt": "2026-05-05T08:41:53.041Z",
   "network": {
     "name": "Mantle Sepolia",
     "chainId": 5003,
@@ -36,7 +36,7 @@
       "feedbackCount": 0,
       "summaryValue": 0,
       "summaryDecimals": 0,
-      "validationCount": 1,
+      "validationCount": 2,
       "validationAvg": 92
     },
     {

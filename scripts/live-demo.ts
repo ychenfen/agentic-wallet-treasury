@@ -5,10 +5,11 @@
  *   1. Print env diagnostics.
  *   2. Always: run agent demo runner (writes demo-run.json + agents/*.json).
  *   3. --deploy:   deploy AgenticTreasury (writes deployed-treasury.json + .env).
- *   4. --register: broadcast register-agents (writes agent-ids.json) and re-run demo.
- *   5. --feedback: broadcast write-feedback.
- *   6. --validate: broadcast write-validation.
- *   7. --watch:    snapshot chain state once (POLL_ONCE) + backfill events once (WATCH_ONCE).
+ *   4. --paymaster: deploy ValidatorPaymaster (writes deployed-paymaster.json + .env).
+ *   5. --register: broadcast register-agents (writes agent-ids.json) and re-run demo.
+ *   6. --feedback: broadcast write-feedback.
+ *   7. --validate: broadcast paymaster deposit + validation request + response.
+ *   8. --watch:    snapshot chain state once (POLL_ONCE) + backfill events once (WATCH_ONCE).
  *
  * Default behaviour (no flags) is safe: no on-chain transactions, just regenerate
  * the local demo state.
@@ -20,6 +21,7 @@ import { loadProjectEnv } from "@clawdao/core/node";
 
 interface CliFlags {
   deploy: boolean;
+  paymaster: boolean;
   register: boolean;
   feedback: boolean;
   validate: boolean;
@@ -30,6 +32,7 @@ function parseFlags(): CliFlags {
   const args = new Set(process.argv.slice(2));
   return {
     deploy: args.has("--deploy"),
+    paymaster: args.has("--paymaster"),
     register: args.has("--register"),
     feedback: args.has("--feedback"),
     validate: args.has("--validate"),
@@ -80,6 +83,13 @@ async function main(): Promise<void> {
     // eslint-disable-next-line no-console
     console.log("\n== Step 2: deploy AgenticTreasury ==");
     await run("npm", ["run", "deploy-treasury"], root);
+  }
+
+  if (flags.paymaster) {
+    // eslint-disable-next-line no-console
+    console.log("\n== Step 2b: deploy ValidatorPaymaster ==");
+    await run("npm", ["run", "compile-paymaster"], root);
+    await run("npm", ["run", "deploy-paymaster"], root);
   }
 
   if (flags.register) {

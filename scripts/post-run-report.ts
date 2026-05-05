@@ -61,6 +61,7 @@ interface EventsFile {
 const ROOT = resolve(process.cwd(), "..");
 const PUBLIC = resolve(ROOT, "apps/web/public");
 const TREASURY = resolve(PUBLIC, "deployed-treasury.json");
+const PAYMASTER = resolve(PUBLIC, "deployed-paymaster.json");
 const AGENT_IDS = resolve(PUBLIC, "agent-ids.json");
 const DEMO_RUN = resolve(PUBLIC, "demo-run.json");
 const EVENTS = resolve(PUBLIC, "events.json");
@@ -106,6 +107,7 @@ function main(): void {
   loadProjectEnv({ includeGenerated: true });
 
   const treasury = readJson<DeployedTreasury>(TREASURY);
+  const paymaster = readJson<DeployedTreasury>(PAYMASTER);
   const ids = readJson<AgentIdsFile>(AGENT_IDS);
   const run = readJson<DemoRun>(DEMO_RUN);
   const eventsFile = readJson<EventsFile>(EVENTS);
@@ -135,8 +137,26 @@ function main(): void {
   }
   lines.push("");
 
-  // Section 2 — Agent identities.
-  lines.push("## 2. ERC-8004 agent identities");
+  // Section 2 — ValidatorPaymaster deployment.
+  lines.push("## 2. ValidatorPaymaster x402 escrow");
+  lines.push("");
+  if (paymaster) {
+    lines.push(bullet("Address", `${addressLink(paymaster.address)} on ${paymaster.network} (chainId ${paymaster.chainId})`));
+    lines.push(bullet("Deployer / Owner", addressLink(paymaster.owner)));
+    lines.push(bullet("Deploy tx", txLink(paymaster.txHash)));
+    if (run?.validation.payment) {
+      const p = run.validation.payment;
+      lines.push(bullet("Latest validation fee", `${p.feePaidWei} wei from ${addressLink(p.payerAddress)} to Sentinel ${addressLink(p.validatorAddress)}`));
+      lines.push(bullet("Payment tx", txLink(p.paymentTx)));
+      lines.push(bullet("Linked requestHash", run.validation.requestHash));
+    }
+  } else {
+    lines.push(bullet("Status", "_not deployed yet — run `npm run deploy-paymaster`_"));
+  }
+  lines.push("");
+
+  // Section 3 — Agent identities.
+  lines.push("## 3. ERC-8004 agent identities");
   lines.push("");
   if (ids && ids.agents.length > 0) {
     lines.push(`Registry: ${addressLink(ids.registry)} on ${ids.network}`);
@@ -153,8 +173,8 @@ function main(): void {
   }
   lines.push("");
 
-  // Section 3 — Latest cycle.
-  lines.push("## 3. Latest cycle");
+  // Section 4 — Latest cycle.
+  lines.push("## 4. Latest cycle");
   lines.push("");
   if (run) {
     lines.push(bullet("Cycle #", `${run.cycle} (scenario \`${run.scenarioId}\`)`));
@@ -162,6 +182,9 @@ function main(): void {
     lines.push(bullet("Verdict", `${run.verdict.approved ? "approved" : "blocked"} (${run.verdict.score}/100)`));
     lines.push(bullet("Execution", `${run.execution.adapter} · ${run.execution.status} · tx ${txLink(run.execution.txHash)}`));
     lines.push(bullet("Validation", `${run.validation.response}/100 (${run.validation.passed ? "passed" : "rejected"}) · request hash ${run.validation.requestHash}`));
+    if (run.validation.payment) {
+      lines.push(bullet("x402 validator fee", `${run.validation.payment.feePaidWei} wei · paymaster ${addressLink(run.validation.payment.paymaster)} · tx ${txLink(run.validation.payment.paymentTx)}`));
+    }
     if (run.validation.reSimulation) {
       const r = run.validation.reSimulation;
       lines.push(bullet("Sentinel re-sim", `adapter=${r.adapter} · realized ${r.hints.realizedSlippageBps} bps vs ${r.hints.toleranceBps} bps · pool=${r.hints.poolDepth} · score ${r.score}/${r.passThreshold}`));
@@ -171,8 +194,8 @@ function main(): void {
   }
   lines.push("");
 
-  // Section 4 — Recent on-chain events.
-  lines.push("## 4. Recent on-chain events");
+  // Section 5 — Recent on-chain events.
+  lines.push("## 5. Recent on-chain events");
   lines.push("");
   if (eventsFile && eventsFile.events.length > 0) {
     lines.push("| Block | Source | Event | Agent | Args | Tx |");
@@ -192,8 +215,8 @@ function main(): void {
   }
   lines.push("");
 
-  // Section 5 — Verification commands.
-  lines.push("## 5. Reproduce these claims");
+  // Section 6 — Verification commands.
+  lines.push("## 6. Reproduce these claims");
   lines.push("");
   lines.push("```bash");
   lines.push("npm run verify          # reads tokenURI / ownerOf / getSummary on-chain for every agent");

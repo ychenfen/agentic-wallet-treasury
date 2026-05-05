@@ -7,8 +7,8 @@
  *   2. validationResponse(requestHash, response, responseURI, responseHash, tag)
  *      MUST be called by the requested validator.
  *
- * In our demo, the auditor (Ledger) requests validation of the executor
- * (Claw)'s tx, and the validator (Sentinel) signs the response.
+ * In our demo, the executor (Claw) requests validation of its own tx, pays
+ * Sentinel through ValidatorPaymaster, and Sentinel signs the response.
  */
 
 import { createHash } from "node:crypto";
@@ -17,7 +17,8 @@ import {
   ERC8004,
   erc8004ValidationAbi,
   type ReSimResult,
-  type ValidationOutcome
+  type ValidationOutcome,
+  type ValidationPayment
 } from "../index.js";
 import type { AgentWallet } from "../wallets.js";
 
@@ -26,7 +27,7 @@ export interface ValidationInputs {
   subjectAgentId: number;
   /** Validator agent (Sentinel) wallet. Used as recipient of the request. */
   validatorWallet: AgentWallet;
-  /** Auditor agent (Ledger) wallet. Owner of the subject agent or its operator. */
+  /** Requester wallet. For execution validation this is Claw, the subject owner. */
   requesterWallet: AgentWallet;
   /** Free-form payload describing what is being validated. */
   payload: Record<string, unknown>;
@@ -42,6 +43,8 @@ export interface ValidationInputs {
   summary: string;
   /** Optional structured re-simulation Sentinel ran. Echoed into ValidationOutcome. */
   reSimulation?: ReSimResult;
+  /** x402-style payment receipt linking the deposit tx to this validation. */
+  payment?: ValidationPayment;
 }
 
 function hashJson(obj: unknown): Hex {
@@ -95,13 +98,34 @@ export function buildValidationOutcome(input: ValidationInputs): ValidationOutco
     responseCalldata,
     summary: input.summary,
     passed: input.response >= 60,
-    reSimulation: input.reSimulation
+    reSimulation: input.reSimulation,
+    payment: input.payment
   };
 }
 
 /** Used by tests / scripts to hex-encode an arbitrary buffer. */
 export function bufToHex(buf: Uint8Array): Hex {
   return toHex(buf);
+}
+
+/**
+ * Build a "synthetic" off-chain payment receipt for cycles that run without
+ * a deployed ValidatorPaymaster (mock + offline modes). Lets the dashboard
+ * still show the agent-economy story while making it obvious that no real
+ * MNT moved by leaving paymentTx undefined.
+ */
+export function syntheticPayment(
+  feeWei: bigint,
+  validatorAddress?: `0x${string}`,
+  payerAddress?: `0x${string}`
+): ValidationPayment {
+  return {
+    paymentTx: undefined,
+    feePaidWei: feeWei.toString(),
+    paymaster: undefined,
+    validatorAddress,
+    payerAddress
+  };
 }
 
 /** Convenience: produce a placeholder ValidationOutcome when execution was skipped. */

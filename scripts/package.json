@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "compile-treasury": "tsx compile-treasury.ts",
+    "compile-paymaster": "tsx compile-paymaster.ts",
     "register": "tsx register-agents.ts",
     "feedback": "tsx write-feedback.ts",
     "validate": "tsx write-validation.ts",
@@ -15,6 +16,7 @@
     "preflight": "tsx preflight.ts",
     "watch-events": "tsx watch-events.ts",
     "deploy-treasury": "tsx deploy-treasury.ts",
+    "deploy-paymaster": "tsx deploy-paymaster.ts",
     "balance": "tsx balance-check.ts",
     "report": "tsx post-run-report.ts",
     "record": "tsx record-walkthrough.ts",

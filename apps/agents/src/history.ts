@@ -9,7 +9,12 @@ import { dirname } from "node:path";
 import type { CycleSummary, DemoHistory, DemoRun } from "@clawdao/core";
 
 const MAX_CYCLES = 20;
-const EMPTY: DemoHistory = { cycles: [], cumulativeReputation: {}, lastCycle: 0 };
+const EMPTY: DemoHistory = {
+  cycles: [],
+  cumulativeReputation: {},
+  cumulativeEarningsWei: {},
+  lastCycle: 0
+};
 
 export function loadHistory(historyPath: string): DemoHistory {
   if (!existsSync(historyPath)) return { ...EMPTY };
@@ -18,6 +23,7 @@ export function loadHistory(historyPath: string): DemoHistory {
     return {
       cycles: Array.isArray(parsed.cycles) ? parsed.cycles : [],
       cumulativeReputation: parsed.cumulativeReputation ?? {},
+      cumulativeEarningsWei: parsed.cumulativeEarningsWei ?? {},
       lastCycle: typeof parsed.lastCycle === "number" ? parsed.lastCycle : 0
     };
   } catch {
@@ -46,10 +52,25 @@ export async function appendCycle(historyPath: string, run: DemoRun): Promise<De
   for (const event of run.reputation) {
     cumulative[event.agent] = (cumulative[event.agent] ?? 0) + event.value;
   }
+
+  // Roll up x402 validator earnings keyed by agent name.
+  const earnings: Record<string, string> = { ...(current.cumulativeEarningsWei ?? {}) };
+  const payment = run.validation.payment;
+  if (payment && payment.feePaidWei && payment.feePaidWei !== "0") {
+    const validatorAgent = run.identities.find(
+      (a) => a.role === "validator" && a.wallet.toLowerCase() === (payment.validatorAddress ?? "").toLowerCase()
+    );
+    const key = validatorAgent?.name ?? "Sentinel";
+    const prev = BigInt(earnings[key] ?? "0");
+    const add = BigInt(payment.feePaidWei);
+    earnings[key] = (prev + add).toString();
+  }
+
   const cycles = [summaryFor(run), ...current.cycles].slice(0, MAX_CYCLES);
   const next: DemoHistory = {
     cycles,
     cumulativeReputation: cumulative,
+    cumulativeEarningsWei: earnings,
     lastCycle: run.cycle
   };
   await mkdir(dirname(historyPath), { recursive: true });

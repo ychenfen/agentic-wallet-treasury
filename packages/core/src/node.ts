@@ -46,6 +46,7 @@ export {
   buildValidationOutcome,
   noOpValidation,
   skippedValidation,
+  syntheticPayment,
   VALIDATION_REGISTRY_ADDRESSES,
   type ValidationInputs
 } from "./executors/validation.js";
