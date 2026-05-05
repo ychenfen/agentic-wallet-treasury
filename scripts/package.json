@@ -17,6 +17,8 @@
     "deploy-treasury": "tsx deploy-treasury.ts",
     "balance": "tsx balance-check.ts",
     "report": "tsx post-run-report.ts",
+    "record": "tsx record-walkthrough.ts",
+    "record:screens": "RECORD_SCREENSHOTS_ONLY=1 tsx record-walkthrough.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -26,6 +28,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.15.3",
+    "playwright": "^1.49.1",
     "typescript": "^5.8.3"
   }
 }

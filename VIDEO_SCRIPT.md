@@ -97,3 +97,33 @@ Show:
 - Do not show `.env`, `.env.generated`, terminal history with secrets, or wallet seed phrases.
 - Open Mantlescan links in separate tabs before recording to avoid loading pauses.
 - End on the GitHub repo or evidence report.
+
+## Automated dashboard walkthrough (silent base track)
+
+For a no-voice base recording you can drop a voiceover onto, run:
+
+```bash
+npm i -D playwright -w @clawdao/scripts
+npx playwright install chromium
+
+npm run record           # produces artifacts/video/dashboard-walkthrough.{webm,mp4}
+                         # plus per-section PNGs in artifacts/screenshots/
+
+# screenshots only (faster, no video render):
+npm run record:screens
+```
+
+Optional env:
+
+| Var | Default | Purpose |
+|---|---|---|
+| `DASHBOARD_URL` | public GitHub Pages URL | Override to record a local Vite dev server. |
+| `VIEWPORT_WIDTH` / `VIEWPORT_HEIGHT` | 1920 × 1080 | Capture resolution. |
+| `HEADLESS` | `1` | Set to `0` to watch the run live. |
+
+The recorder mirrors the timeline above, scrolls each section into view,
+holds for the right number of seconds, and snapshots a per-section PNG so
+you can use them as fallback frames if the recording is rough.
+
+If `ffmpeg` is on PATH, the recorder also produces `dashboard-walkthrough.mp4`
+alongside the canonical `.webm`.

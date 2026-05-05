@@ -49,7 +49,11 @@ https://ychenfen.github.io/agentic-wallet-treasury/
 **Demo video**
 
 ```text
-TODO: add final YouTube / Loom link after recording.
+Draft video:
+https://github.com/ychenfen/agentic-wallet-treasury/blob/main/artifacts/video/agentic-wallet-treasury-demo-draft.mp4
+
+Final submission TODO:
+Upload the MP4 to YouTube or Loom and paste that public URL here so DoraHacks can embed it.
 ```
 
 **Pitch deck**

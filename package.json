@@ -28,6 +28,8 @@
     "deploy-treasury": "npm run deploy-treasury -w @clawdao/scripts",
     "balance": "npm run balance -w @clawdao/scripts",
     "report": "npm run report -w @clawdao/scripts",
+    "record": "npm run record -w @clawdao/scripts",
+    "record:screens": "npm run record:screens -w @clawdao/scripts",
     "live-demo": "npm run live-demo -w @clawdao/scripts --"
   },
   "engines": {

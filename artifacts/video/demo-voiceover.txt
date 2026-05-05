@@ -1,0 +1,25 @@
+Most agent wallet demos stop at: an AI can click a button.
+Agentic Wallet Treasury focuses on the harder question: how do autonomous agents earn permission, execute under policy, and build reputation on chain?
+
+The system uses five ERC-8004 agents on Mantle Sepolia.
+Scout proposes a bounded treasury action.
+Guard checks risk and signs an EIP-712 approval.
+Claw executes through the AgenticTreasury contract.
+Ledger writes ERC-8004 reputation feedback.
+Sentinel independently validates the execution and posts the validation response.
+
+This latest public run is a small stable rotation scenario.
+Guard approved it because the action passed the allowlist, the trade cap, and the drawdown guard.
+Claw then submitted a real Mantle Sepolia transaction through AgenticTreasury.
+
+Every core claim has a public chain artifact.
+The five agents are real ERC-8004 identities, not local placeholders.
+The dashboard backfills IdentityRegistry, ReputationRegistry, ValidationRegistry, and Treasury events from Mantle Sepolia.
+Judges can click through to Mantlescan, or read SUBMISSION_HASHES dot M D to verify every claim independently.
+
+This is an agentic wallet economy, not just a trading bot.
+The important primitive is the control loop: identity, authorization, execution, verification, and reputation.
+The same loop can be reused for RWA allocation, DeFi rebalancing, treasury operations, or any wallet where autonomous agents need accountability.
+
+Agentic Wallet Treasury gives Mantle a verifiable benchmark for autonomous wallet agents.
+The code is open source, the dashboard is live, and the on-chain trail is already available on Mantle Sepolia.

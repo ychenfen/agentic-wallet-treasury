@@ -10,3 +10,8 @@ out
 broadcast
 .DS_Store
 contracts/lib/forge-std
+artifacts/video/raw/
+artifacts/video/*.webm
+artifacts/video/dashboard-walkthrough.mp4
+artifacts/video/*.aiff
+artifacts/video/*.m4a
