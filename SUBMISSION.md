@@ -1,6 +1,6 @@
 # DoraHacks Submission Plan
 
-Last updated: 2026-05-04
+Last updated: 2026-05-05
 
 ## Where To Submit
 
@@ -89,18 +89,44 @@ Recommended final link set:
 
 ```text
 GitHub:
+https://github.com/ychenfen/agentic-wallet-treasury
+
 Live demo:
+https://ychenfen.github.io/agentic-wallet-treasury/
+
 Demo video:
+
 Pitch deck:
+
 AgenticTreasury contract:
+https://sepolia.mantlescan.xyz/address/0x739862c3cf9b5f9fe6a8ecd95e75714a20116fe9
+
 Scout ERC-8004 agent:
+https://sepolia.mantlescan.xyz/tx/0x999a3c96fa65943c0f9a525ee5cbf7188c4c745b5873676d7d44afb8d4f22a15
+
 Guard ERC-8004 agent:
+https://sepolia.mantlescan.xyz/tx/0x830efbc9db19b8a77ac1419c4e3abb96e04842cf7fe661f4606a65b4edaefbe8
+
 Claw ERC-8004 agent:
+https://sepolia.mantlescan.xyz/tx/0xa715a9833a69975e420b3af81daf0ddb309f32a1a6d06c47c070ed13339edb07
+
 Ledger ERC-8004 agent:
+https://sepolia.mantlescan.xyz/tx/0x9c5954290cd07294be6f6bb01525f5bf38a495f1f39d9e9a238f7cdd8dd2e4a2
+
 Sentinel ERC-8004 agent:
+https://sepolia.mantlescan.xyz/tx/0xdb8f92d47cf3ab309b3d4f15544a7585156b1b6d318ebcb0edd2e56c155e9594
+
 Reputation tx:
+https://sepolia.mantlescan.xyz/tx/0x9c54f0c603b87cbf87a3e8046cf40ad1ab6c185d6e4503c4c020f7f9eb9409e6
+
+Treasury execution tx:
+https://sepolia.mantlescan.xyz/tx/0xa3d26423e3ab39e4303009d862d2e3f9f6d50fcc8139f93c3d73821999a4ca8a
+
 Validation request tx:
+https://sepolia.mantlescan.xyz/tx/0x652b71548464cdd81913c18ab2cf3a8a691320fa324a3d35416715c90dc448b6
+
 Validation response tx:
+https://sepolia.mantlescan.xyz/tx/0xe4897d7e5fcc38369eb02b374078416612e6b60c4c77226808962421692cca8d
 ```
 
 ## Description Draft
