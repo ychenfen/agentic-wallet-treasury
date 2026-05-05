@@ -31,6 +31,7 @@ const LIVE_CHAIN = resolve(WEB_PUBLIC, "live-chain.json");
 const EVENTS = resolve(WEB_PUBLIC, "events.json");
 const TREASURY_RECORD = resolve(WEB_PUBLIC, "deployed-treasury.json");
 const PAYMASTER_RECORD = resolve(WEB_PUBLIC, "deployed-paymaster.json");
+const BYREAL_PROBE = resolve(WEB_PUBLIC, "byreal-probe.json");
 const LOGO = resolve(ROOT, "assets/buidl-logo-480.png");
 const PREFLIGHT_JSON = resolve(WEB_PUBLIC, "preflight.json");
 
@@ -208,6 +209,26 @@ function main(): void {
           level: "warn",
           label: "deployed-paymaster.json",
           detail: "Missing. Run npm run deploy-paymaster to turn x402 validation fees into real txs."
+        }
+  );
+
+  const byreal = readJson<{
+    status?: string;
+    cliVersion?: string;
+    capabilityCount?: number;
+    topPools?: unknown[];
+  }>(BYREAL_PROBE);
+  checks.push(
+    byreal?.status === "pass"
+      ? {
+          level: "pass",
+          label: "Byreal Skills CLI",
+          detail: `CLI v${byreal.cliVersion ?? "unknown"} probed: ${byreal.capabilityCount ?? 0} capabilities, ${byreal.topPools?.length ?? 0} pools.`
+        }
+      : {
+          level: "warn",
+          label: "Byreal Skills CLI",
+          detail: "Missing or incomplete. Run npm run byreal-probe to capture real Byreal capability evidence."
         }
   );
 

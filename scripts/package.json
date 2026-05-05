@@ -14,6 +14,7 @@
     "poll-chain": "tsx poll-chain.ts",
     "wallets": "tsx wallets.ts",
     "preflight": "tsx preflight.ts",
+    "byreal-probe": "tsx byreal-probe.ts",
     "watch-events": "tsx watch-events.ts",
     "deploy-treasury": "tsx deploy-treasury.ts",
     "deploy-paymaster": "tsx deploy-paymaster.ts",
@@ -29,6 +30,7 @@
     "viem": "^2.29.2"
   },
   "devDependencies": {
+    "@byreal-io/byreal-cli-realclaw": "^0.3.13",
     "@types/node": "^22.15.3",
     "playwright": "^1.49.1",
     "typescript": "^5.8.3"

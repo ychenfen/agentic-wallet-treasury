@@ -21,6 +21,7 @@ import {
   defaultAgents,
   defaultPolicy,
   type AgentIdentity,
+  type ByrealProbeSummary,
   type CycleSummary,
   type DemoHistory,
   type DemoRun,
@@ -363,6 +364,15 @@ function formatMnt(weiStr?: string): string {
   }
 }
 
+function formatUsd(value?: number): string {
+  if (value === undefined || !Number.isFinite(value)) return "n/a";
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumFractionDigits: 0
+  }).format(value);
+}
+
 function totalEarningsWei(history: DemoHistory): bigint {
   const map = history.cumulativeEarningsWei ?? {};
   let sum = 0n;
@@ -374,6 +384,80 @@ function totalEarningsWei(history: DemoHistory): bigint {
     }
   }
   return sum;
+}
+
+function ByrealProbePanel({ probe }: { probe?: ByrealProbeSummary }) {
+  if (!probe) {
+    return (
+      <div className="byreal-panel idle">
+        <div className="section-heading">
+          <Gauge size={18} />
+          <h2>Byreal Skills Probe</h2>
+        </div>
+        <p>
+          Run <code>npm run byreal-probe</code> to capture the real Byreal RealClaw CLI capability catalog,
+          DEX overview, pool list, and pool analysis used by Scout and Sentinel.
+        </p>
+      </div>
+    );
+  }
+
+  const overview = probe.dexOverview;
+  return (
+    <div className="byreal-panel">
+      <div className="section-heading">
+        <Gauge size={18} />
+        <h2>Byreal Skills Probe</h2>
+        <span className="cycle-tip">
+          CLI v{probe.cliVersion} · {probe.capabilityCount} capabilities · {new Date(probe.generatedAt).toLocaleString()}
+        </span>
+      </div>
+      <div className="byreal-summary">
+        <div>
+          <span>DEX TVL</span>
+          <strong>{formatUsd(overview?.tvl)}</strong>
+        </div>
+        <div>
+          <span>24h volume</span>
+          <strong>{formatUsd(overview?.volume24hUsd)}</strong>
+        </div>
+        <div>
+          <span>24h fees</span>
+          <strong>{formatUsd(overview?.fee24hUsd)}</strong>
+        </div>
+        <div>
+          <span>Pools</span>
+          <strong>{overview?.poolsCount ?? "n/a"}</strong>
+        </div>
+      </div>
+      <p className="byreal-note">{probe.note}</p>
+      <div className="byreal-pools">
+        {probe.topPools.slice(0, 5).map((pool) => (
+          <div className="byreal-pool" key={pool.id}>
+            <strong>{pool.pair}</strong>
+            <span>{formatUsd(pool.tvlUsd)} TVL</span>
+            <span>{pool.totalApr?.toFixed(2) ?? "n/a"}% APR</span>
+          </div>
+        ))}
+      </div>
+      {probe.analysis && (
+        <div className="byreal-analysis">
+          <strong>Top pool analysis: {probe.analysis.pair ?? shortHash(probe.analysis.poolId)}</strong>
+          <span>{probe.analysis.rangeCount} ranges tested</span>
+          <span>{probe.analysis.riskSummary.join(" · ")}</span>
+        </div>
+      )}
+      <div className="byreal-commands">
+        {probe.commands.map((command) => (
+          <div className="byreal-command" key={command.label}>
+            <strong>{command.label}</strong>
+            <code>{command.command.join(" ")}</code>
+            <span>{command.summary}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 function StatHero({
@@ -519,6 +603,7 @@ function App() {
   const [chain, setChain] = useState<LiveChainSnapshot | undefined>();
   const [events, setEvents] = useState<ChainEvent[]>([]);
   const [preflight, setPreflight] = useState<PreflightFile | undefined>();
+  const [byrealProbe, setByrealProbe] = useState<ByrealProbeSummary | undefined>();
 
   useEffect(() => {
     fetch(publicAsset("demo-run.json"), { cache: "no-store" })
@@ -545,6 +630,11 @@ function App() {
       .then((response) => (response.ok ? response.json() : undefined))
       .then((data?: PreflightFile) => setPreflight(data))
       .catch(() => setPreflight(undefined));
+
+    fetch(publicAsset("byreal-probe.json"), { cache: "no-store" })
+      .then((response) => (response.ok ? response.json() : undefined))
+      .then((data?: ByrealProbeSummary) => setByrealProbe(data))
+      .catch(() => setByrealProbe(undefined));
   }, []);
 
   const averageRep = useMemo(
@@ -760,6 +850,10 @@ function App() {
 
       <section className="cycle-history-section" aria-label="Live chain">
         <ChainPanel snapshot={chain} />
+      </section>
+
+      <section className="cycle-history-section" aria-label="Byreal Skills probe">
+        <ByrealProbePanel probe={byrealProbe} />
       </section>
 
       <section className="cycle-history-section" aria-label="Event log">

@@ -1,6 +1,6 @@
 # Submission Hashes — Agentic Wallet Treasury
 
-Generated: 2026-05-05T08:41:53.634Z
+Generated: 2026-05-05T12:20:19.867Z
 
 This file enumerates every on-chain artefact the project produced
 during its Mantle Sepolia rehearsal. It exists so judges can verify
@@ -46,7 +46,25 @@ Registry: [0x8004…BD9e](https://sepolia.mantlescan.xyz/address/0x8004A818BFB91
 - **x402 validator fee** — 1000000000000000 wei · paymaster [0x1b94…7475](https://sepolia.mantlescan.xyz/address/0x1b94af58b27203bc74ab749e4916d854758c7475) · tx [0x20406118…4e7571](https://sepolia.mantlescan.xyz/tx/0x204061182355170d185995a620a521a2f16b04c32b016f0c7258c5677d4e7571)
 - **Sentinel re-sim** — adapter=mock · realized 18 bps vs 80 bps · pool=deep · score 92/60
 
-## 5. Recent on-chain events
+## 5. Byreal Skills CLI probe
+
+- **Status** — pass · CLI v0.3.13 · 36 capabilities
+- **DEX overview** — TVL $14,152,440 · 24h volume $5,352,267 · pools 104
+- **Top pools captured** — SOL/bbSOL (87pbGHxi…), CRCLx/USDC (Hv44BZaq…), PYBOBO/USDC (86zmTigo…), USDC/USDT (23XoPQqG…), MNT/USDC (8HPQzqMD…)
+- **Pool analysis** — SOL/bbSOL · 10 ranges · Pool has healthy TVL ($2.2M) · Day price range 0.00% — low IL risk
+
+| Label | Command | Result hash | Summary |
+|---|---|---|---|
+| version | `byreal-cli --version` | 0x9c9a2728fbc8f59e74b3ae5a1223a13f641f61d677aa5f892d1b0d7ab5e9cf6e | 7 bytes captured |
+| skill-doc | `byreal-cli skill` | 0xf4bdf829d7862563034b7428ecad736889a3821217cda29d207ef1b6a3db5abc | 21770 bytes captured |
+| catalog | `byreal-cli catalog list -o json` | 0xa68d639ca55b353b72a3a51787d8d64cdfe9f922df37e5fbc4bebd6d7332ce75 | 36 capabilities discovered |
+| overview | `byreal-cli overview -o json` | 0x4b1604a1efa360395faefc48dfee8ac23839acddab1716e62a4ffe409a6b2553 | TVL $14,152,440, pools 104 |
+| top-pools | `byreal-cli pools list --sort-field tvl --sort-type desc --page 1 --page-size 5 -o json` | 0xa7e9818149de4e612a3b391e38eef3c635f2d97da07849264fb0db85e6c9a974 | 5 pools returned |
+| top-pool-analysis | `byreal-cli pools analyze 87pbGHxigtjdMovzkAAFEe8XFVTETjDomoEFfpSFd2yD --amount 100 -o json` | 0x817cc155495ed99d3d16000d85fe3d3a1c98c8240885847fc8b07fc9afaf5962 | pool analysis captured |
+
+Note: The public Byreal RealClaw CLI is currently Solana CLMM-native. ClawDAO uses it as a real Scout/Sentinel research probe and capability manifest today, while Mantle Sepolia treasury execution remains on Mantle.
+
+## 6. Recent on-chain events
 
 | Block | Source | Event | Agent | Args | Tx |
 |---:|---|---|---|---|---|
@@ -66,11 +84,12 @@ Registry: [0x8004…BD9e](https://sepolia.mantlescan.xyz/address/0x8004A818BFB91
 | 38204360 | reputation | `NewFeedback` | Ledger #29 | agentId=29 · clientAddress=0x71615d…6385 · indexedTag1=0x35239c…1b43 · feedbackIndex=1 | [0x107bea5e…291cc5](https://sepolia.mantlescan.xyz/tx/0x107bea5e4e8909adb63b445796af299bca72077dd0ddae526d17f5fc50291cc5) |
 | 38204356 | reputation | `NewFeedback` | Claw #28 | agentId=28 · clientAddress=0xeedBcc…1FdE · indexedTag1=0x904887…b717 · feedbackIndex=2 | [0x8fe7caa7…a7e215](https://sepolia.mantlescan.xyz/tx/0x8fe7caa7349824576ced19c8f523799ef954b8fbd7e8afd694b92f7b3fa7e215) |
 
-## 6. Reproduce these claims
+## 7. Reproduce these claims
 
 ```bash
 npm run verify          # reads tokenURI / ownerOf / getSummary on-chain for every agent
 npm run preflight       # confirms local artefacts and env match expectations
+npm run byreal-probe    # captures real Byreal CLI catalog / pool / analysis evidence
 npm run watch-events    # streams new events into the dashboard event log
 ```
 

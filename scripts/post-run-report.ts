@@ -23,7 +23,7 @@ import { resolve } from "node:path";
 import { mantleSepoliaTestnet as mantleSepolia } from "viem/chains";
 import { loadProjectEnv } from "@clawdao/core/node";
 import type { AgentIdsFile } from "@clawdao/core/node";
-import type { DemoRun } from "@clawdao/core";
+import type { ByrealProbeSummary, DemoRun } from "@clawdao/core";
 
 interface DeployedTreasury {
   contract: string;
@@ -65,6 +65,7 @@ const PAYMASTER = resolve(PUBLIC, "deployed-paymaster.json");
 const AGENT_IDS = resolve(PUBLIC, "agent-ids.json");
 const DEMO_RUN = resolve(PUBLIC, "demo-run.json");
 const EVENTS = resolve(PUBLIC, "events.json");
+const BYREAL_PROBE = resolve(PUBLIC, "byreal-probe.json");
 const OUTPUT = resolve(ROOT, "SUBMISSION_HASHES.md");
 
 function readJson<T>(path: string): T | undefined {
@@ -111,6 +112,7 @@ function main(): void {
   const ids = readJson<AgentIdsFile>(AGENT_IDS);
   const run = readJson<DemoRun>(DEMO_RUN);
   const eventsFile = readJson<EventsFile>(EVENTS);
+  const byreal = readJson<ByrealProbeSummary>(BYREAL_PROBE);
 
   const lines: string[] = [];
   lines.push("# Submission Hashes — Agentic Wallet Treasury");
@@ -194,8 +196,42 @@ function main(): void {
   }
   lines.push("");
 
-  // Section 5 — Recent on-chain events.
-  lines.push("## 5. Recent on-chain events");
+  // Section 5 — Byreal Skills CLI probe.
+  lines.push("## 5. Byreal Skills CLI probe");
+  lines.push("");
+  if (byreal) {
+    lines.push(bullet("Status", `${byreal.status} · CLI v${byreal.cliVersion} · ${byreal.capabilityCount} capabilities`));
+    if (byreal.dexOverview) {
+      lines.push(
+        bullet(
+          "DEX overview",
+          `TVL $${Math.round(byreal.dexOverview.tvl ?? 0).toLocaleString()} · 24h volume $${Math.round(byreal.dexOverview.volume24hUsd ?? 0).toLocaleString()} · pools ${byreal.dexOverview.poolsCount ?? "n/a"}`
+        )
+      );
+    }
+    if (byreal.topPools.length > 0) {
+      lines.push(bullet("Top pools captured", byreal.topPools.map((p) => `${p.pair} (${p.id.slice(0, 8)}…)`).join(", ")));
+    }
+    if (byreal.analysis) {
+      lines.push(bullet("Pool analysis", `${byreal.analysis.pair ?? byreal.analysis.poolId} · ${byreal.analysis.rangeCount} ranges · ${byreal.analysis.riskSummary.join(" · ")}`));
+    }
+    lines.push("");
+    lines.push("| Label | Command | Result hash | Summary |");
+    lines.push("|---|---|---|---|");
+    for (const command of byreal.commands) {
+      lines.push(
+        `| ${command.label} | \`${command.command.join(" ")}\` | ${command.stdoutHash ?? "n/a"} | ${command.summary} |`
+      );
+    }
+    lines.push("");
+    lines.push(`Note: ${byreal.note}`);
+  } else {
+    lines.push("_No Byreal probe captured — run `npm run byreal-probe`._");
+  }
+  lines.push("");
+
+  // Section 6 — Recent on-chain events.
+  lines.push("## 6. Recent on-chain events");
   lines.push("");
   if (eventsFile && eventsFile.events.length > 0) {
     lines.push("| Block | Source | Event | Agent | Args | Tx |");
@@ -215,12 +251,13 @@ function main(): void {
   }
   lines.push("");
 
-  // Section 6 — Verification commands.
-  lines.push("## 6. Reproduce these claims");
+  // Section 7 — Verification commands.
+  lines.push("## 7. Reproduce these claims");
   lines.push("");
   lines.push("```bash");
   lines.push("npm run verify          # reads tokenURI / ownerOf / getSummary on-chain for every agent");
   lines.push("npm run preflight       # confirms local artefacts and env match expectations");
+  lines.push("npm run byreal-probe    # captures real Byreal CLI catalog / pool / analysis evidence");
   lines.push("npm run watch-events    # streams new events into the dashboard event log");
   lines.push("```");
   lines.push("");

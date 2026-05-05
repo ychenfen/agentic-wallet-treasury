@@ -16,9 +16,9 @@ Minimal Solidity used by the Agentic Wallet Treasury demo.
 curl -L https://foundry.paradigm.xyz | bash
 foundryup
 
-# pull forge-std so the tests compile
+# pull forge-std so the tests compile without creating a git submodule
 cd contracts
-forge install foundry-rs/forge-std --no-commit
+forge install foundry-rs/forge-std --no-git --shallow
 ```
 
 ## Run

@@ -708,7 +708,7 @@ meter {
 
 .stat-hero {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 10px;
   max-width: 1180px;
   margin: 0 auto 18px;
@@ -781,7 +781,7 @@ meter {
 
 .preflight-row {
   display: grid;
-  grid-template-columns: 24px 180px 1fr;
+  grid-template-columns: 24px minmax(220px, 260px) 1fr;
   gap: 12px;
   align-items: center;
   padding: 8px 12px;
@@ -806,6 +806,7 @@ meter {
 
 .preflight-row strong {
   font-weight: 800;
+  overflow-wrap: anywhere;
 }
 
 .preflight-row > span:last-child {
@@ -887,9 +888,113 @@ meter {
   font-size: 11px;
 }
 
+.byreal-panel.idle p,
+.byreal-note {
+  color: #5f685f;
+  line-height: 1.55;
+}
+
+.byreal-panel code {
+  padding: 2px 6px;
+  background: #f0eee4;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+}
+
+.byreal-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.byreal-summary > div {
+  padding: 12px;
+  border: 1px solid #d8d2c2;
+  background: #e6f1e6;
+}
+
+.byreal-summary span,
+.byreal-pool span,
+.byreal-analysis span,
+.byreal-command span {
+  display: block;
+  color: #5f685f;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.byreal-summary strong {
+  display: block;
+  margin-top: 5px;
+  color: #203e34;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.byreal-pools {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.byreal-pool,
+.byreal-analysis,
+.byreal-command {
+  border: 1px solid #e6e0d1;
+  background: #f6f4ee;
+}
+
+.byreal-pool {
+  padding: 10px;
+}
+
+.byreal-pool strong,
+.byreal-analysis strong,
+.byreal-command strong {
+  display: block;
+  font-weight: 900;
+}
+
+.byreal-analysis {
+  display: grid;
+  gap: 4px;
+  margin-top: 10px;
+  padding: 12px;
+}
+
+.byreal-commands {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.byreal-command {
+  display: grid;
+  grid-template-columns: 130px 1fr 220px;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 10px;
+  font-size: 12px;
+}
+
+.byreal-command code {
+  overflow-wrap: anywhere;
+}
+
 @media (max-width: 1120px) {
   .stat-hero {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .byreal-pools,
+  .byreal-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .byreal-command {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -904,6 +1009,11 @@ meter {
 
   .preflight-row > span:last-child {
     grid-column: 2;
+  }
+
+  .byreal-pools,
+  .byreal-summary {
+    grid-template-columns: 1fr;
   }
 }
 

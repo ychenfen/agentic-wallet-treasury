@@ -189,6 +189,40 @@ export interface DecisionStep {
   timestamp: string;
 }
 
+export interface ByrealProbeSummary {
+  generatedAt: string;
+  cliVersion: string;
+  status: "pass" | "warn" | "fail";
+  commands: Array<{
+    label: string;
+    command: string[];
+    exitCode: number;
+    stdoutHash?: `0x${string}`;
+    summary: string;
+  }>;
+  capabilityCount: number;
+  dexOverview?: {
+    tvl?: number;
+    volume24hUsd?: number;
+    fee24hUsd?: number;
+    poolsCount?: number;
+  };
+  topPools: Array<{
+    id: string;
+    pair: string;
+    tvlUsd?: number;
+    volume24hUsd?: number;
+    totalApr?: number;
+  }>;
+  analysis?: {
+    poolId: string;
+    pair?: string;
+    riskSummary: string[];
+    rangeCount: number;
+  };
+  note: string;
+}
+
 export interface DemoRun {
   runId: string;
   /** Monotonic 1-based cycle counter, persists across runs via demo-history. */
@@ -207,6 +241,7 @@ export interface DemoRun {
   verdict: RiskVerdict;
   execution: ExecutionResult;
   validation: ValidationOutcome;
+  byrealProbe?: ByrealProbeSummary;
   reputation: ReputationEvent[];
   registrationFiles: AgentRegistrationFile[];
   timeline: DecisionStep[];

@@ -1,0 +1,143 @@
+{
+  "generatedAt": "2026-05-05T11:30:38.715Z",
+  "cliVersion": "0.3.13",
+  "status": "pass",
+  "commands": [
+    {
+      "label": "version",
+      "command": [
+        "byreal-cli",
+        "--version"
+      ],
+      "exitCode": 0,
+      "stdoutHash": "0x9c9a2728fbc8f59e74b3ae5a1223a13f641f61d677aa5f892d1b0d7ab5e9cf6e",
+      "summary": "7 bytes captured"
+    },
+    {
+      "label": "skill-doc",
+      "command": [
+        "byreal-cli",
+        "skill"
+      ],
+      "exitCode": 0,
+      "stdoutHash": "0xf4bdf829d7862563034b7428ecad736889a3821217cda29d207ef1b6a3db5abc",
+      "summary": "21770 bytes captured"
+    },
+    {
+      "label": "catalog",
+      "command": [
+        "byreal-cli",
+        "catalog",
+        "list",
+        "-o",
+        "json"
+      ],
+      "exitCode": 0,
+      "stdoutHash": "0xa68d639ca55b353b72a3a51787d8d64cdfe9f922df37e5fbc4bebd6d7332ce75",
+      "summary": "36 capabilities discovered"
+    },
+    {
+      "label": "overview",
+      "command": [
+        "byreal-cli",
+        "overview",
+        "-o",
+        "json"
+      ],
+      "exitCode": 0,
+      "stdoutHash": "0x4b1604a1efa360395faefc48dfee8ac23839acddab1716e62a4ffe409a6b2553",
+      "summary": "TVL $14,152,440, pools 104"
+    },
+    {
+      "label": "top-pools",
+      "command": [
+        "byreal-cli",
+        "pools",
+        "list",
+        "--sort-field",
+        "tvl",
+        "--sort-type",
+        "desc",
+        "--page",
+        "1",
+        "--page-size",
+        "5",
+        "-o",
+        "json"
+      ],
+      "exitCode": 0,
+      "stdoutHash": "0xa7e9818149de4e612a3b391e38eef3c635f2d97da07849264fb0db85e6c9a974",
+      "summary": "5 pools returned"
+    },
+    {
+      "label": "top-pool-analysis",
+      "command": [
+        "byreal-cli",
+        "pools",
+        "analyze",
+        "87pbGHxigtjdMovzkAAFEe8XFVTETjDomoEFfpSFd2yD",
+        "--amount",
+        "100",
+        "-o",
+        "json"
+      ],
+      "exitCode": 0,
+      "stdoutHash": "0x817cc155495ed99d3d16000d85fe3d3a1c98c8240885847fc8b07fc9afaf5962",
+      "summary": "pool analysis captured"
+    }
+  ],
+  "capabilityCount": 36,
+  "dexOverview": {
+    "tvl": 14152439.923259825,
+    "volume24hUsd": 5352266.5325613655,
+    "fee24hUsd": 7650.440045459818,
+    "poolsCount": 104
+  },
+  "topPools": [
+    {
+      "id": "87pbGHxigtjdMovzkAAFEe8XFVTETjDomoEFfpSFd2yD",
+      "pair": "SOL/bbSOL",
+      "tvlUsd": 2233631.81402303,
+      "volume24hUsd": 7.44400726346,
+      "totalApr": 0.0000613
+    },
+    {
+      "id": "Hv44BZaqT5URrrAtGk6jvfbWKL2PytWA4ur2r1QnvtQa",
+      "pair": "CRCLx/USDC",
+      "tvlUsd": 1335625.8985687,
+      "volume24hUsd": 925281.0052374034,
+      "totalApr": 51.54586140000001
+    },
+    {
+      "id": "86zmTigoureLp9JwS2m8NghfWxbo6SJe1moHLqM2xVkt",
+      "pair": "PYBOBO/USDC",
+      "tvlUsd": 1183224.8277891686,
+      "volume24hUsd": 1391068.67341664,
+      "totalApr": 8.1502907
+    },
+    {
+      "id": "23XoPQqGw9WMsLoqTu8HMzJLD6RnXsufbKyWPLJywsCT",
+      "pair": "USDC/USDT",
+      "tvlUsd": 1102207.019248,
+      "volume24hUsd": 412868.777675,
+      "totalApr": 1.3672965000000001
+    },
+    {
+      "id": "8HPQzqMDoDcRDMh3Si75EGWh276QbcVrfHvrNFVPnW8s",
+      "pair": "MNT/USDC",
+      "tvlUsd": 1093748.56178698,
+      "volume24hUsd": 27844.9556129342,
+      "totalApr": 2.7883698
+    }
+  ],
+  "analysis": {
+    "poolId": "87pbGHxigtjdMovzkAAFEe8XFVTETjDomoEFfpSFd2yD",
+    "pair": "SOL/bbSOL",
+    "riskSummary": [
+      "Pool has healthy TVL ($2.2M)",
+      "Day price range 0.00% — low IL risk"
+    ],
+    "rangeCount": 10
+  },
+  "note": "The public Byreal RealClaw CLI is currently Solana CLMM-native. ClawDAO uses it as a real Scout/Sentinel research probe and capability manifest today, while Mantle Sepolia treasury execution remains on Mantle."
+}

@@ -103,8 +103,9 @@ contract AgenticTreasuryTest is Test {
         vm.prank(executor);
         treasury.executeApprovedAction(approval, data, sig);
 
-        // Same approval, same signature -> nonce check fails first because we incremented it.
-        vm.expectRevert(AgenticTreasury.WrongNonce.selector);
+        // Same approval, same signature -> actionId replay is rejected before
+        // the nonce check, so a duplicate cannot leak nonce state.
+        vm.expectRevert(AgenticTreasury.ActionAlreadyExecuted.selector);
         vm.prank(executor);
         treasury.executeApprovedAction(approval, data, sig);
     }
