@@ -97,6 +97,7 @@ https://ychenfen.github.io/agentic-wallet-treasury/
 Demo video:
 
 Pitch deck:
+https://github.com/ychenfen/agentic-wallet-treasury/blob/main/artifacts/deck/Agentic-Wallet-Treasury-Pitch.pptx
 
 AgenticTreasury contract:
 https://sepolia.mantlescan.xyz/address/0x739862c3cf9b5f9fe6a8ecd95e75714a20116fe9

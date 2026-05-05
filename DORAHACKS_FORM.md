@@ -52,6 +52,12 @@ https://ychenfen.github.io/agentic-wallet-treasury/
 TODO: add final YouTube / Loom link after recording.
 ```
 
+**Pitch deck**
+
+```text
+https://github.com/ychenfen/agentic-wallet-treasury/blob/main/artifacts/deck/Agentic-Wallet-Treasury-Pitch.pptx
+```
+
 **Social link**
 
 ```text
