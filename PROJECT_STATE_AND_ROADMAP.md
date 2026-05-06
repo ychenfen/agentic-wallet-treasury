@@ -126,6 +126,12 @@ Grand Champion dimensions:
    - Include GitHub, dashboard, contract addresses, and evidence report.
    - Add final video URL once uploaded.
 
+4. **Onboard teammates safely**
+   - Use `TEAM_HANDOFF.md`.
+   - Do not put private keys, mnemonics, or account passwords into GitHub or
+     chat logs.
+   - Give teammates separate limited wallets/API keys wherever possible.
+
 ## 40-Day Winning Plan
 
 ### Phase 1 — Deployment Award Closure

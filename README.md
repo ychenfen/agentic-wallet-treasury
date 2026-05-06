@@ -146,6 +146,7 @@ ERC-8004 contracts GitHub:     github.com/erc-8004/erc-8004-contracts
 - `artifacts/deck/Agentic-Wallet-Treasury-Pitch.pptx` — uploadable pitch deck.
 - `FINAL_SUBMISSION_CHECKLIST.md` — final pre-submit checklist.
 - `PROJECT_STATE_AND_ROADMAP.md` — current state, overall architecture, award fit, and 40-day plan.
+- `TEAM_HANDOFF.md` — teammate onboarding, secret handoff policy, and operational checklist.
 - `CONTRACT_VERIFICATION.md` — Mantlescan verification links, settings, JSON inputs, and constructor args.
 - `PROGRESS.md` — current completed work, verification status, and next steps.
 - `DEVELOPMENT.md` — commands and next engineering steps.
