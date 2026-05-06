@@ -24,6 +24,32 @@ each claim independently on mantlescan without trusting the dashboard.
 - **Payment tx** — [0x20406118…4e7571](https://sepolia.mantlescan.xyz/tx/0x204061182355170d185995a620a521a2f16b04c32b016f0c7258c5677d4e7571)
 - **Linked requestHash** — 0x27bf50c3cfe269388f0363b7737f72cf798b76e3c27efafbf436bb57c17c70c6
 
+## 2.5. Mantlescan verification package
+
+The project now includes a reproducible Mantlescan verification package for
+the two contracts above:
+
+- **Guide** — [`CONTRACT_VERIFICATION.md`](./CONTRACT_VERIFICATION.md)
+- **Public dashboard JSON** — [`apps/web/public/contract-verification.json`](./apps/web/public/contract-verification.json)
+- **AgenticTreasury Standard JSON input** — [`contracts/verification/AgenticTreasury.standard-json-input.json`](./contracts/verification/AgenticTreasury.standard-json-input.json)
+- **AgenticTreasury constructor args** — [`contracts/verification/AgenticTreasury.constructor-args.txt`](./contracts/verification/AgenticTreasury.constructor-args.txt)
+- **ValidatorPaymaster Standard JSON input** — [`contracts/verification/ValidatorPaymaster.standard-json-input.json`](./contracts/verification/ValidatorPaymaster.standard-json-input.json)
+- **ValidatorPaymaster constructor args** — [`contracts/verification/ValidatorPaymaster.constructor-args.txt`](./contracts/verification/ValidatorPaymaster.constructor-args.txt)
+
+Compiler settings:
+
+- Solidity `0.8.26`
+- Optimizer enabled, 200 runs
+- Via IR enabled
+- EVM version `cancun`
+- Mantle Sepolia chainId `5003`
+
+Reproduce:
+
+```bash
+npm run prepare-verification
+```
+
 ## 3. ERC-8004 agent identities
 
 Registry: [0x8004…BD9e](https://sepolia.mantlescan.xyz/address/0x8004A818BFB912233c491871b3d84c89A494BD9e) on mantle-sepolia
