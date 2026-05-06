@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-05T11:39:45.175Z",
+  "generatedAt": "2026-05-06T08:58:07.505Z",
   "summary": {
-    "pass": 13,
+    "pass": 14,
     "warn": 0,
     "fail": 0
   },
@@ -70,6 +70,11 @@
       "level": "pass",
       "label": "Byreal Skills CLI",
       "detail": "CLI v0.3.13 probed: 36 capabilities, 5 pools."
+    },
+    {
+      "level": "pass",
+      "label": "Mantlescan verification package",
+      "detail": "2 contract verification packages prepared for Standard-Json-Input."
     }
   ]
 }

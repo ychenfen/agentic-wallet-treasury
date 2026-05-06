@@ -32,6 +32,7 @@ const EVENTS = resolve(WEB_PUBLIC, "events.json");
 const TREASURY_RECORD = resolve(WEB_PUBLIC, "deployed-treasury.json");
 const PAYMASTER_RECORD = resolve(WEB_PUBLIC, "deployed-paymaster.json");
 const BYREAL_PROBE = resolve(WEB_PUBLIC, "byreal-probe.json");
+const CONTRACT_VERIFICATION = resolve(WEB_PUBLIC, "contract-verification.json");
 const LOGO = resolve(ROOT, "assets/buidl-logo-480.png");
 const PREFLIGHT_JSON = resolve(WEB_PUBLIC, "preflight.json");
 
@@ -229,6 +230,24 @@ function main(): void {
           level: "warn",
           label: "Byreal Skills CLI",
           detail: "Missing or incomplete. Run npm run byreal-probe to capture real Byreal capability evidence."
+        }
+  );
+
+  const verification = readJson<{
+    status?: string;
+    contracts?: Array<{ name?: string; address?: string; standardJsonPath?: string }>;
+  }>(CONTRACT_VERIFICATION);
+  checks.push(
+    verification?.status === "prepared" && verification.contracts?.length === 2
+      ? {
+          level: "pass",
+          label: "Mantlescan verification package",
+          detail: `${verification.contracts.length} contract verification packages prepared for Standard-Json-Input.`
+        }
+      : {
+          level: "warn",
+          label: "Mantlescan verification package",
+          detail: "Missing. Run npm run prepare-verification before submitting for the deployment award."
         }
   );
 

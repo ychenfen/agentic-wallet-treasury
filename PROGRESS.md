@@ -1,11 +1,12 @@
 # Progress
 
-Last updated: 2026-05-04
+Last updated: 2026-05-06
 
 ## Current Status
 
 The project is past "research pack", past "demo skeleton", and past "single
-on-chain transaction". It now has:
+on-chain transaction". It is now an evidence-backed Mantle Sepolia project with
+official rubric alignment:
 
 - **Five-agent** demo loop (Scout, Guard, Claw, Ledger, **Sentinel**).
 - Full ERC-8004 trio: Identity + Reputation + **Validation** registries.
@@ -18,10 +19,29 @@ on-chain transaction". It now has:
 - Production chain scripts: register, feedback, **validate**, verify,
   poll-chain, live-demo, wallets, preflight.
 - EIP-712-signed treasury contract with executor / risk separation +
-  Foundry test suite (8 tests).
+  Foundry test suite.
+- ValidatorPaymaster x402-style payment loop.
+- Real Byreal RealClaw CLI probe evidence.
+- Mantlescan Standard JSON verification packages for both project contracts.
+- Official DoraHacks judging criteria captured in
+  `hackathon/01-requirements-criteria.md`.
+- Full project state and 40-day roadmap in `PROJECT_STATE_AND_ROADMAP.md`.
 
 Selected track: **Track 6 — Agentic Wallets & Economy**.
 Project: **Agentic Wallet Treasury**.
+
+Primary award targets:
+
+- Agentic Economy Track — First Prize.
+- 20 Project Deployment Award.
+- Best UI/UX Award as a secondary target.
+
+Latest public links:
+
+- GitHub: `https://github.com/ychenfen/agentic-wallet-treasury`
+- Dashboard: `https://ychenfen.github.io/agentic-wallet-treasury/`
+- Evidence report: `SUBMISSION_HASHES.md`
+- Contract verification guide: `CONTRACT_VERIFICATION.md`
 
 Core demo loop:
 

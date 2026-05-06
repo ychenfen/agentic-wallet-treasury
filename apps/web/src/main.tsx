@@ -157,6 +157,28 @@ interface PreflightFile {
   checks: PreflightCheck[];
 }
 
+interface ContractVerificationFile {
+  generatedAt: string;
+  status: "prepared";
+  network: string;
+  chainId: number;
+  compiler: {
+    version: string;
+    optimizer: boolean;
+    optimizerRuns: number;
+    viaIR: boolean;
+  };
+  contracts: Array<{
+    name: string;
+    address: string;
+    deployTx: string;
+    explorerUrl: string;
+    verifyUrl: string;
+    standardJsonPath: string;
+    constructorArgs: string;
+  }>;
+}
+
 function shortHash(value?: string): string {
   if (!value) return "pending";
   if (value.length <= 16) return value;
@@ -597,6 +619,51 @@ function PreflightPanel({ file }: { file?: PreflightFile }) {
   );
 }
 
+function ContractVerificationPanel({ file }: { file?: ContractVerificationFile }) {
+  if (!file) {
+    return (
+      <div className="verification-panel idle">
+        <div className="section-heading">
+          <BadgeCheck size={18} />
+          <h2>Mantlescan Verification</h2>
+        </div>
+        <p>
+          Run <code>npm run prepare-verification</code> to generate Standard JSON inputs
+          for the contracts required by the deployment award.
+        </p>
+      </div>
+    );
+  }
+  return (
+    <div className="verification-panel">
+      <div className="section-heading">
+        <BadgeCheck size={18} />
+        <h2>Mantlescan Verification</h2>
+        <span className="cycle-tip">
+          {file.status} · solc {file.compiler.version} · viaIR {String(file.compiler.viaIR)} · {new Date(file.generatedAt).toLocaleString()}
+        </span>
+      </div>
+      <div className="verification-rows">
+        {file.contracts.map((contract) => (
+          <div className="verification-row" key={contract.address}>
+            <div>
+              <strong>{contract.name}</strong>
+              <span>{shortHash(contract.address)}</span>
+            </div>
+            <a href={contract.explorerUrl} target="_blank" rel="noreferrer">
+              Explorer
+            </a>
+            <a href={contract.verifyUrl} target="_blank" rel="noreferrer">
+              Verify page
+            </a>
+            <code>{contract.standardJsonPath}</code>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [run, setRun] = useState<DemoRun>(FALLBACK_RUN);
   const [history, setHistory] = useState<DemoHistory>(FALLBACK_HISTORY);
@@ -604,6 +671,7 @@ function App() {
   const [events, setEvents] = useState<ChainEvent[]>([]);
   const [preflight, setPreflight] = useState<PreflightFile | undefined>();
   const [byrealProbe, setByrealProbe] = useState<ByrealProbeSummary | undefined>();
+  const [contractVerification, setContractVerification] = useState<ContractVerificationFile | undefined>();
 
   useEffect(() => {
     fetch(publicAsset("demo-run.json"), { cache: "no-store" })
@@ -635,6 +703,11 @@ function App() {
       .then((response) => (response.ok ? response.json() : undefined))
       .then((data?: ByrealProbeSummary) => setByrealProbe(data))
       .catch(() => setByrealProbe(undefined));
+
+    fetch(publicAsset("contract-verification.json"), { cache: "no-store" })
+      .then((response) => (response.ok ? response.json() : undefined))
+      .then((data?: ContractVerificationFile) => setContractVerification(data))
+      .catch(() => setContractVerification(undefined));
   }, []);
 
   const averageRep = useMemo(
@@ -862,6 +935,10 @@ function App() {
 
       <section className="cycle-history-section" aria-label="Agent earnings">
         <AgentEarningsPanel history={history} />
+      </section>
+
+      <section className="cycle-history-section" aria-label="Mantlescan verification">
+        <ContractVerificationPanel file={contractVerification} />
       </section>
 
       <section className="cycle-history-section" aria-label="Submission readiness">

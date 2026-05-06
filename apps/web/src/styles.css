@@ -767,11 +767,59 @@ meter {
   line-height: 1.55;
 }
 
-.preflight-panel code {
+.preflight-panel code,
+.verification-panel code {
   padding: 2px 6px;
   background: #f0eee4;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 12px;
+}
+
+.verification-panel.idle p {
+  color: #5f685f;
+  line-height: 1.55;
+}
+
+.verification-rows {
+  display: grid;
+  gap: 8px;
+}
+
+.verification-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) auto auto minmax(260px, 1.4fr);
+  gap: 12px;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid #2f6b3f;
+  background: #e6f1e6;
+  font-size: 13px;
+}
+
+.verification-row strong,
+.verification-row span {
+  display: block;
+}
+
+.verification-row span {
+  margin-top: 2px;
+  color: #5f685f;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+}
+
+.verification-row a {
+  color: #235aa6;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.verification-row a:hover {
+  text-decoration: underline;
+}
+
+.verification-row code {
+  overflow-wrap: anywhere;
 }
 
 .preflight-rows {
@@ -995,6 +1043,14 @@ meter {
 
   .byreal-command {
     grid-template-columns: 1fr;
+  }
+
+  .verification-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .verification-row code {
+    grid-column: 1 / -1;
   }
 }
 

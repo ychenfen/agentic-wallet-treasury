@@ -15,6 +15,7 @@
     "wallets": "tsx wallets.ts",
     "preflight": "tsx preflight.ts",
     "byreal-probe": "tsx byreal-probe.ts",
+    "prepare-verification": "tsx prepare-contract-verification.ts",
     "watch-events": "tsx watch-events.ts",
     "deploy-treasury": "tsx deploy-treasury.ts",
     "deploy-paymaster": "tsx deploy-paymaster.ts",

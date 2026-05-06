@@ -112,8 +112,17 @@ https://ychenfen.github.io/agentic-wallet-treasury/
 Evidence report:
 https://github.com/ychenfen/agentic-wallet-treasury/blob/main/SUBMISSION_HASHES.md
 
+Project state and roadmap:
+https://github.com/ychenfen/agentic-wallet-treasury/blob/main/PROJECT_STATE_AND_ROADMAP.md
+
+Contract verification package:
+https://github.com/ychenfen/agentic-wallet-treasury/blob/main/CONTRACT_VERIFICATION.md
+
 AgenticTreasury:
 https://sepolia.mantlescan.xyz/address/0x739862c3cf9b5f9fe6a8ecd95e75714a20116fe9
+
+ValidatorPaymaster:
+https://sepolia.mantlescan.xyz/address/0x1b94af58b27203bc74ab749e4916d854758c7475
 
 Execution tx:
 https://sepolia.mantlescan.xyz/tx/0xa3d26423e3ab39e4303009d862d2e3f9f6d50fcc8139f93c3d73821999a4ca8a

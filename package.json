@@ -25,6 +25,7 @@
     "wallets": "npm run wallets -w @clawdao/scripts",
     "preflight": "PREFLIGHT_JSON=1 npm run preflight -w @clawdao/scripts",
     "byreal-probe": "npm run byreal-probe -w @clawdao/scripts",
+    "prepare-verification": "npm run prepare-verification -w @clawdao/scripts",
     "watch-events": "npm run watch-events -w @clawdao/scripts",
     "compile-treasury": "npm run compile-treasury -w @clawdao/scripts",
     "compile-paymaster": "npm run compile-paymaster -w @clawdao/scripts",

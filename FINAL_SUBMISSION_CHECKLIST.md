@@ -10,12 +10,15 @@
 - GitHub: https://github.com/ychenfen/agentic-wallet-treasury
 - Project website: https://ychenfen.github.io/agentic-wallet-treasury/
 - Evidence report: https://github.com/ychenfen/agentic-wallet-treasury/blob/main/SUBMISSION_HASHES.md
+- Project state and roadmap: https://github.com/ychenfen/agentic-wallet-treasury/blob/main/PROJECT_STATE_AND_ROADMAP.md
+- Contract verification guide: https://github.com/ychenfen/agentic-wallet-treasury/blob/main/CONTRACT_VERIFICATION.md
 
 ## Must Add Before Final Deadline
 
 - Demo video URL.
 - Real social/profile link.
 - Team member profile details.
+- Green Mantlescan verification pages for AgenticTreasury and ValidatorPaymaster.
 
 ## Do Not Expose
 
@@ -33,6 +36,8 @@ Run these before final submit:
 ```bash
 cd /Users/yuchenxu/Desktop/mantle-hackathon
 npm run check
+npm run test:contracts
+npm run prepare-verification
 npm run preflight
 curl -fsSL https://ychenfen.github.io/agentic-wallet-treasury/demo-run.json | jq '.execution.status, .execution.txHash'
 ```
