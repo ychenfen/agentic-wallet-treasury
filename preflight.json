@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-05T08:41:54.248Z",
+  "generatedAt": "2026-05-05T11:39:45.175Z",
   "summary": {
-    "pass": 12,
+    "pass": 13,
     "warn": 0,
     "fail": 0
   },
@@ -65,6 +65,11 @@
       "level": "pass",
       "label": "deployed-paymaster.json",
       "detail": "ValidatorPaymaster record present: 0x1b94af58b27203bc74ab749e4916d854758c7475."
+    },
+    {
+      "level": "pass",
+      "label": "Byreal Skills CLI",
+      "detail": "CLI v0.3.13 probed: 36 capabilities, 5 pools."
     }
   ]
 }
