@@ -1,0 +1,40 @@
+{
+  "generatedAt": "2026-06-01T08:22:41.286Z",
+  "network": {
+    "name": "Mantle Sepolia",
+    "chainId": 5003,
+    "explorer": "https://sepolia.mantlescan.xyz"
+  },
+  "protocol": {
+    "name": "WMNT (Wrapped MNT)",
+    "address": "0xc0eecfa24e391e4259b7ef17be54be5139da1ac7",
+    "explorerUrl": "https://sepolia.mantlescan.xyz/token/0xc0eecfa24e391e4259b7ef17be54be5139da1ac7",
+    "capability": "WETH9-style deposit() \u2014 native MNT wrapped 1:1"
+  },
+  "action": {
+    "description": "Guard approves wrapping 0.01 MNT into WMNT; Claw executes it through AgenticTreasury.",
+    "amountWei": "10000000000000000",
+    "amountMnt": "0.01",
+    "treasury": "0x739862c3cf9b5f9fe6a8ecd95e75714a20116fe9",
+    "guard": "0x0067F734596b61DC4565FbC6242D5E1B3cc74977",
+    "executor": "0x14e8C7ae1B51274fD6A45fBd1c81cBD7e9294718",
+    "selector": "0xd0e30db0"
+  },
+  "seedTx": {
+    "hash": "0x9a193d0f705c374927180f10a7dd92b3d45fec799d8a5fa9ede39af60b716c33",
+    "explorerUrl": "https://sepolia.mantlescan.xyz/tx/0x9a193d0f705c374927180f10a7dd92b3d45fec799d8a5fa9ede39af60b716c33"
+  },
+  "wrapTx": {
+    "hash": "0x7a856a4f4c8d2a9d9d4f61af8877d2e630cd73828c9d7c83a75f19eaff234499",
+    "explorerUrl": "https://sepolia.mantlescan.xyz/tx/0x7a856a4f4c8d2a9d9d4f61af8877d2e630cd73828c9d7c83a75f19eaff234499"
+  },
+  "validation": {
+    "validator": "0x71615d9cF43E786E20F3D98E32FB001D4fCc6385",
+    "wmntBalanceBeforeWei": "0",
+    "wmntBalanceAfterWei": "10000000000000000",
+    "deltaWei": "10000000000000000",
+    "deltaMnt": "0.01",
+    "passed": true,
+    "summary": "Sentinel confirmed the treasury received 0.0100 WMNT from the approved wrap."
+  }
+}
