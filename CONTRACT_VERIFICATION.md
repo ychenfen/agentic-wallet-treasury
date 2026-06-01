@@ -1,19 +1,22 @@
 # Mantle Explorer Contract Verification
 
-Generated: 2026-06-01T07:40:51.745Z
+Generated: 2026-06-01T09:17:31.510Z
 
-Two Mantle Sepolia contracts back the DoraHacks deployment award. They were
-deployed with two different compiler pipelines, so each one verifies with its
-own compiler settings — do not assume a single version for both.
+Two Mantle Sepolia contracts back the DoraHacks deployment award. Both were
+deployed with the npm solc-js 0.8.35 compiler; the Treasury uses via-IR (it is
+stack-too-deep otherwise) and the Paymaster does not. Verify each with its own
+settings below.
 
-Both contracts are already verified on Sourcify (keyless, exact match). Mantlescan/Etherscan source verification additionally needs a free Etherscan V2 API key.
+Both are source-verified on Mantlescan (Etherscan V2) and on Sourcify (keyless,
+exact match). Run `node scripts/verify-mantlescan.mjs` with a free Etherscan V2
+API key to (re)submit the Mantlescan verification.
 
 ## Verification Status
 
-| Contract | Sourcify | Match | Mantlescan |
+| Contract | Compiler | Sourcify | Mantlescan |
 |---|---|---|---|
-| AgenticTreasury | Verified | match | needs Etherscan V2 key |
-| ValidatorPaymaster | Verified | exact_match | needs Etherscan V2 key |
+| AgenticTreasury | solc 0.8.35 +viaIR | match | verified |
+| ValidatorPaymaster | solc 0.8.35 | exact_match | verified |
 
 ## Contracts
 
@@ -21,10 +24,10 @@ Both contracts are already verified on Sourcify (keyless, exact match). Mantlesc
 
 - Address: [0x739862c3cf9b5f9fe6a8ecd95e75714a20116fe9](https://sepolia.mantlescan.xyz/address/0x739862c3cf9b5f9fe6a8ecd95e75714a20116fe9)
 - Deploy tx: [0x649656b3c701d809bfeac8e2ec70bd459d2fee1af52de1b6bb95bd1b20d2f190](https://sepolia.mantlescan.xyz/tx/0x649656b3c701d809bfeac8e2ec70bd459d2fee1af52de1b6bb95bd1b20d2f190)
-- Compiler: solc `v0.8.26+commit.8a97fa7a`, optimizer on (200 runs), via-IR `true`, EVM `cancun`
+- Compiler: solc `v0.8.35+commit.47b9dedd`, optimizer on (200 runs), via-IR `true`, EVM `default (solc 0.8.35 default)`
 - Sourcify: verified (match) — [lookup](https://sourcify.dev/#/lookup/0x739862c3cf9b5f9fe6a8ecd95e75714a20116fe9)
 - Mantlescan verify page: [verify AgenticTreasury](https://sepolia.mantlescan.xyz/verifyContract?a=0x739862c3cf9b5f9fe6a8ecd95e75714a20116fe9)
-- Contract identifier: `src/AgenticTreasury.sol:AgenticTreasury`
+- Contract identifier: `AgenticTreasury.sol:AgenticTreasury`
 - Standard JSON input: `contracts/verification/AgenticTreasury.standard-json-input.json`
 - ABI-encoded constructor args: `0x0000000000000000000000000067f734596b61dc4565fbc6242d5e1b3cc749770000000000000000000000000000000000000000000000000de0b6b3a7640000`
 

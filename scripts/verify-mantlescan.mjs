@@ -13,51 +13,83 @@
  * ownership proof needed for source verification).
  */
 
-import { readFile } from "node:fs/promises";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
+
+// Use curl for HTTP so the system HTTP(S)_PROXY is honored (Node fetch ignores
+// proxy env vars by default, which times out behind a local proxy).
+const pexec = promisify(execFile);
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, "..");
 const API = "https://api.etherscan.io/v2/api";
 const CHAIN_ID = "5003";
 
-const KEY = process.env.ETHERSCAN_API_KEY || process.env.MANTLESCAN_API_KEY;
+/** Read ETHERSCAN_API_KEY / MANTLESCAN_API_KEY straight from the gitignored
+ *  .env so the key never has to be exported or pasted anywhere. */
+function keyFromEnvFile() {
+  const envPath = resolve(ROOT, ".env");
+  if (!existsSync(envPath)) return undefined;
+  for (const line of readFileSync(envPath, "utf8").split("\n")) {
+    const m = line.match(/^\s*(?:ETHERSCAN_API_KEY|MANTLESCAN_API_KEY)\s*=\s*(.+?)\s*$/);
+    if (m) return m[1].replace(/^["']|["']$/g, "");
+  }
+  return undefined;
+}
+
+const KEY = process.env.ETHERSCAN_API_KEY || process.env.MANTLESCAN_API_KEY || keyFromEnvFile();
 if (!KEY) {
-  console.error("Missing ETHERSCAN_API_KEY. Get a free key at https://etherscan.io/myapikey");
+  console.error(
+    "Missing ETHERSCAN_API_KEY. Get a free key at https://etherscan.io/myapikey, then add\n" +
+      "  ETHERSCAN_API_KEY=yourkey\n" +
+      "to the project .env (gitignored) and re-run."
+  );
   process.exit(1);
 }
 
 const record = JSON.parse(
-  await readFile(resolve(ROOT, "apps/web/public/contract-verification.json"), "utf8")
+  readFileSync(resolve(ROOT, "apps/web/public/contract-verification.json"), "utf8")
 );
 
+async function curlJson(args) {
+  const { stdout } = await pexec("curl", args, { maxBuffer: 16 * 1024 * 1024 });
+  return JSON.parse(stdout);
+}
+
 async function submit(contract) {
-  const stdJson = await readFile(resolve(ROOT, contract.standardJsonPath), "utf8");
-  const body = new URLSearchParams({
+  const stdPath = resolve(ROOT, contract.standardJsonPath);
+  const fields = {
     chainid: CHAIN_ID,
     apikey: KEY,
     module: "contract",
     action: "verifysourcecode",
     codeformat: "solidity-standard-json-input",
-    sourceCode: stdJson,
     contractaddress: contract.address,
     contractname: contract.contractId,
     compilerversion: contract.compiler.longVersion
-  });
+  };
+  const postUrl = `${API}?chainid=${CHAIN_ID}`; // V2 requires chainid in the query string
+  const args = ["-s", "--max-time", "90", "-X", "POST", postUrl, "--data-urlencode", `sourceCode@${stdPath}`];
+  for (const [k, v] of Object.entries(fields)) args.push("--data-urlencode", `${k}=${v}`);
   const ctor = (contract.constructorArgs || "").replace(/^0x/, "");
-  if (ctor.length > 0) body.set("constructorArguements", ctor);
-
-  const res = await fetch(API, { method: "POST", body });
-  const data = await res.json();
-  return data;
+  if (ctor.length > 0) args.push("--data-urlencode", `constructorArguements=${ctor}`);
+  return curlJson(args);
 }
 
 async function poll(guid) {
   for (let i = 0; i < 12; i++) {
-    await new Promise((r) => setTimeout(r, 5000));
+    await sleep(5000);
     const url = `${API}?chainid=${CHAIN_ID}&module=contract&action=checkverifystatus&guid=${guid}&apikey=${KEY}`;
-    const data = await fetch(url).then((r) => r.json());
+    let data;
+    try {
+      data = await curlJson(["-s", "--max-time", "30", url]);
+    } catch {
+      continue;
+    }
     const result = String(data.result || "");
     if (result.includes("Pending")) continue;
     return data;

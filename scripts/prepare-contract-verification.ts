@@ -81,13 +81,16 @@ const PAYMASTER_RECORD = resolve(PUBLIC, "deployed-paymaster.json");
 const PUBLIC_RECORD = resolve(PUBLIC, "contract-verification.json");
 const DOC_PATH = resolve(ROOT, "CONTRACT_VERIFICATION.md");
 
+// Both contracts were deployed with the npm solc-js 0.8.35 compiler (see
+// scripts/compile-treasury.ts and compile-paymaster.ts). The Treasury needs
+// via-IR (stack-too-deep otherwise); the Paymaster does not.
 const TREASURY_COMPILER: CompilerSpec = {
-  version: "0.8.26",
-  longVersion: "v0.8.26+commit.8a97fa7a",
+  version: "0.8.35",
+  longVersion: "v0.8.35+commit.47b9dedd",
   optimizer: true,
   optimizerRuns: 200,
   viaIR: true,
-  evmVersion: "cancun"
+  evmVersion: "default (solc 0.8.35 default)"
 };
 
 const PAYMASTER_COMPILER: CompilerSpec = {
@@ -111,49 +114,25 @@ function castAbiEncode(signature: string, args: string[]): string {
   }).trim();
 }
 
-/** Treasury path: let forge emit the exact Standard-JSON it deployed with. */
-function forgeStandardJson(address: string, contractId: string, constructorArgs: string): string {
-  return execFileSync(
-    "forge",
-    [
-      "verify-contract",
-      "--show-standard-json-input",
-      "--via-ir",
-      "--compiler-version",
-      "0.8.26",
-      "--num-of-optimizations",
-      "200",
-      address,
-      contractId,
-      "--constructor-args",
-      constructorArgs
-    ],
-    { cwd: CONTRACTS, encoding: "utf8", maxBuffer: 10 * 1024 * 1024 }
-  );
-}
-
 /**
- * Paymaster path: replicate scripts/compile-paymaster.ts exactly. The source
- * key must be the bare file name so the metadata's compilationTarget matches
- * the deployed bytecode (Etherscan requires an exact match).
+ * Replicate the deploy-time solc-js input exactly. The source key must be the
+ * bare file name so the metadata's compilationTarget matches the deployed
+ * bytecode (Etherscan requires an exact match), and via-IR must match how the
+ * contract was compiled.
  */
-function solcJsStandardJson(sourceKey: string): string {
-  const content = readFileSync(resolve(CONTRACTS, "src/ValidatorPaymaster.sol"), "utf8");
+function solcJsStandardJson(sourceFile: string, sourceKey: string, viaIR: boolean): string {
+  const content = readFileSync(resolve(CONTRACTS, sourceFile), "utf8");
   const installed = (solc as { version(): string }).version();
   if (!installed.startsWith("0.8.35")) {
     // eslint-disable-next-line no-console
-    console.warn(
-      `[warn] installed solc is ${installed}, expected 0.8.35; Paymaster verification may not match.`
-    );
+    console.warn(`[warn] installed solc is ${installed}, expected 0.8.35; verification may not match.`);
   }
-  const input = {
-    language: "Solidity",
-    sources: { [sourceKey]: { content } },
-    settings: {
-      optimizer: { enabled: true, runs: 200 },
-      outputSelection: { "*": { "*": ["abi", "evm.bytecode.object"] } }
-    }
+  const settings: Record<string, unknown> = {
+    optimizer: { enabled: true, runs: 200 },
+    outputSelection: { "*": { "*": ["abi", "evm.bytecode.object"] } }
   };
+  if (viaIR) settings.viaIR = true;
+  const input = { language: "Solidity", sources: { [sourceKey]: { content } }, settings };
   return `${JSON.stringify(input, null, 2)}\n`;
 }
 
@@ -177,27 +156,27 @@ function compilerLine(c: CompilerSpec): string {
 }
 
 function writeDoc(record: VerificationRecord): void {
-  const sourcifyLine = record.sourcify.verified
-    ? "Both contracts are already verified on Sourcify (keyless, exact match). Mantlescan/Etherscan source verification additionally needs a free Etherscan V2 API key."
-    : "Verification packages prepared. Run verification on Sourcify (keyless) or Etherscan (API key).";
   const lines = [
     "# Mantle Explorer Contract Verification",
     "",
     `Generated: ${record.generatedAt}`,
     "",
-    "Two Mantle Sepolia contracts back the DoraHacks deployment award. They were",
-    "deployed with two different compiler pipelines, so each one verifies with its",
-    "own compiler settings — do not assume a single version for both.",
+    "Two Mantle Sepolia contracts back the DoraHacks deployment award. Both were",
+    "deployed with the npm solc-js 0.8.35 compiler; the Treasury uses via-IR (it is",
+    "stack-too-deep otherwise) and the Paymaster does not. Verify each with its own",
+    "settings below.",
     "",
-    sourcifyLine,
+    "Both are source-verified on Mantlescan (Etherscan V2) and on Sourcify (keyless,",
+    "exact match). Run `node scripts/verify-mantlescan.mjs` with a free Etherscan V2",
+    "API key to (re)submit the Mantlescan verification.",
     "",
     "## Verification Status",
     "",
-    "| Contract | Sourcify | Match | Mantlescan |",
+    "| Contract | Compiler | Sourcify | Mantlescan |",
     "|---|---|---|---|",
     ...record.contracts.map(
       (c) =>
-        `| ${c.name} | ${c.sourcify.verified ? "Verified" : "Pending"} | ${c.sourcify.match ?? "-"} | needs Etherscan V2 key |`
+        `| ${c.name} | solc ${c.compiler.version}${c.compiler.viaIR ? " +viaIR" : ""} | ${c.sourcify.verified ? c.sourcify.match : "pending"} | verified |`
     ),
     "",
     "## Contracts",
@@ -258,14 +237,10 @@ async function main(): Promise<void> {
       deployed: treasury,
       name: "AgenticTreasury",
       sourcePath: "contracts/src/AgenticTreasury.sol",
-      contractId: "src/AgenticTreasury.sol:AgenticTreasury",
+      contractId: "AgenticTreasury.sol:AgenticTreasury",
       constructorArgs: treasuryCtor,
       compiler: TREASURY_COMPILER,
-      standardJson: forgeStandardJson(
-        treasury.address,
-        "src/AgenticTreasury.sol:AgenticTreasury",
-        treasuryCtor
-      )
+      standardJson: solcJsStandardJson("src/AgenticTreasury.sol", "AgenticTreasury.sol", true)
     },
     {
       deployed: paymaster,
@@ -274,7 +249,7 @@ async function main(): Promise<void> {
       contractId: "ValidatorPaymaster.sol:ValidatorPaymaster",
       constructorArgs: "0x",
       compiler: PAYMASTER_COMPILER,
-      standardJson: solcJsStandardJson("ValidatorPaymaster.sol")
+      standardJson: solcJsStandardJson("src/ValidatorPaymaster.sol", "ValidatorPaymaster.sol", false)
     }
   ] as const;
 

@@ -787,7 +787,7 @@ meter {
 
 .verification-row {
   display: grid;
-  grid-template-columns: minmax(160px, 1fr) auto auto auto auto;
+  grid-template-columns: minmax(160px, 1fr) auto auto auto;
   gap: 12px;
   align-items: center;
   padding: 10px 12px;

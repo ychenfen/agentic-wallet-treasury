@@ -26,11 +26,11 @@ each claim independently on mantlescan without trusting the dashboard.
 
 ## 2.5. Contract source verification
 
-Both contracts are source-verified on **Sourcify** (chain 5003), exact match —
-keyless and independently checkable:
+Both contracts are source-verified on **Mantlescan** (Etherscan V2) and on
+**Sourcify** (chain 5003, exact match) — independently checkable:
 
-- **AgenticTreasury** — Sourcify full match: [lookup](https://sourcify.dev/#/lookup/0x739862C3Cf9b5f9Fe6A8ecd95E75714A20116fE9)
-- **ValidatorPaymaster** — Sourcify exact match: [lookup](https://sourcify.dev/#/lookup/0x1B94Af58b27203bC74ab749e4916d854758c7475)
+- **AgenticTreasury** — [Mantlescan verified source](https://sepolia.mantlescan.xyz/address/0x739862c3cf9b5f9fe6a8ecd95e75714a20116fe9#code) · [Sourcify](https://sourcify.dev/#/lookup/0x739862C3Cf9b5f9Fe6A8ecd95E75714A20116fE9)
+- **ValidatorPaymaster** — [Mantlescan verified source](https://sepolia.mantlescan.xyz/address/0x1b94af58b27203bc74ab749e4916d854758c7475#code) · [Sourcify](https://sourcify.dev/#/lookup/0x1B94Af58b27203bC74ab749e4916d854758c7475)
 
 Reproducible verification package (Standard-JSON inputs):
 
@@ -39,11 +39,12 @@ Reproducible verification package (Standard-JSON inputs):
 - **AgenticTreasury Standard JSON input** — [`contracts/verification/AgenticTreasury.standard-json-input.json`](./contracts/verification/AgenticTreasury.standard-json-input.json)
 - **ValidatorPaymaster Standard JSON input** — [`contracts/verification/ValidatorPaymaster.standard-json-input.json`](./contracts/verification/ValidatorPaymaster.standard-json-input.json)
 
-Compiler settings differ per contract (two deploy pipelines):
+Both were compiled with npm solc-js `0.8.35`; the Treasury needs via-IR
+(stack-too-deep otherwise), the Paymaster does not:
 
 | Contract | Solidity | Optimizer | Via IR | EVM |
 |---|---|---|---|---|
-| AgenticTreasury | `0.8.26` (forge) | 200 runs | yes | cancun |
+| AgenticTreasury | `0.8.35` (solc-js) | 200 runs | yes | solc default |
 | ValidatorPaymaster | `0.8.35` (solc-js) | 200 runs | no | solc default |
 
 Chain: Mantle Sepolia `5003`.
@@ -54,8 +55,7 @@ Reproduce / refresh the package:
 npm run prepare-verification
 ```
 
-Mantlescan (Etherscan-family) green-check additionally needs a free Etherscan V2
-API key; then run:
+Re-submit the Mantlescan verification with a free Etherscan V2 API key (idempotent):
 
 ```bash
 ETHERSCAN_API_KEY=<key> node scripts/verify-mantlescan.mjs

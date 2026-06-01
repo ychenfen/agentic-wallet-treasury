@@ -711,7 +711,7 @@ function ContractVerificationPanel({ file }: { file?: ContractVerificationFile }
           {allVerified ? "Source verified" : "Prepared"}
         </span>
         <span className="cycle-tip">
-          Sourcify · exact match · {new Date(file.generatedAt).toLocaleString()}
+          Mantlescan + Sourcify · {new Date(file.generatedAt).toLocaleString()}
         </span>
       </div>
       <div className="verification-rows">
@@ -727,6 +727,14 @@ function ContractVerificationPanel({ file }: { file?: ContractVerificationFile }
                 solc {contract.compiler?.version ?? "—"}
                 {contract.compiler?.viaIR ? " · viaIR" : ""}
               </span>
+              <a
+                className="verify-pill ok"
+                href={`${contract.explorerUrl}#code`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Mantlescan verified
+              </a>
               {contract.sourcify ? (
                 <a
                   className={`verify-pill ${verified ? "ok" : "wait"}`}
@@ -737,12 +745,6 @@ function ContractVerificationPanel({ file }: { file?: ContractVerificationFile }
                   {verified ? `Sourcify ${contract.sourcify.match ?? "verified"}` : "Pending"}
                 </a>
               ) : null}
-              <a href={contract.explorerUrl} target="_blank" rel="noreferrer">
-                Explorer
-              </a>
-              <a href={contract.verifyUrl} target="_blank" rel="noreferrer">
-                Mantlescan
-              </a>
             </div>
           );
         })}
