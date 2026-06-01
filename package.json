@@ -32,6 +32,7 @@
     "deploy-treasury": "npm run deploy-treasury -w @clawdao/scripts",
     "deploy-paymaster": "npm run deploy-paymaster -w @clawdao/scripts",
     "balance": "npm run balance -w @clawdao/scripts",
+    "wrap-action": "npm run wrap-action -w @clawdao/scripts",
     "report": "npm run report -w @clawdao/scripts",
     "record": "npm run record -w @clawdao/scripts",
     "record:screens": "npm run record:screens -w @clawdao/scripts",

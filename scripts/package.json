@@ -20,6 +20,7 @@
     "deploy-treasury": "tsx deploy-treasury.ts",
     "deploy-paymaster": "tsx deploy-paymaster.ts",
     "balance": "tsx balance-check.ts",
+    "wrap-action": "tsx wrap-action.ts",
     "report": "tsx post-run-report.ts",
     "record": "tsx record-walkthrough.ts",
     "record:screens": "RECORD_SCREENSHOTS_ONLY=1 tsx record-walkthrough.ts",

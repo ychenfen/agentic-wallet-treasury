@@ -192,6 +192,23 @@ interface ContractVerificationFile {
   }>;
 }
 
+interface DefiActionFile {
+  generatedAt: string;
+  network: { name: string; chainId: number; explorer: string };
+  protocol: { name: string; address: string; explorerUrl: string; capability: string };
+  action: {
+    description: string;
+    amountMnt: string;
+    treasury: string;
+    guard: string;
+    executor: string;
+    selector: string;
+  };
+  seedTx: { hash: string; explorerUrl: string } | null;
+  wrapTx: { hash: string; explorerUrl: string };
+  validation: { deltaMnt: string; passed: boolean; summary: string };
+}
+
 function shortHash(value?: string): string {
   if (!value) return "pending";
   if (value.length <= 16) return value;
@@ -828,6 +845,59 @@ function AgentStoryPanel({ run }: { run: DemoRun }) {
   );
 }
 
+/** Phase 3 evidence: a real external-protocol call (WMNT wrap) through the treasury. */
+function DefiActionPanel({ file }: { file?: DefiActionFile }) {
+  if (!file) return null;
+  const v = file.validation;
+  return (
+    <div className="defi-panel">
+      <div className="section-heading">
+        <CircleDollarSign size={18} />
+        <h2>Real Mantle DeFi Action</h2>
+        <span className={`verify-pill ${v.passed ? "ok" : "wait"}`}>
+          {v.passed ? "Validated on-chain" : "Pending"}
+        </span>
+        <span className="cycle-tip">{new Date(file.generatedAt).toLocaleString()}</span>
+      </div>
+      <p className="defi-lead">{file.action.description}</p>
+      <div className="defi-grid">
+        <div>
+          <span>Protocol</span>
+          <a href={file.protocol.explorerUrl} target="_blank" rel="noreferrer">
+            {file.protocol.name}
+          </a>
+          <small>{file.protocol.capability}</small>
+        </div>
+        <div>
+          <span>Guard approved</span>
+          <CopyChip value={file.action.guard} title="Copy Guard signer" />
+          <small>EIP-712 signer</small>
+        </div>
+        <div>
+          <span>Claw executed</span>
+          <CopyChip value={file.action.executor} title="Copy Claw executor" />
+          <small>through AgenticTreasury</small>
+        </div>
+        <div>
+          <span>Sentinel result</span>
+          <strong>+{v.deltaMnt} WMNT</strong>
+          <small>{v.passed ? "balance delta matches" : "mismatch"}</small>
+        </div>
+      </div>
+      <div className="defi-txs">
+        {file.seedTx ? (
+          <a href={file.seedTx.explorerUrl} target="_blank" rel="noreferrer">
+            Seed tx <ExternalLink size={12} />
+          </a>
+        ) : null}
+        <a href={file.wrapTx.explorerUrl} target="_blank" rel="noreferrer">
+          Wrap tx <ExternalLink size={12} />
+        </a>
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [run, setRun] = useState<DemoRun>(FALLBACK_RUN);
   const [history, setHistory] = useState<DemoHistory>(FALLBACK_HISTORY);
@@ -836,6 +906,7 @@ function App() {
   const [preflight, setPreflight] = useState<PreflightFile | undefined>();
   const [byrealProbe, setByrealProbe] = useState<ByrealProbeSummary | undefined>();
   const [contractVerification, setContractVerification] = useState<ContractVerificationFile | undefined>();
+  const [defiAction, setDefiAction] = useState<DefiActionFile | undefined>();
 
   useEffect(() => {
     fetch(publicAsset("demo-run.json"), { cache: "no-store" })
@@ -872,6 +943,11 @@ function App() {
       .then((response) => (response.ok ? response.json() : undefined))
       .then((data?: ContractVerificationFile) => setContractVerification(data))
       .catch(() => setContractVerification(undefined));
+
+    fetch(publicAsset("defi-action.json"), { cache: "no-store" })
+      .then((response) => (response.ok ? response.json() : undefined))
+      .then((data?: DefiActionFile) => setDefiAction(data))
+      .catch(() => setDefiAction(undefined));
   }, []);
 
   const averageRep = useMemo(
@@ -1099,6 +1175,12 @@ function App() {
       <section className="cycle-history-section" aria-label="Byreal Skills probe">
         <ByrealProbePanel probe={byrealProbe} />
       </section>
+
+      {defiAction ? (
+        <section className="cycle-history-section" aria-label="Real DeFi action">
+          <DefiActionPanel file={defiAction} />
+        </section>
+      ) : null}
 
       <section className="cycle-history-section" aria-label="Event log">
         <EventLogPanel events={events} />

@@ -152,14 +152,24 @@ Goal: make the project feel like an actual wallet product.
 - Improve mobile layout and screenshot quality.
 - Add one-click copy links for contract/tx evidence.
 
-### Phase 3 — Real Mantle DeFi Action
+### Phase 3 — Real Mantle DeFi Action — DONE (2026-06-01)
 
 Goal: move beyond treasury self-call demo.
 
-- Add one Mantle protocol adapter.
-- Keep the first integration tiny and bounded.
-- Show Guard approving a real external protocol target.
-- Show Sentinel validating the external action.
+Shipped a bounded real external-protocol action: the treasury wraps 0.01 native
+MNT into WMNT (canonical WETH9-style Wrapped MNT, `0xc0ee…1ac7`).
+
+- No new contract — reuses the verified `AgenticTreasury.executeApprovedAction`
+  external `target.call`.
+- Guard signs an EIP-712 approval whose target is the real WMNT contract.
+- Claw executes it; the treasury ends up holding 0.01 WMNT.
+- Sentinel validates the on-chain WMNT balance delta.
+- Wrap tx: `0x7a856a4f…234499`. Evidence: `apps/web/public/defi-action.json`,
+  `SUBMISSION_HASHES.md` §2.6. Proof: `forge test --match-contract WrapActionTest`,
+  re-run with `npm run wrap-action`.
+
+Next external integrations (optional): a Byreal/DEX swap once a Mantle venue with
+testnet liquidity is confirmed; keep each one tiny and Guard-bounded.
 
 ### Phase 4 — Optional Mainnet Evidence
 

@@ -61,6 +61,25 @@ API key; then run:
 ETHERSCAN_API_KEY=<key> node scripts/verify-mantlescan.mjs
 ```
 
+## 2.6. Real Mantle DeFi action (Phase 3)
+
+The treasury drives a real external protocol, not just self-calls. Guard
+approves wrapping a bounded amount of native MNT into **WMNT** (canonical
+WETH9-style Wrapped MNT), Claw executes it through `AgenticTreasury`, and
+Sentinel validates the treasury's WMNT balance delta.
+
+- **Protocol** — WMNT (Wrapped MNT): [0xc0ee…1ac7](https://sepolia.mantlescan.xyz/token/0xc0eecfa24e391e4259b7ef17be54be5139da1ac7)
+- **Capability** — WETH9-style `deposit()` (selector `0xd0e30db0`), native MNT wrapped 1:1
+- **Amount** — 0.01 MNT (well under the 1 MNT on-chain value cap)
+- **Guard approval (EIP-712 signer)** — 0x0067…4977
+- **Claw executor** — 0x14e8…4718
+- **Seed tx** — [0x9a193d0f…716c33](https://sepolia.mantlescan.xyz/tx/0x9a193d0f705c374927180f10a7dd92b3d45fec799d8a5fa9ede39af60b716c33)
+- **Wrap tx** — [0x7a856a4f…234499](https://sepolia.mantlescan.xyz/tx/0x7a856a4f4c8d2a9d9d4f61af8877d2e630cd73828c9d7c83a75f19eaff234499)
+- **Result** — treasury holds 0.01 WMNT; Sentinel validation passed.
+
+Dashboard JSON: [`apps/web/public/defi-action.json`](./apps/web/public/defi-action.json).
+Reproduce: `npm run wrap-action`. Foundry proof: `forge test --match-contract WrapActionTest`.
+
 ## 3. ERC-8004 agent identities
 
 Registry: [0x8004…BD9e](https://sepolia.mantlescan.xyz/address/0x8004A818BFB912233c491871b3d84c89A494BD9e) on mantle-sepolia

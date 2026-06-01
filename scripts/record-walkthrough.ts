@@ -45,12 +45,13 @@ const SECTIONS: Section[] = [
   { id: "01-story",         ariaLabel: "Plain-English walkthrough",     label: "0:12–0:32 What each agent did",   dwellSeconds: 20 },
   { id: "02-agent-grid",    ariaLabel: "Agent identities",              label: "0:32–0:44 Architecture",          dwellSeconds: 12 },
   { id: "03-workbench",     selector: "section.workbench",              label: "0:44–1:16 Live run + x402",       dwellSeconds: 32 },
-  { id: "04-byreal",        ariaLabel: "Byreal Skills probe",           label: "1:16–1:34 Byreal capability",     dwellSeconds: 18 },
-  { id: "05-verification",  ariaLabel: "Mantlescan verification",       label: "1:34–1:50 Verified contracts",    dwellSeconds: 16 },
-  { id: "06-live-chain",    ariaLabel: "Live chain",                    label: "1:50–2:06 Live chain panel",      dwellSeconds: 16 },
-  { id: "07-event-log",     ariaLabel: "Event log",                     label: "2:06–2:26 Event log",             dwellSeconds: 20 },
-  { id: "08-readiness",     ariaLabel: "Submission readiness",          label: "2:26–2:38 Submission readiness",  dwellSeconds: 12 },
-  { id: "09-evidence",      ariaLabel: "ERC-8004 evidence",             label: "2:38–2:54 Close",                 dwellSeconds: 16 }
+  { id: "04-byreal",        ariaLabel: "Byreal Skills probe",           label: "1:16–1:32 Byreal capability",     dwellSeconds: 16 },
+  { id: "05-defi",          ariaLabel: "Real DeFi action",              label: "1:32–1:50 Real DeFi action (WMNT)", dwellSeconds: 18 },
+  { id: "06-verification",  ariaLabel: "Mantlescan verification",       label: "1:50–2:04 Verified contracts",    dwellSeconds: 14 },
+  { id: "07-live-chain",    ariaLabel: "Live chain",                    label: "2:04–2:18 Live chain panel",      dwellSeconds: 14 },
+  { id: "08-event-log",     ariaLabel: "Event log",                     label: "2:18–2:36 Event log",             dwellSeconds: 18 },
+  { id: "09-readiness",     ariaLabel: "Submission readiness",          label: "2:36–2:48 Submission readiness",  dwellSeconds: 12 },
+  { id: "10-evidence",      ariaLabel: "ERC-8004 evidence",             label: "2:48–3:02 Close",                 dwellSeconds: 14 }
 ];
 
 const ROOT = resolve(process.cwd(), "..");
