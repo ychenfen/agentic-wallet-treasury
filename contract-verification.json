@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-01T07:40:51.745Z",
+  "generatedAt": "2026-06-01T09:17:31.510Z",
   "status": "verified",
   "method": "Sourcify (keyless, exact match) + Etherscan V2 Standard-Json-Input",
   "network": "mantle-sepolia",
@@ -22,17 +22,17 @@
       "explorerUrl": "https://sepolia.mantlescan.xyz/address/0x739862c3cf9b5f9fe6a8ecd95e75714a20116fe9",
       "verifyUrl": "https://sepolia.mantlescan.xyz/verifyContract?a=0x739862c3cf9b5f9fe6a8ecd95e75714a20116fe9",
       "sourcePath": "contracts/src/AgenticTreasury.sol",
-      "contractId": "src/AgenticTreasury.sol:AgenticTreasury",
+      "contractId": "AgenticTreasury.sol:AgenticTreasury",
       "standardJsonPath": "contracts/verification/AgenticTreasury.standard-json-input.json",
       "constructorArgs": "0x0000000000000000000000000067f734596b61dc4565fbc6242d5e1b3cc749770000000000000000000000000000000000000000000000000de0b6b3a7640000",
       "constructorArgsPath": "contracts/verification/AgenticTreasury.constructor-args.txt",
       "compiler": {
-        "version": "0.8.26",
-        "longVersion": "v0.8.26+commit.8a97fa7a",
+        "version": "0.8.35",
+        "longVersion": "v0.8.35+commit.47b9dedd",
         "optimizer": true,
         "optimizerRuns": 200,
         "viaIR": true,
-        "evmVersion": "cancun"
+        "evmVersion": "default (solc 0.8.35 default)"
       },
       "sourcify": {
         "verified": true,
