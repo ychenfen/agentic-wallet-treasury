@@ -17,7 +17,19 @@ Agentic Wallet Treasury focuses on the harder question: how do autonomous agents
 
 Show: dashboard top section with project name and five-agent summary.
 
-## 0:15–0:40 — Architecture
+## 0:12–0:32 — What each agent did (plain English)
+
+```text
+Here is one full treasury cycle in plain language.
+Scout proposed a small capped move. Guard approved it after four safety checks.
+Claw executed it on Mantle. Sentinel independently re-checked the result, scored
+it, and got paid in MNT for the work. Ledger wrote every score back to ERC-8004
+reputation — so the wallet literally grades its own employees.
+```
+
+Show: the "What just happened, in plain English" walkthrough panel.
+
+## 0:32–0:44 — Architecture
 
 ```text
 The system uses five ERC-8004 agents on Mantle Sepolia.
@@ -49,7 +61,28 @@ Execution tx:
 https://sepolia.mantlescan.xyz/tx/0xa3d26423e3ab39e4303009d862d2e3f9f6d50fcc8139f93c3d73821999a4ca8a
 ```
 
-## 1:15–1:50 — ERC-8004 Evidence
+## 1:16–1:34 — Byreal capability
+
+```text
+Scout and Sentinel run the real Byreal RealClaw CLI each cycle — 36 capabilities
+and 5 live Byreal pools, with TVL, fees, and pool depth. That pool data grounds
+both the proposal and the independent validation. This answers the track's
+required question: which Byreal capability, used in what scenario.
+```
+
+Show: the "Byreal Skills Probe" panel and its "Which Byreal capability?" answer.
+
+## 1:34–1:50 — Verified contracts
+
+```text
+Both contracts are source-verified, exact match, on Sourcify for Mantle Sepolia.
+AgenticTreasury was built with solc 0.8.26 via-IR; ValidatorPaymaster with 0.8.35.
+Judges can confirm the source matches the deployed bytecode without trusting us.
+```
+
+Show: the "Contract Verification" panel with the green Source-verified pills.
+
+## 1:50–2:15 — ERC-8004 Evidence
 
 ```text
 Every agent is a real ERC-8004 identity, not a local placeholder.
@@ -68,7 +101,7 @@ Evidence report:
 https://github.com/ychenfen/agentic-wallet-treasury/blob/main/SUBMISSION_HASHES.md
 ```
 
-## 1:50–2:25 — Why This Fits Track 6
+## 2:15–2:38 — Why This Fits Track 6
 
 ```text
 This is an agentic wallet economy, not just a trading bot.
@@ -78,7 +111,7 @@ That loop can be reused for RWA allocation, DeFi rebalancing, treasury operation
 
 Show: Recent cycles + reputation feedback.
 
-## 2:25–2:50 — Close
+## 2:38–2:54 — Close
 
 ```text
 Agentic Wallet Treasury gives Mantle a verifiable benchmark for wallet agents.

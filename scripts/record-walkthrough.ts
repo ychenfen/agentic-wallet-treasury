@@ -41,15 +41,16 @@ interface Section {
 
 // Mirrors the timeline in VIDEO_SCRIPT.md (2:30–3:00 total).
 const SECTIONS: Section[] = [
-  { id: "00-topbar",        selector: "header.topbar",                  label: "0:00–0:15 Hook",                 dwellSeconds: 15 },
-  { id: "01-hero",          selector: "section.hero",                   label: "0:15–0:25 Five-agent summary",    dwellSeconds: 10 },
-  { id: "02-agent-grid",    ariaLabel: "Agent identities",              label: "0:25–0:40 Architecture",          dwellSeconds: 15 },
-  { id: "03-workbench",     selector: "section.workbench",              label: "0:40–1:15 Live run",              dwellSeconds: 35 },
-  { id: "04-cycle-history", ariaLabel: "Cycle history",                 label: "1:15–1:30 Recent cycles",          dwellSeconds: 15 },
-  { id: "05-live-chain",    ariaLabel: "Live chain",                    label: "1:30–1:50 Live chain panel",       dwellSeconds: 20 },
-  { id: "06-event-log",     ariaLabel: "Event log",                     label: "1:50–2:15 Event log",              dwellSeconds: 25 },
-  { id: "07-readiness",     ariaLabel: "Submission readiness",          label: "2:15–2:30 Submission readiness",   dwellSeconds: 15 },
-  { id: "08-evidence",      ariaLabel: "ERC-8004 evidence",             label: "2:30–2:50 Close",                  dwellSeconds: 20 }
+  { id: "00-topbar",        selector: "header.topbar",                  label: "0:00–0:12 Hook",                  dwellSeconds: 12 },
+  { id: "01-story",         ariaLabel: "Plain-English walkthrough",     label: "0:12–0:32 What each agent did",   dwellSeconds: 20 },
+  { id: "02-agent-grid",    ariaLabel: "Agent identities",              label: "0:32–0:44 Architecture",          dwellSeconds: 12 },
+  { id: "03-workbench",     selector: "section.workbench",              label: "0:44–1:16 Live run + x402",       dwellSeconds: 32 },
+  { id: "04-byreal",        ariaLabel: "Byreal Skills probe",           label: "1:16–1:34 Byreal capability",     dwellSeconds: 18 },
+  { id: "05-verification",  ariaLabel: "Mantlescan verification",       label: "1:34–1:50 Verified contracts",    dwellSeconds: 16 },
+  { id: "06-live-chain",    ariaLabel: "Live chain",                    label: "1:50–2:06 Live chain panel",      dwellSeconds: 16 },
+  { id: "07-event-log",     ariaLabel: "Event log",                     label: "2:06–2:26 Event log",             dwellSeconds: 20 },
+  { id: "08-readiness",     ariaLabel: "Submission readiness",          label: "2:26–2:38 Submission readiness",  dwellSeconds: 12 },
+  { id: "09-evidence",      ariaLabel: "ERC-8004 evidence",             label: "2:38–2:54 Close",                 dwellSeconds: 16 }
 ];
 
 const ROOT = resolve(process.cwd(), "..");

@@ -85,13 +85,36 @@ Most wallet automation demos hide the hard part: who is allowed to act, how risk
 
 The system has five ERC-8004 agents:
 
-Scout researches the current treasury context and proposes a bounded action.
+Scout researches the current treasury context (including a real Byreal RealClaw CLI pool probe) and proposes a bounded action.
 Guard applies treasury policy and signs an EIP-712 ApprovedAction when the action is safe.
 Claw submits the approved action to the AgenticTreasury contract on Mantle Sepolia.
 Ledger writes structured feedback to the ERC-8004 ReputationRegistry.
-Sentinel independently validates the execution and posts a ValidationRegistry response.
+Sentinel independently validates the execution, posts a ValidationRegistry response, and earns an x402-style MNT fee through the ValidatorPaymaster escrow — so validation is a paid job, not a free claim.
 
-The latest public run includes real Mantle Sepolia evidence: five ERC-8004 registrations, a deployed AgenticTreasury contract, a treasury execution transaction, ReputationRegistry feedback, ValidationRegistry request/response, and a live dashboard that backfills chain events.
+The economic loop is the point: agents are paid for honest validation and gain or lose ERC-8004 reputation based on outcomes, so the wallet keeps grading its own employees.
+
+The latest public run includes real Mantle Sepolia evidence: five ERC-8004 registrations, a deployed and source-verified AgenticTreasury contract, a treasury execution transaction, ReputationRegistry feedback, ValidationRegistry request/response, an x402 validation payment, and a live dashboard that backfills chain events.
+```
+
+**Which Byreal on-chain capabilities does your project use? What scenario?** (required track question)
+
+```text
+Capability: Byreal RealClaw CLI — the real capability catalog plus Byreal CLMM
+pool data. Each cycle our agents run the released RealClaw CLI (v0.3.13) to read
+36 agent capabilities and 5 live Byreal pools (TVL, 24h volume/fees, APR, pool
+depth). The captured probe is stored as byreal-probe.json and shown on the
+public dashboard ("Byreal Skills Probe").
+
+Scenario: RealClaw Real-Life Expansion — a Personal CFO / agentic treasury
+wallet. Scout uses the Byreal pool probe to ground each treasury proposal in
+real liquidity/depth, and Sentinel uses the same data to independently re-check
+whether an execution's slippage was realistic before it gets paid and before
+reputation is written. So Byreal capability data drives both the proposal and
+the validation halves of an accountable wallet control loop on Mantle.
+
+Honest scope: on-chain settlement runs on Mantle Sepolia via our AgenticTreasury
+and ValidatorPaymaster contracts; Byreal is used as the real RealClaw capability
+and pool-research layer, not as a Mantle execution venue.
 ```
 
 **Track**
@@ -118,11 +141,13 @@ https://github.com/ychenfen/agentic-wallet-treasury/blob/main/PROJECT_STATE_AND_
 Contract verification package:
 https://github.com/ychenfen/agentic-wallet-treasury/blob/main/CONTRACT_VERIFICATION.md
 
-AgenticTreasury:
+AgenticTreasury (source-verified on Sourcify, exact match):
 https://sepolia.mantlescan.xyz/address/0x739862c3cf9b5f9fe6a8ecd95e75714a20116fe9
+https://sourcify.dev/#/lookup/0x739862C3Cf9b5f9Fe6A8ecd95E75714A20116fE9
 
-ValidatorPaymaster:
+ValidatorPaymaster (source-verified on Sourcify, exact match):
 https://sepolia.mantlescan.xyz/address/0x1b94af58b27203bc74ab749e4916d854758c7475
+https://sourcify.dev/#/lookup/0x1B94Af58b27203bC74ab749e4916d854758c7475
 
 Execution tx:
 https://sepolia.mantlescan.xyz/tx/0xa3d26423e3ab39e4303009d862d2e3f9f6d50fcc8139f93c3d73821999a4ca8a

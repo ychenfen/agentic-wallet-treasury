@@ -3,8 +3,10 @@ import { createRoot } from "react-dom/client";
 import {
   Activity,
   BadgeCheck,
+  Check,
   CircleCheck,
   CircleDollarSign,
+  Copy,
   ExternalLink,
   Eye,
   Fingerprint,
@@ -159,9 +161,11 @@ interface PreflightFile {
 
 interface ContractVerificationFile {
   generatedAt: string;
-  status: "prepared";
+  status: "verified" | "prepared";
   network: string;
   chainId: number;
+  method?: string;
+  sourcify?: { verified: boolean; serverUrl: string };
   compiler: {
     version: string;
     optimizer: boolean;
@@ -176,6 +180,15 @@ interface ContractVerificationFile {
     verifyUrl: string;
     standardJsonPath: string;
     constructorArgs: string;
+    compiler?: {
+      version: string;
+      longVersion: string;
+      optimizer: boolean;
+      optimizerRuns: number;
+      viaIR: boolean;
+      evmVersion: string;
+    };
+    sourcify?: { verified: boolean; match: string | null; lookupUrl: string };
   }>;
 }
 
@@ -183,6 +196,33 @@ function shortHash(value?: string): string {
   if (!value) return "pending";
   if (value.length <= 16) return value;
   return `${value.slice(0, 8)}...${value.slice(-6)}`;
+}
+
+/** One-click copy chip for evidence (addresses, tx hashes, agent IDs). */
+function CopyChip({ value, label, title }: { value?: string; label?: string; title?: string }) {
+  const [copied, setCopied] = useState(false);
+  if (!value) return <span className="copy-chip empty">pending</span>;
+  const onCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1400);
+    } catch {
+      setCopied(false);
+    }
+  };
+  return (
+    <button
+      type="button"
+      className={`copy-chip ${copied ? "copied" : ""}`}
+      onClick={onCopy}
+      title={title ?? `Copy ${value}`}
+      aria-label={`Copy ${title ?? value}`}
+    >
+      <span className="copy-chip-label">{label ?? shortHash(value)}</span>
+      {copied ? <Check size={12} /> : <Copy size={12} />}
+    </button>
+  );
 }
 
 function roleIcon(role: AgentIdentity["role"]) {
@@ -434,6 +474,16 @@ function ByrealProbePanel({ probe }: { probe?: ByrealProbeSummary }) {
           CLI v{probe.cliVersion} · {probe.capabilityCount} capabilities · {new Date(probe.generatedAt).toLocaleString()}
         </span>
       </div>
+      <div className="byreal-answer">
+        <strong>Which Byreal capability does this use?</strong>
+        <p>
+          The real <b>RealClaw CLI</b> (v{probe.cliVersion}) capability catalog and Byreal CLMM
+          pool probe — {probe.capabilityCount} capabilities and {overview?.poolsCount ?? probe.topPools.length} pools read
+          live. <b>Scenario:</b> Scout and Sentinel call it to research treasury context and
+          pool depth before proposing and validating each action — the Personal CFO / agentic
+          wallet path of RealClaw Real-Life Expansion.
+        </p>
+      </div>
       <div className="byreal-summary">
         <div>
           <span>DEX TVL</span>
@@ -625,7 +675,7 @@ function ContractVerificationPanel({ file }: { file?: ContractVerificationFile }
       <div className="verification-panel idle">
         <div className="section-heading">
           <BadgeCheck size={18} />
-          <h2>Mantlescan Verification</h2>
+          <h2>Contract Verification</h2>
         </div>
         <p>
           Run <code>npm run prepare-verification</code> to generate Standard JSON inputs
@@ -634,32 +684,146 @@ function ContractVerificationPanel({ file }: { file?: ContractVerificationFile }
       </div>
     );
   }
+  const allVerified = file.sourcify?.verified ?? file.status === "verified";
   return (
     <div className="verification-panel">
       <div className="section-heading">
         <BadgeCheck size={18} />
-        <h2>Mantlescan Verification</h2>
+        <h2>Contract Verification</h2>
+        <span className={`verify-pill ${allVerified ? "ok" : "wait"}`}>
+          {allVerified ? "Source verified" : "Prepared"}
+        </span>
         <span className="cycle-tip">
-          {file.status} · solc {file.compiler.version} · viaIR {String(file.compiler.viaIR)} · {new Date(file.generatedAt).toLocaleString()}
+          Sourcify · exact match · {new Date(file.generatedAt).toLocaleString()}
         </span>
       </div>
       <div className="verification-rows">
-        {file.contracts.map((contract) => (
-          <div className="verification-row" key={contract.address}>
-            <div>
-              <strong>{contract.name}</strong>
-              <span>{shortHash(contract.address)}</span>
+        {file.contracts.map((contract) => {
+          const verified = contract.sourcify?.verified ?? false;
+          return (
+            <div className="verification-row" key={contract.address}>
+              <div>
+                <strong>{contract.name}</strong>
+                <CopyChip value={contract.address} label={shortHash(contract.address)} />
+              </div>
+              <span className="verify-compiler">
+                solc {contract.compiler?.version ?? "—"}
+                {contract.compiler?.viaIR ? " · viaIR" : ""}
+              </span>
+              {contract.sourcify ? (
+                <a
+                  className={`verify-pill ${verified ? "ok" : "wait"}`}
+                  href={contract.sourcify.lookupUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {verified ? `Sourcify ${contract.sourcify.match ?? "verified"}` : "Pending"}
+                </a>
+              ) : null}
+              <a href={contract.explorerUrl} target="_blank" rel="noreferrer">
+                Explorer
+              </a>
+              <a href={contract.verifyUrl} target="_blank" rel="noreferrer">
+                Mantlescan
+              </a>
             </div>
-            <a href={contract.explorerUrl} target="_blank" rel="noreferrer">
-              Explorer
-            </a>
-            <a href={contract.verifyUrl} target="_blank" rel="noreferrer">
-              Verify page
-            </a>
-            <code>{contract.standardJsonPath}</code>
-          </div>
-        ))}
+          );
+        })}
       </div>
+    </div>
+  );
+}
+
+/**
+ * Plain-English narration of the latest cycle. Lowers the Web3 barrier for
+ * non-technical judges (Best UI/UX: Accessibility + AI Interaction Design).
+ */
+function AgentStoryPanel({ run }: { run: DemoRun }) {
+  const byRole = (role: AgentIdentity["role"]) => run.identities.find((a) => a.role === role);
+  const name = (role: AgentIdentity["role"], fallback: string) => byRole(role)?.name ?? fallback;
+
+  const fee =
+    run.validation.payment && run.validation.payment.feePaidWei !== "0"
+      ? `${formatMnt(run.validation.payment.feePaidWei)} MNT`
+      : null;
+
+  const sentinelLine = run.validation.passed
+    ? `Independently re-checked the result, scored it ${run.validation.response}/100${fee ? `, and earned ${fee} for the work` : ""}.`
+    : run.validation.response > 0
+      ? `Independently re-checked the result and flagged it at ${run.validation.response}/100.`
+      : "Is re-checking the result before it counts.";
+
+  const steps = [
+    {
+      who: name("researcher", "Scout"),
+      role: "Researcher",
+      did: `Proposed a small, capped move: $${run.proposal.amountUsd} from ${run.proposal.assetIn} to ${run.proposal.assetOut}.`,
+      why: run.proposal.rationale,
+      link: undefined as string | undefined,
+      linkLabel: undefined as string | undefined
+    },
+    {
+      who: name("risk", "Guard"),
+      role: "Risk officer",
+      did: `${run.verdict.approved ? "Approved" : "Blocked"} it at ${run.verdict.score}/100 after ${run.verdict.checks.length} safety checks.`,
+      why: run.verdict.reason,
+      link: undefined,
+      linkLabel: undefined
+    },
+    {
+      who: name("executor", "Claw"),
+      role: "Executor",
+      did: "Carried out the approved move on Mantle and saved a tamper-proof receipt.",
+      why: run.execution.summary,
+      link: run.execution.explorerUrl,
+      linkLabel: "view transaction"
+    },
+    {
+      who: name("validator", "Sentinel"),
+      role: "Validator",
+      did: sentinelLine,
+      why: run.validation.summary,
+      link: run.validation.payment?.explorerUrl,
+      linkLabel: fee ? "view x402 payment" : undefined
+    },
+    {
+      who: name("auditor", "Ledger"),
+      role: "Auditor",
+      did: `Recorded every agent's score on-chain (ERC-8004) for all ${run.reputation.length} agents.`,
+      why: "Good work builds an agent's reputation; bad work costs it — so the wallet keeps grading its own employees.",
+      link: undefined,
+      linkLabel: undefined
+    }
+  ];
+
+  return (
+    <div className="story-panel">
+      <div className="section-heading">
+        <Sparkles size={18} />
+        <h2>What just happened, in plain English</h2>
+        <span className="cycle-tip">Five AI agents ran one treasury cycle — here is each step</span>
+      </div>
+      <ol className="story-steps">
+        {steps.map((step, i) => (
+          <li className="story-step" key={step.role}>
+            <span className="story-num">{i + 1}</span>
+            <div className="story-body">
+              <div className="story-who">
+                <strong>{step.who}</strong>
+                <span className="story-role">{step.role}</span>
+              </div>
+              <p className="story-did">{step.did}</p>
+              {step.why ? <p className="story-why">{step.why}</p> : null}
+              {step.link ? (
+                <a className="story-link" href={step.link} target="_blank" rel="noreferrer">
+                  {step.linkLabel ?? "view on Mantlescan"}
+                  <ExternalLink size={13} />
+                </a>
+              ) : null}
+            </div>
+          </li>
+        ))}
+      </ol>
     </div>
   );
 }
@@ -755,6 +919,10 @@ function App() {
         </div>
       </section>
 
+      <section className="story-section" aria-label="Plain-English walkthrough">
+        <AgentStoryPanel run={run} />
+      </section>
+
       <section className="agent-grid" aria-label="Agent identities">
         {run.identities.map((agent) => (
           <AgentCard
@@ -799,17 +967,20 @@ function App() {
           </div>
           <div className="proof-row">
             <span>Tx</span>
-            {run.execution.explorerUrl ? (
-              <a href={run.execution.explorerUrl} target="_blank" rel="noreferrer">
-                {shortHash(run.execution.txHash)}
-              </a>
-            ) : (
-              <strong>{shortHash(run.execution.txHash)}</strong>
-            )}
+            <span className="proof-value">
+              {run.execution.explorerUrl ? (
+                <a href={run.execution.explorerUrl} target="_blank" rel="noreferrer">
+                  {shortHash(run.execution.txHash)}
+                </a>
+              ) : (
+                <strong>{shortHash(run.execution.txHash)}</strong>
+              )}
+              <CopyChip value={run.execution.txHash} label="copy" title="Copy full tx hash" />
+            </span>
           </div>
           <div className="proof-row">
             <span>Proof</span>
-            <strong>{shortHash(run.execution.proofHash)}</strong>
+            <CopyChip value={run.execution.proofHash} title="Copy proof hash" />
           </div>
           <p>{run.execution.summary}</p>
 
@@ -857,7 +1028,7 @@ function App() {
           </div>
           <div className="proof-row">
             <span>Request hash</span>
-            <strong>{shortHash(run.validation.requestHash)}</strong>
+            <CopyChip value={run.validation.requestHash} title="Copy validation request hash" />
           </div>
           {run.validation.payment && run.validation.payment.feePaidWei !== "0" && (
             <div className="proof-row">

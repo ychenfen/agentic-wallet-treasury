@@ -101,13 +101,13 @@ For the full operator script see [`RUNBOOK.md`](./RUNBOOK.md).
 
 | 维度 | 结论 |
 |---|---|
-| 截止日期 | 2026-06-15 23:59，剩 42 天 |
+| 截止日期 | 2026-06-15 23:59，剩 14 天（截至 2026-06-01） |
 | 奖金池 | Phase 2 $100,000，6 条赛道（Phase 1 已结束） |
 | 评委定位 | VC + 数据 + AI infra，不是纯学术——重叙事、重 agent 真实表现 |
 | 核心机制 | 链上 benchmarking + ERC-8004 身份 + 全球直播 |
 | 当前选择 | **#6 Agentic Wallets & Economy** |
 | 当前项目 | **Agentic Wallet Treasury** |
-| 当前状态 | 已完成 Mantle Sepolia treasury deploy、5 个 ERC-8004 agentId、reputation、validation、事件回填 |
+| 当前状态 | Mantle Sepolia treasury deploy、5 个 ERC-8004 agentId、reputation、validation、x402 支付、事件回填；两个合约已在 Sourcify 上 exact-match 验证 |
 
 ## Code Layout
 
@@ -132,6 +132,8 @@ ERC-8004 Validation (Mantle):  0x8004Cc8439f36fd5F9F049D9fF86523Df6dAAB58
 ERC-8004 Identity (Sepolia):   0x8004A818BFB912233c491871b3d84c89A494BD9e
 ERC-8004 Reputation (Sepolia): 0x8004B663056A597Dffe9eCcC1965A193B7388713
 ERC-8004 Validation (Sepolia): 0x8004Cb1BF31DAf7788923b405b754f57acEB4272
+AgenticTreasury (Sepolia):     0x739862c3cf9b5f9fe6a8ecd95e75714a20116fe9  (Sourcify verified, solc 0.8.26 via-IR)
+ValidatorPaymaster (Sepolia):  0x1b94af58b27203bc74ab749e4916d854758c7475  (Sourcify verified, solc 0.8.35)
 Byreal CLI npm 包:             @byreal-io/byreal-cli
 Byreal Skills GitHub:          github.com/byreal-git/byreal-agent-skills
 ERC-8004 contracts GitHub:     github.com/erc-8004/erc-8004-contracts

@@ -24,30 +24,41 @@ each claim independently on mantlescan without trusting the dashboard.
 - **Payment tx** — [0x20406118…4e7571](https://sepolia.mantlescan.xyz/tx/0x204061182355170d185995a620a521a2f16b04c32b016f0c7258c5677d4e7571)
 - **Linked requestHash** — 0x27bf50c3cfe269388f0363b7737f72cf798b76e3c27efafbf436bb57c17c70c6
 
-## 2.5. Mantlescan verification package
+## 2.5. Contract source verification
 
-The project now includes a reproducible Mantlescan verification package for
-the two contracts above:
+Both contracts are source-verified on **Sourcify** (chain 5003), exact match —
+keyless and independently checkable:
+
+- **AgenticTreasury** — Sourcify full match: [lookup](https://sourcify.dev/#/lookup/0x739862C3Cf9b5f9Fe6A8ecd95E75714A20116fE9)
+- **ValidatorPaymaster** — Sourcify exact match: [lookup](https://sourcify.dev/#/lookup/0x1B94Af58b27203bC74ab749e4916d854758c7475)
+
+Reproducible verification package (Standard-JSON inputs):
 
 - **Guide** — [`CONTRACT_VERIFICATION.md`](./CONTRACT_VERIFICATION.md)
 - **Public dashboard JSON** — [`apps/web/public/contract-verification.json`](./apps/web/public/contract-verification.json)
 - **AgenticTreasury Standard JSON input** — [`contracts/verification/AgenticTreasury.standard-json-input.json`](./contracts/verification/AgenticTreasury.standard-json-input.json)
-- **AgenticTreasury constructor args** — [`contracts/verification/AgenticTreasury.constructor-args.txt`](./contracts/verification/AgenticTreasury.constructor-args.txt)
 - **ValidatorPaymaster Standard JSON input** — [`contracts/verification/ValidatorPaymaster.standard-json-input.json`](./contracts/verification/ValidatorPaymaster.standard-json-input.json)
-- **ValidatorPaymaster constructor args** — [`contracts/verification/ValidatorPaymaster.constructor-args.txt`](./contracts/verification/ValidatorPaymaster.constructor-args.txt)
 
-Compiler settings:
+Compiler settings differ per contract (two deploy pipelines):
 
-- Solidity `0.8.26`
-- Optimizer enabled, 200 runs
-- Via IR enabled
-- EVM version `cancun`
-- Mantle Sepolia chainId `5003`
+| Contract | Solidity | Optimizer | Via IR | EVM |
+|---|---|---|---|---|
+| AgenticTreasury | `0.8.26` (forge) | 200 runs | yes | cancun |
+| ValidatorPaymaster | `0.8.35` (solc-js) | 200 runs | no | solc default |
 
-Reproduce:
+Chain: Mantle Sepolia `5003`.
+
+Reproduce / refresh the package:
 
 ```bash
 npm run prepare-verification
+```
+
+Mantlescan (Etherscan-family) green-check additionally needs a free Etherscan V2
+API key; then run:
+
+```bash
+ETHERSCAN_API_KEY=<key> node scripts/verify-mantlescan.mjs
 ```
 
 ## 3. ERC-8004 agent identities
